@@ -1,0 +1,20 @@
+---
+layout: default
+title: MaPan - Blog
+---
+
+<h2>Recent Posts</h2>
+<ul class="posts">
+    {% for post in site.posts %}
+    <li class="post">
+        <div class="post-content">
+            <div class="post-date">
+                {{ post.date | date_to_string }}
+            </div>
+            <div class="post-footer">
+                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
