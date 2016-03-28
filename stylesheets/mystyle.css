@@ -23,3 +23,6 @@ div.post-title {
     float: left;
     font-weight: bold;
 }
+body.post {
+    padding-top: 70px;
+}
