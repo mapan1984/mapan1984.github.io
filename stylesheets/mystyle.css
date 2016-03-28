@@ -26,3 +26,10 @@ div.post-title {
 body.post {
     padding-top: 70px;
 }
+.profile-thumbnail {
+    position: absolute;
+}
+.profile-header {
+    min-height: 260px;
+    margin-left: 280px;
+}
