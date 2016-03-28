@@ -38,3 +38,7 @@ img.profile-thumbnail {
 .feature {
     padding: 30px 0;
 }
+div.page-index {
+    margin-left: 2px;
+    min-height: 630px;
+}
