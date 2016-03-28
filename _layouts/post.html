@@ -70,10 +70,10 @@
 </div>
 
 <div class="container">
-    {{ page.title }}
+    {{ page.title }}<br>
     =================
     {{ content }}
-    <span class="label label-info">Date</span><h4>{{ page.date | date_to_string }}</h4>
+    <span class="label label-info">Date: {{ page.date | date_to_string }}</span>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
