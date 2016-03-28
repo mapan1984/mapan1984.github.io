@@ -33,3 +33,6 @@ body.post {
     min-height: 260px;
     margin-left: 280px;
 }
+.feature {
+    padding: 30px 0;
+}
