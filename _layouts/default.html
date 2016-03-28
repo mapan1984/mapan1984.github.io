@@ -6,13 +6,12 @@
   <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
   </head>
   <body>
-    <div class="container">
-
     <section class="page-header">
       <h1 class="project-name">Share and Record</h1>
       <h2 class="project-tagline">{{ page.title }}</h2>
     </section>
 
+    <div class="container">
     <section class="main-content">
 
       <ul class="nav nav-tabs" role="tablist">
@@ -24,17 +23,17 @@
           <div class="tab-pane active" id="home">
               <div class="row feature">
               {{ content }}
-            </div>
+              </div>
           </div>
           <div class="tab-pane" id="profile">
               <div class="row feature">
               {% include profile.html %}
-          </div>
+              </div>
           </div>
           <div class="tab-pane" id="messages">
               <div class="row feature">
               {% include messages.html %}
-          </div>
+              </div>
           </div>
       </div>
     </div>

@@ -29,6 +29,10 @@ body.post {
 .profile-thumbnail {
     position: absolute;
 }
+img.profile-thumbnail {
+    position: absolute;
+    height:50px;
+}
 .profile-header {
     min-height: 260px;
     margin-left: 280px;
