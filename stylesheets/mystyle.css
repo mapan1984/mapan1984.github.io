@@ -31,7 +31,7 @@ body.post {
 }
 img.profile-thumbnail {
     position: absolute;
-    height:50px;
+    height:256px;
 }
 .profile-header {
     min-height: 260px;
