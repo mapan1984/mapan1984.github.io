@@ -4,15 +4,17 @@ title: MaPan - Blog
 ---
 
 <h2>Post</h2>
-<ul class="posts">
-    {% for post in paginator.posts %}
+{% for post in paginator.posts %}
+<div class="posts">
     <li class="post">
+    <!-- 不要显示
         <div class="post-thumbnail">
             <a href="/">
                 <img class="img-rounded profile-thumbnail" 
                 src="/images/mapan.jpg" width="40px" height="40px">
             </a>
         </div>
+    -->
         <div class="post-content">
             <div class="post-date">
                 {{ post.date | date_to_string }}
@@ -30,6 +32,6 @@ title: MaPan - Blog
             </div>
         </div>
     </li>
-    {% endfor %}
-</ul>
+</div>
+{% endfor %}
 {% include paginator.html %}
