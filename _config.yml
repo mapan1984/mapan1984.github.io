@@ -7,9 +7,11 @@
 
 # Site settings
 title: MaPan - Blog
-description: > # this means to ignore newlines until "baseurl:"
-  "A blog base Jekll and github pages."
 github_username: mapan1984
+
+# pages
+paginate: 5
+paginate_path: "page:num"
 
 # Build settings
 markdown: kramdown
