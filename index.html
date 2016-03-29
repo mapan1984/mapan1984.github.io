@@ -18,6 +18,7 @@ title: MaPan - Blog
     </li>
     {% endfor %}
 </ul>
+{% include paginator.html %}
 <div id="post-pagination" class="pagination">
     {% if paginator.previous_page %}
     <p class="previous">
