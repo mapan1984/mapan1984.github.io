@@ -11,16 +11,25 @@ ul.posts li.post {
 ul.posts li.post:hover {
     background-color: #f0f0f0;
 }
-div.post-content {
-    margin-left: 2px;
-    min-height: 24px;
-}
 div.post-date {
     float: right;
-    font-weight: bold;
 }
 div.post-title {
     float: left;
+    font-weight: bold;
+}
+div.post-thumbnail {
+    position: absolute;
+}
+div.post-thumbmail img{
+    height: 40px;
+    width: 40px;
+}
+div.post-content {
+    margin-left: 48px;
+    min-height: 48px;
+}
+div.post-author {
     font-weight: bold;
 }
 .profile-thumbnail {
@@ -41,3 +50,8 @@ img.profile-thumbnail {
 div.page-index {
     min-height: 460px;
 }
+.profile-header {
+    min-height: 260px;
+    margin-left: 280px;
+}
+

@@ -14,18 +14,21 @@
 
     <div class="container page-index">
       <ul class="nav nav-tabs" role="tablist">
-              <li class="active"><a href="#home" role="tab" data-toggle="tab">
-                  <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Posts
+              <li class="active"><a href="#recentpost" role="tab" data-toggle="tab">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true"></span> RecentPost
               </a></li>
               <li><a href="#profile" role="tab" data-toggle="tab">
-                  <span class="glyphicon glyphicon-user" aria-hidden="true"></span>Profile
+                  <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
+              </a></li>
+              <li><a href="#postlist" role="tab" data-toggle="tab">
+                  <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> PostList
               </a></li>
               <li><a href="#messages" role="tab" data-toggle="tab">
                   Messages
               </a></li>
       </ul>
       <div class="tab-content">
-          <div class="tab-pane active" id="home">
+          <div class="tab-pane active" id="recentpost">
               <div class="row feature">
               {{ content }}
               </div>
@@ -33,6 +36,11 @@
           <div class="tab-pane" id="profile">
               <div class="row feature">
               {% include profile.html %}
+              </div>
+          </div>
+          <div class="tab-pane" id="postlist">
+              <div class="row feature">
+              {% include postlist.html %}
               </div>
           </div>
           <div class="tab-pane" id="messages">

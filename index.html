@@ -3,20 +3,33 @@ layout: default
 title: MaPan - Blog
 ---
 
-<h2>Recent Posts</h2>
+<h2>Post</h2>
 <ul class="posts">
     {% for post in site.posts %}
     <li class="post">
-    <div class="post-content">
-        <div class="post-date">
-            {{ post.date | date_to_string }}
+        <div class="post-thumbnail">
+            <a href="/">
+                <img class="img-rounded profile-thumbnail" 
+                src="/images/mapan.jpg">
+            </a>
         </div>
-        <div class="post-footer">
-            <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+        <div class="post-content">
+            <div class="post-date">
+                {{ post.date | date_to_string }}
+            </div>
+            <div class="post-author">
+                <a href="/">
+                    MaPan1984
+                </a>
+            </div>
+            <div class="post-body">
+                {{ post.content }}
+            </div>
+            <div class="post-footer">
+                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+            </div>
         </div>
-    </div>
     </li>
     {% endfor %}
 </ul>
-
 {% include paginator.html %}

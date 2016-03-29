@@ -10,7 +10,7 @@ title: MaPan - Blog
 github_username: mapan1984
 
 # pages
-paginate: 2
+paginate: 1
 paginate_path: "page:num"
 
 # Build settings
