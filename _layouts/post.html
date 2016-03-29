@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
  
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>{{ page.title }}</title>
@@ -70,15 +69,16 @@
 </div>
 
 <div class="container">
-    {{ page.title }}<br>
-    =================
+    <h2>{{ page.title }}</h2>
     {{ content }}
     <span class="label label-info">Date: {{ page.date | date_to_string }}</span>
 </div>
 
+<!-- 未使用
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/javascripts/jquery-1.12.2.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/javascripts/bootstrap.min.js"></script>
+-->
 </body>
 </html>
