@@ -21,10 +21,6 @@ div.post-title {
 div.post-thumbnail {
     position: absolute;
 }
-div.post-thumbmail img{
-    height: 40px;
-    width: 40px;
-}
 div.post-content {
     margin-left: 48px;
     min-height: 48px;
