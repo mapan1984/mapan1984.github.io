@@ -1,0 +1,15 @@
+<h2>Recent Posts</h2>
+<ul class="posts">
+    {% for post in site.posts %}
+    <li class="posts">
+    <div class="posts-content">
+        <div class="posts-date">
+            {{ post.date | date_to_string }}
+        </div>
+        <div class="posts-footer">
+            <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+        </div>
+    </div>
+    </li>
+    {% endfor %}
+</ul>
