@@ -1,0 +1,19 @@
+<div class="container">
+    <p>messages......</p>
+    {% for tag in site.tags %}
+    <span class="label label-default">{{ tag[0] }}</span>
+    {% for post in tag[1] %}
+    <li class="post">
+    <div class="post-content">
+        <div class="post-date">
+            {{ post.date | date_to_string }}
+        </div>
+        <div class="post-footer">
+            <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+        </div>
+    </div>
+    </li>
+    {% endfor %}
+    {% endfor %}
+
+</div>
