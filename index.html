@@ -4,16 +4,15 @@ title: MaPan - Blog
 ---
 
 {% for post in paginator.posts %}
+<h2>{{ post.title }}</h2>
 <div class="posts">
     <li class="post">
-    <!-- 不要显示
         <div class="post-thumbnail">
             <a href="/">
                 <img class="img-rounded profile-thumbnail" 
-                src="/images/mapan.jpg" width="40px" height="40px">
+                src="/images/mapan.jpg" style="width:40px; height:40px;">
             </a>
         </div>
-    -->
         <div class="post-content">
             <div class="post-date">
                 {{ post.date | date_to_string }}
