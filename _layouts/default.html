@@ -23,8 +23,8 @@
               <li><a href="#postlist" role="tab" data-toggle="tab">
                   <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> PostList
               </a></li>
-              <li><a href="#messages" role="tab" data-toggle="tab">
-                  Messages
+              <li><a href="#tags" role="tab" data-toggle="tab">
+                  <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Tags
               </a></li>
       </ul>
       <div class="tab-content">
@@ -43,9 +43,9 @@
               {% include postlist.html %}
               </div>
           </div>
-          <div class="tab-pane" id="messages">
+          <div class="tab-pane" id="tags">
               <div class="row feature">
-              {% include messages.html %}
+              {% include tags.html %}
               </div>
           </div>
        </div>
