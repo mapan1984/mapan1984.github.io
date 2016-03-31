@@ -10,8 +10,8 @@ tags: [python]
 文本以str类型表示，二进制数据以bytes类型表示
      
 
-       __>_encdoe('utf-8')_>__
+       --> encdoe('utf-8') --> 
       /                       \
     string                   bytes
-      \__<_decode('utf-8')_<__/
-
+      \                       /
+       <-- decode('utf-8') <--

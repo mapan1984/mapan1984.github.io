@@ -1,11 +1,12 @@
 <div class="container">
     <h2>Tags......</h2>
+    <ul class="posts">
     {% for tag in site.tags %}
-        <span class="label label-default">{{ tag[0] }}</span>
+        <li><span class="label label-default">{{ tag[0] }}</span></li>
         {% for post in tag[1] %}
-            <li class="post">
-            <div class="post-content">
-                <div class="post-date">
+            <li class="post-list">
+            <div class="post-list-content">
+                <div class="post-list-date">
                     {{ post.date | date_to_string }}
                 </div>
                 <div class="post-footer">
@@ -15,5 +16,5 @@
             </li>
         {% endfor %}
     {% endfor %}
-
+    </ul>
 </div>
