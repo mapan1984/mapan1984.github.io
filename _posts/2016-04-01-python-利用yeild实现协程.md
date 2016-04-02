@@ -38,7 +38,7 @@ tags: [python, coroutine]
 
 等价于：
 
-    { highlight python linenos %}
+    {% highlight python linenos %}
     it = generator()
     while True:
         try:
