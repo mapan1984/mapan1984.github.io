@@ -5,7 +5,7 @@ categories: [linux]
 tags: [python, coroutine]
 ---
 
-## 协程
+### 协程
 
 子程序，或者称为函数，在所有语言中都是层级调用，比如A调用B，B在执行过程中又调用了C，C执行完毕返回，B执行完毕返回，最后是A执行完毕。
 
@@ -17,7 +17,7 @@ tags: [python, coroutine]
 
 不同点在于程序只有一个调用入口起始点，返回之后就结束了，而协程入口既可以是起始点，又可以从上一个返回点继续执行，也就是说协程之间可以通过 yield 方式转移执行权，对称（symmetric）、平级地调用对方，而不是像例程那样上下级调用关系。
 
-## yeild, generator.next(), generator.send(None)
+### yeild, generator.next(), generator.send(None)
 
 在python中yield既可以返回一个值，也可以接收调用者发出的参数,比如：
 
@@ -86,7 +86,7 @@ tags: [python, coroutine]
     step 2, line5
     n = 2
 
-## 实现协程
+### 实现协程
 
 在生产者-消费者模型使用协程:
 
