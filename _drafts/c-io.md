@@ -3,8 +3,6 @@
 
 ### 打开流
 
-#### fopen
-
 ##### 原型
 
     FILE *fopen(char const *name, char const *mode);
@@ -21,8 +19,6 @@
         perror("can not open file");
         exit(EXIT_FAILURE);
     }
-
-#### freopen
 
 ##### 原型
 
@@ -63,15 +59,13 @@
 
 在写入流之前，character 会被剪裁为无符号字符型值，如果函数失败，返回EOF
 
- * getc, putc, getchar, putchar是通过#define定义的宏 *
+ *getc, putc, getchar, putchar是通过#define定义的宏*
 
 ---
 
     int ungetc(int character, FILE *stream);
 
-ungetc 把一个先前读入的字符返回的流中，这样它可以在以后被重新读入
-
-比如:
+ungetc 把一个先前读入的字符返回的流中，这样它可以在以后被重新读入  比如:
 
     /*
     ** 从一串标准输入中读取的数字转化为整数
@@ -105,7 +99,7 @@ ungetc 把一个先前读入的字符返回的流中，这样它可以在以后�
 
 当fgets读取到一个换行符并存储的buffer之后就不再读取，如果buffer中的字符数达到buffer_size-1时它也停止读取，任何情况下，NUL字节会被添加到buffer所存储数据的末尾.
 
- * fgets无法把字符读入到长度小于两个字符的buffer，因为其中一个字符需要为NUL字节保留 * 
+ *fgets无法把字符读入到长度小于两个字符的buffer，因为其中一个字符需要为NUL字节保留 * 
 
 返回：如果在任何字符读取前就到达了文件末尾，fgets会返回NULL, 否则返回buffer
 
