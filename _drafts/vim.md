@@ -1,3 +1,10 @@
+---
+layout: post 
+title: vim操作 
+categories: [linux]
+tags: [wim]
+---
+
 ### 1.编辑
 
 #### 

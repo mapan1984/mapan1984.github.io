@@ -1,3 +1,10 @@
+---
+layout: post 
+title: c i/o 
+categories: [linux]
+tags: [c]
+---
+
     printf("something or other");
     fflush(stdout);
 
@@ -59,13 +66,13 @@
 
 在写入流之前，character 会被剪裁为无符号字符型值，如果函数失败，返回EOF
 
- *getc, putc, getchar, putchar是通过#define定义的宏*
+*getc, putc, getchar, putchar是通过#define定义的宏*
 
 ---
 
     int ungetc(int character, FILE *stream);
 
-ungetc 把一个先前读入的字符返回的流中，这样它可以在以后被重新读入  比如:
+ungetc 把一个先前读入的字符返回的流中，这样它可以在以后被重新读入   比如:
 
     /*
     ** 从一串标准输入中读取的数字转化为整数
@@ -99,7 +106,7 @@ ungetc 把一个先前读入的字符返回的流中，这样它可以在以后�
 
 当fgets读取到一个换行符并存储的buffer之后就不再读取，如果buffer中的字符数达到buffer_size-1时它也停止读取，任何情况下，NUL字节会被添加到buffer所存储数据的末尾.
 
- *fgets无法把字符读入到长度小于两个字符的buffer，因为其中一个字符需要为NUL字节保留 * 
+*fgets无法把字符读入到长度小于两个字符的buffer，因为其中一个字符需要为NUL字节保留* 
 
 返回：如果在任何字符读取前就到达了文件末尾，fgets会返回NULL, 否则返回buffer
 
@@ -135,6 +142,15 @@ puts写入一个字符串时，它在字符串写入之后向输出在添加一�
     size_t fread(void *buffer, size_t size, size_t count, FILE *stream);
     size_t fwrite(void *buffer, size_t size, size_t count, FILE *stream);
 
+函数返回实际读取或写入的元素(而非字节)数目，如果输入过程中遇到了EOF或输出过程中出现错误，这个数字可能比请求的元素数目小。
+
 ### 刷新和定位函数
 
     int fflush(FILE *stream);
+
+fflush迫使一个输出流的缓冲区内的数据进行物理写入，不管它是否已经写满。
+
+    long ftell(FILE *stream);
+    int fseek(FILE *stream, long offset, int from);
+
+ftell返回流的当前位置，即下一个读取或写入将要开始的位置距离文件起始位置的偏移量。在二进制流中，这个之就是当前位置距离文件起始位置之间的字符数，在文本流中，它不一定准确的表示当前位置和文本起始位置之间的字符数(因为有些系统将对行末字符进行翻译转换)，但ftell的返回值总是可以用于fseek中，作为一个距离文件起始位置的偏移量。
