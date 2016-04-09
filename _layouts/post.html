@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    {% include head.html %}
+{% include css.html %}
 </head>
 <body style="padding-top: 70px;">
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -18,7 +18,7 @@
             <a class="navbar-brand" href="/">
                 <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
             </a>
-        </div>
+        </div><!-- navbar-header -->
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -40,21 +40,39 @@
                     </ul>
                 </li>
            </ul>
-        </div>
-
-    </div>
-</div>
+       </div><!-- collapse -->
+    </div><!--container -->
+</div><!-- navbar -->
 
 <div class="container">
     <h2>{{ page.title }}</h2>
-    {{ content }}
-    <span class="label label-info">Date: {{ page.date | date_to_string }}</span>
-</div>
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="/javascripts/jquery-1.12.2.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/javascripts/bootstrap.min.js"></script>
-
+    <div class="posts">
+        <div class="post">
+            <div class="post-thumbnail">
+                <a href="/">
+                    <img class="img-rounded profile-thumbnail" 
+                    src="/images/mapan.jpg" style="width:40px; height:40px;">
+                </a>
+            </div>
+            <div class="post-content">
+                <div class="post-date">
+                    {{ post.date | date_to_string }}
+                </div>
+                <div class="post-author">
+                    <a href="/">
+                        MaPan1984
+                    </a>
+                </div>
+                <div class="post-body">
+                    {{ content }}
+                </div>
+                <div class="post-footer">
+                    <span class="label label-info">Date: {{ page.date | date_to_string }}</span>
+                </div>
+            </div>
+        </div>
+    </div><!-- posts -->
+</div><!-- container -->
+{% include js.html %}
 </body>
 </html>

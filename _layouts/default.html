@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  {% include head.html %}
+{% include css.html %}
 </head>
 <body>
 <div class="jumbotron">
@@ -11,28 +11,20 @@
 
     <div class="container page-index">
       <ul class="nav nav-tabs" role="tablist">
-              <li class="active"><a href="#recentpost" role="tab" data-toggle="tab">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true"></span> RecentPost
-              </a></li>
-              <li><a href="#profile" role="tab" data-toggle="tab">
-                  <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
-              </a></li>
-              <li><a href="#postlist" role="tab" data-toggle="tab">
+              <li class="active"><a href="#postlist" role="tab" data-toggle="tab">
                   <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> PostList
               </a></li>
               <li><a href="#tags" role="tab" data-toggle="tab">
                   <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Tags
+              </a></li>
+              <li><a href="#profile" role="tab" data-toggle="tab">
+                  <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
               </a></li>
       </ul>
       <div class="tab-content">
           <div class="tab-pane active" id="recentpost">
               <div class="row feature">
                    {{ content }}
-              </div>
-          </div>
-          <div class="tab-pane" id="profile">
-              <div class="row feature">
-              {% include profile.html %}
               </div>
           </div>
           <div class="tab-pane" id="postlist">
@@ -45,12 +37,14 @@
               {% include tags.html %}
               </div>
           </div>
+          <div class="tab-pane" id="profile">
+              <div class="row feature">
+              {% include profile.html %}
+              </div>
+          </div>
       </div><!-- tab-content -->
     </div><!-- container -->
 </div><!-- jumbotron -->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="/javascripts/jquery-1.12.2.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="/javascripts/bootstrap.min.js"></script>
-  </body>
+{% include js.html %}
+</body>
 </html>
