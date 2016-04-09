@@ -30,17 +30,7 @@
                         More<span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">我的主页</a></li>
-                        {% for tag in page.tags %}
-                        {% for post in tag[1] %}
-                        <li>
-                            <a href="{{ site.baseurl }}{{ post.url }}">
-                                {{ post.title }}
-                                <span class="label label-default">{{ tag[0] }}</span>
-                            </a>
-                        </li>
-                        {% endfor %}
-                        {% endfor %}
+                        <li><a href="/">我的主页</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#">退出</a></li>
                     </ul>
