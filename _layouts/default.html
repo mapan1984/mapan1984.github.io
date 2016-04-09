@@ -1,53 +1,56 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-  <!-- bootstrap -->
-  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
-  </head>
-  <body>
-
-    <div class="page-header">
-      <h1>Share and Record<small>Subtext for header</small></h1>
-    </div>
-
+<head>
+  {% include head.html %}
+</head>
+<body>
+<div class="jumbotron">
     <div class="container page-index">
-      <ul class="nav nav-tabs" role="tablist">
-              <li class="active"><a href="#recentpost" role="tab" data-toggle="tab">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true"></span> RecentPost
-              </a></li>
-              <li><a href="#profile" role="tab" data-toggle="tab">
-                  <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
-              </a></li>
-              <li><a href="#postlist" role="tab" data-toggle="tab">
-                  <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> PostList
-              </a></li>
-              <li><a href="#tags" role="tab" data-toggle="tab">
-                  <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Tags
-              </a></li>
-      </ul>
-      <div class="tab-content">
-          <div class="tab-pane active" id="recentpost">
-              <div class="row feature">
-                   {{ content }}
-              </div>
+        <h1>Share and Record</h1>
+        <p>...</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+    </div><!-- container -->
+</div><!-- jumbotron -->
+
+<div class="container page-index">
+  <ul class="nav nav-tabs" role="tablist">
+          <li class="active"><a href="#recentpost" role="tab" data-toggle="tab">
+              <span class="glyphicon glyphicon-file" aria-hidden="true"></span> RecentPost
+          </a></li>
+          <li><a href="#profile" role="tab" data-toggle="tab">
+              <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
+          </a></li>
+          <li><a href="#postlist" role="tab" data-toggle="tab">
+              <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> PostList
+          </a></li>
+          <li><a href="#tags" role="tab" data-toggle="tab">
+              <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Tags
+          </a></li>
+  </ul>
+  <div class="tab-content">
+      <div class="tab-pane active" id="recentpost">
+          <div class="row feature">
+               {{ content }}
           </div>
-          <div class="tab-pane" id="profile">
-              <div class="row feature">
-              {% include profile.html %}
-              </div>
+      </div>
+      <div class="tab-pane" id="profile">
+          <div class="row feature">
+          {% include profile.html %}
           </div>
-          <div class="tab-pane" id="postlist">
-              <div class="row feature">
-              {% include postlist.html %}
-              </div>
+      </div>
+      <div class="tab-pane" id="postlist">
+          <div class="row feature">
+          {% include postlist.html %}
           </div>
-          <div class="tab-pane" id="tags">
-              <div class="row feature">
-              {% include tags.html %}
-              </div>
+      </div>
+      <div class="tab-pane" id="tags">
+          <div class="row feature">
+          {% include tags.html %}
           </div>
-       </div>
-     </div>
+      </div>
+  </div><!-- tab-content -->
+
+</div><!-- container -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/javascripts/jquery-1.12.2.min.js"></script>
