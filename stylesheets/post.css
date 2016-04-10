@@ -11,13 +11,6 @@ div.posts div.post {
 div.posts div.post:hover {
     background-color: #f0f0f0;
 }
-div.post-date {
-    float: right;
-}
-div.post-title {
-    float: left;
-    font-weight: bold;
-}
 div.post-thumbnail {
     position: absolute;
 }
@@ -25,9 +18,9 @@ div.post-content {
     margin-left: 48px;
     min-height: 48px;
 }
+div.post-date {
+    float: right;
+}
 div.post-author {
     font-weight: bold;
-}
-div.page-index {
-    min-height: 460px;
 }
