@@ -13,8 +13,10 @@ div.post-content {
 }
 div.post-tags {
     float: right;
+    padding-top: 3px;
     font-weight: bold;
 }
 div.post-date {
+    margin-bottom: 3px;
     float: right;
 }
