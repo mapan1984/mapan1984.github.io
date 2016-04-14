@@ -42,22 +42,13 @@
 </div><!-- navbar -->
 <div class="container">
     <h2>{{ page.title }}</h2>
-    <div class="posts">
         <div class="post">
-            <div class="post-thumbnail">
-                <a href="/">
-                    <img class="img-rounded profile-thumbnail" 
-                    src="/images/mapan.jpg" style="width:40px; height:40px;">
-                </a>
-            </div>
             <div class="post-content">
                 <div class="post-date">
                     <span class="label label-info">Date: {{ page.date | date_to_string }}</span>
                 </div>
-                <div class="post-author">
-                    <a href="/">
-                        MaPan1984
-                    </a>
+                <div class="post-tags">
+                    {{ page.tags }}
                 </div>
                 <div class="post-body">
                     {{ content }}
@@ -80,7 +71,6 @@
                 </div><!-- post-footer -->
             </div><!-- post-content -->
         </div>
-    </div><!-- posts -->
 </div><!-- container -->
 {% include js.html %}
 </body>
