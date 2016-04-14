@@ -41,12 +41,14 @@
     </div><!--container -->
 </div><!-- navbar -->
 <div class="container">
-    <h2>{{ page.title }}</h2>
+    <div class="page-header">
+        <h1>{{ page.title }}</h1>
+    </div>
     <div class="post">
         <div class="post-content">
             <div class="post-tags">
                 {% for tag in page.tags %}
-                <span class="label label-primary">tag</span>                
+                <span class="label label-primary">{{ tag }}</span>                
                 {% endfor %}
             </div>
             <div class="post-date">
@@ -56,20 +58,18 @@
                 {{ content }}
             </div>
             <div class="post-footer">
-                <nav>
-                  <ul class="pager">
-                    {% if page.previous %}
-                      <li class="previous"><a href="{{ page.previous.url }}"><span aria-hidden="true">&larr;</span> Older</a></li>
-                    {% else %}
-                      <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
-                    {% endif %}
-                    {% if page.next %}
-                      <li class="next"><a href="{{ page.next.url }}">Newer <span aria-hidden="true">&rarr;</span></a></li>
-                    {% else %}
-                      <li class="next disabled"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
-                    {% endif %}
-                  </ul>
-                </nav>
+                <ul class="pager">
+                  {% if page.previous %}
+                    <li class="previous"><a href="{{ page.previous.url }}"><span aria-hidden="true">&larr;</span> Older</a></li>
+                  {% else %}
+                    <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
+                  {% endif %}
+                  {% if page.next %}
+                    <li class="next"><a href="{{ page.next.url }}">Newer <span aria-hidden="true">&rarr;</span></a></li>
+                  {% else %}
+                    <li class="next disabled"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
+                  {% endif %}
+                </ul>
             </div><!-- post-footer -->
         </div><!-- post-content -->
     </div><!-- post -->

@@ -11,9 +11,10 @@ div.post:hover {
 div.post-content {
     min-height: 48px;
 }
+div.post-tags {
+    float: right;
+    font-weight: bold;
+}
 div.post-date {
     float: right;
-}
-div.post-tags {
-    font-weight: bold;
 }
