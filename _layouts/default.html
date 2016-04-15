@@ -4,11 +4,6 @@
     {% include css.html %}
     <link rel="stylesheet" href="/stylesheets/postlist.css"><!-- for postlist  and tags-->
     <link rel="stylesheet" href="/stylesheets/profile.css"><!-- for profile -->
-    <style>
-    .feature {
-        padding: 30px 0;
-    }
-    </style>
 </head>
 <body>
     <div class="container page-index">
@@ -32,19 +27,13 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="postlist">
-                <div class="feature">
-                     {{ content }}
-                </div>
+                 {{ content }}
             </div>
             <div class="tab-pane" id="tags">
-                <div class="feature">
-                    {% include tags.html %}
-                </div>
+                 {% include tags.html %}
             </div>
             <div class="tab-pane" id="profile">
-                <div class="feature">
-                     {% include profile.html %}
-                </div>
+                 {% include profile.html %}
             </div>
         </div><!-- tab-content -->
     </div><!-- container -->
