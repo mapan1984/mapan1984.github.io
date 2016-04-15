@@ -14,22 +14,11 @@
            <span class="glyphicon glyphicon-education" aria-hidden="true"></span>
            <a href="https://www.bing.com/search?q=%e5%93%88%e5%b0%94%e6%bb%a8%e5%b7%a5%e7%a8%8b%e5%a4%a7%e5%ad%a6">HEU</a>
        </p>
-       <p class="bg-primary">About Me</p>
-       <p>......</p>
-       <div>
-         <ul>
-           {% if site.github_username %}
-           <li>
-             {% include icon-github.html username=site.github_username %}
-           </li>
-           {% endif %}
-
-           {% if site.twitter_username %}
-           <li>
-             {% include icon-twitter.html username=site.twitter_username %}
-           </li>
-           {% endif %}
-         </ul>
-       </div>
+       {% if site.github_username %}
+       <p>
+           {% include icon-github.html username=site.github_username %}
+       </p>
+       {% endif %}
+       <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
    </div><!-- profile -->
 </div>
