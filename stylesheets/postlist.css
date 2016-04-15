@@ -1,11 +1,11 @@
 div.pre-tags {
-    margin-top: -30px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 ul.posts {
     list-style-type: none;
     padding: 0px;
-    margin: -10px 0px 0px 0px;
+    margin: 10px 0px 0px 0px;
     border-top: 1px solid #e0e0e0;
 }
 ul.posta li.tag-list {
