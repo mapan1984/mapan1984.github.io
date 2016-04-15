@@ -6,37 +6,7 @@
     <link rel="stylesheet" href="/stylesheets/profile.css"><!-- for profile -->
 </head>
 <body>
-    <div class="container page-index">
-        <div class="jumbotron">
-            <h1>Share and Record</h1>
-            <p>The best time to plant a tree was 10 years ago, The second best time is now.</p>
-            <p><a class="btn btn-primary btn-lg" 
-                href="https://github.com/mapan1984/mapan1984.github.io" 
-                role="button">Learn more</a></p>
-        </div><!-- jumbotron -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="active"><a href="#postlist" role="tab" data-toggle="tab">
-                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> PostList
-            </a></li>
-            <li><a href="#tags" role="tab" data-toggle="tab">
-                <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Tags
-            </a></li>
-            <li><a href="#profile" role="tab" data-toggle="tab">
-                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
-            </a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="postlist">
-                 {{ content }}
-            </div>
-            <div class="tab-pane" id="tags">
-                 {% include tags.html %}
-            </div>
-            <div class="tab-pane" id="profile">
-                 {% include profile.html %}
-            </div>
-        </div><!-- tab-content -->
-    </div><!-- container -->
+    {{ content }}
     {% include js.html %}
 </body>
 </html>
