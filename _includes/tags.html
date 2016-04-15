@@ -2,7 +2,7 @@
     {% include pre_tags.html %}
     <ul class="posts">
     {% for tag in site.tags %}
-    <li id="{{ tag[0] }}"><span class="label label-default">{{ tag[0] }}</span></li>
+    <li id="{{ tag[0] }}" class="tag-list"><span class="label label-default">{{ tag[0] }}</span></li>
         {% for post in tag[1] %}
             <li class="post-list">
             <div class="post-list-content">

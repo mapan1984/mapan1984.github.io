@@ -1,3 +1,4 @@
+<div class="pre-tags">
 {% assign first = site.tags.first %}
 {% assign max = first[1].size %}
 {% assign min = max %}
@@ -28,3 +29,4 @@
   {% endif %}
   <a href="{{ site.JB.tags_path }}#{{ tag[0] }}" style="font-size: {{ size }}pt; color: #{{ color }}{{ color }}{{ color }};">{{ tag[0] }}</a>
 {% endfor %}
+</div>
