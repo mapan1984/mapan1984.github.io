@@ -21,62 +21,62 @@ tags: [python, coroutine]
 
 在python中yield既可以返回一个值，也可以接收调用者发出的参数,比如：
 
-    {% highlight python linenos %}
-    def generator():
-        n = 0
-        while True:
-            yield n
-            n = n + 1
-    {% endhighlight %}
+{% highlight python linenos %}
+def generator():
+    n = 0
+    while True:
+        yield n
+        n = n + 1
+{% endhighlight %}
 
 使用for迭代:
 
-    {% highlight python linenos %}
-    for value in generator():
-        pritn(value)
-    {% endhighlight %}
+{% highlight python linenos %}
+for value in generator():
+    pritn(value)
+{% endhighlight %}
 
 等价于：
 
-    {% highlight python linenos %}
-    it = generator()
-    while True:
-        try:
-            print(it.send(None))
-        except StopIteration:
-            break
-    {% endhighlight %}
+{% highlight python linenos %}
+it = generator()
+while True:
+    try:
+        print(it.send(None))
+    except StopIteration:
+        break
+{% endhighlight %}
 
 等价于：
 
-    {% highlight python linenos %}
-    it = generator()
-    while True:
-        try:
-            print(it.next())
-        except StopIteration:
-            break
-    {% endhighlight %}
+{% highlight python linenos %}
+it = generator()
+while True:
+    try:
+        print(it.next())
+    except StopIteration:
+        break
+{% endhighlight %}
 
 即send(None) 相当于 next(), 而send()可以给generator传递参数
 
-    {% highlight python linenos %}
-    def generator():
-        print('step 1, line 2')
-        a = yield 1
-        print("a = %s" % a)
-        print('step 2, line5')
-        b = yield 2
-        pritn(b)
-    
-    g = generator()
-    m = g.send(None)             # 激活g, 运行至line3, 输出 'step 1, line2'，yeild返回1，m = 1
-    print("m = %d" % m)          # 输出 'm = 1'
-    n = g.send('x')              # 向g发送‘x’, g重新从line3开始运行，yeild接收‘x’，即a='x', 
-                                 # 输出 'a = x'
-                                 # 输出 'step 2, line5', yeild返回2 ，n = 2
-    print("n = %s" % n)          # 输出 'n = 2'
-    {% endhighlight %}
+{% highlight python linenos %}
+def generator():
+    print('step 1, line 2')
+    a = yield 1
+    print("a = %s" % a)
+    print('step 2, line5')
+    b = yield 2
+    pritn(b)
+
+g = generator()
+m = g.send(None)             # 激活g, 运行至line3, 输出 'step 1, line2'，yeild返回1，m = 1
+print("m = %d" % m)          # 输出 'm = 1'
+n = g.send('x')              # 向g发送‘x’, g重新从line3开始运行，yeild接收‘x’，即a='x', 
+                             # 输出 'a = x'
+                             # 输出 'step 2, line5', yeild返回2 ，n = 2
+print("n = %s" % n)          # 输出 'n = 2'
+{% endhighlight %}
 
 输出结果：
 
@@ -90,26 +90,26 @@ tags: [python, coroutine]
 
 在生产者-消费者模型使用协程:
 
-    {% highlight python linenos %}
-    def consumer():
-        r = ''
-        while True:
-            n = yield r
-            if not n:
-                return
-            print('[CONSUMER] Consuming %s...' % n)
-            r = '200 OK'
+{% highlight python linenos %}
+def consumer():
+    r = ''
+    while True:
+        n = yield r
+        if not n:
+            return
+        print('[CONSUMER] Consuming %s...' % n)
+        r = '200 OK'
 
-    def produce(c):
-        c.send(None)
-        n = 0
-        while n < 5:
-            n = n + 1
-            print('[PRODUCER] Producing %s...' % n)
-            r = c.send(n)
-            print('[PRODUCER] Consumer return: %s' % r)
-        c.close()
+def produce(c):
+    c.send(None)
+    n = 0
+    while n < 5:
+        n = n + 1
+        print('[PRODUCER] Producing %s...' % n)
+        r = c.send(n)
+        print('[PRODUCER] Consumer return: %s' % r)
+    c.close()
 
-    c = consumer()
-    produce(c)
-    {% endhighlight %}
+c = consumer()
+produce(c)
+{% endhighlight %}
