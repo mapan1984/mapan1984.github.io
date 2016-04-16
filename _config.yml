@@ -20,13 +20,9 @@ paginate_path: "page:num"
 
 # Build settings
 markdown: kramdown
-#markdown: redcarpet
-#redcarpet:
-#  extensions: [with_toc_data]
 permalink: pretty
 
 highlighter: rouge 
 
 sass:
     style: compressed
-

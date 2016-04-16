@@ -3,8 +3,8 @@
   $.fn.toc = function(options) {
     var defaults = {
       noBackToTopLinks: false,
-      title: '<i>Jump to...</i>',
-      minimumHeaders: 3,
+      title: '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>'
+      minimumHeaders: 2,
       headers: 'h1, h2, h3, h4, h5, h6',
       listType: 'ul', // values: [ol|ul]
       showEffect: 'show', // values: [show|slideDown|fadeIn|none]
@@ -48,7 +48,7 @@
 
     var level = get_level(headers[0]),
       this_level,
-      html = settings.title + " <" + settings.listType + " class = 'nav nav-pills nav-stacked'>";
+      html = settings.title + " <" + settings.listType + "class = 'nav nav-pills nav-stacked'>";
     headers.on('click', function() {
       if (!settings.noBackToTopLinks) {
         window.location.hash = this.id;
