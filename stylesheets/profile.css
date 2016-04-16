@@ -1,9 +1,3 @@
-img.profile-thumbnail {
-    position: absolute;
-    height:256px;
-    width:256px;
-}
 .profile {
     min-height: 260px;
-    margin-left: 280px;
 }

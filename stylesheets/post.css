@@ -1,15 +1,13 @@
-div.post {
+div.post-content {
     list-style-type: none;
+    min-height: 48px;
     margin: 16px 0px 0px 0px;
     padding: 8px;
     border-top: 1px solid #e0e0e0;
     border-bottom: 1px solid #e0e0e0;
 }
-div.post:hover {
+div.post-content:hover {
     background-color: #f0f0f0;
-}
-div.post-content {
-    min-height: 48px;
 }
 div.post-tags {
     float: right;
@@ -19,4 +17,27 @@ div.post-tags {
 div.post-date {
     float: right;
     margin-top: -18px;
+}
+div.post-footer {
+    margin: 0 auto;
+}
+div.post-toc {
+   margin-top: 121px;
+   position: relative;
+}
+.anchor {
+    padding-top: 50px;
+}
+.clickable-header {
+  cursor:pointer;
+}
+.clickable-header:hover {
+  text-decoration:underline;
+}
+.top-level-header {
+  display:inline;
+}
+.back-to-top {
+  margin-left:5px;
+  cursor:pointer;
 }
