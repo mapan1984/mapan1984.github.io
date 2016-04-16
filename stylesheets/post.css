@@ -21,9 +21,9 @@ div.post-date {
 div.post-footer {
     margin: 0 auto;
 }
-div.post-toc {
-   margin-top: 121px;
-   position: relative;
+#toc {
+   position: fixed;
+   top: 100px;
 }
 .anchor {
     padding-top: 55px;
