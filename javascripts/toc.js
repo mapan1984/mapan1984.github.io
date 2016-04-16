@@ -3,7 +3,7 @@
   $.fn.toc = function(options) {
     var defaults = {
       noBackToTopLinks: false,
-      title: '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>',
+      title: '<span class="glyphicon glyphicon-list" aria-hidden="true"></span>',
       minimumHeaders: 2,
       headers: 'h1, h2, h3, h4, h5, h6',
       listType: 'ul', // values: [ol|ul]
@@ -55,6 +55,7 @@
       }
     })
     .addClass('clickable-header')
+    .addClass('anchor')
     .each(function(_, header) {
       this_level = get_level(header);
       if (!settings.noBackToTopLinks && this_level === highest_level) {
