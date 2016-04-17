@@ -4,7 +4,7 @@
     {% include head.html %}
     <link rel="stylesheet" href="/stylesheets/post.css"><!-- for post -->
 </head>
-<body style="position: relative; padding-top: 50px;" data-spy="scroll" data-target=".toc" data-offset="20">
+<body style="position: relative; padding-top: 50px;" data-spy="scroll" data-target="#toc" data-offset="20">
 {% include nav.html %}
 <div class="container">
     <div class="page-header">
@@ -39,7 +39,7 @@
 $(document).ready(function() {
     $('#toc').toc();
 });
-$('body').scrollspy({ target: '.toc' })
+$('body').scrollspy({ target: '#toc' })
 </script>
 </body>
 </html>

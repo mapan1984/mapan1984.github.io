@@ -1,16 +1,16 @@
 // https://github.com/ghiculescu/jekyll-table-of-contenteeees
 (function($){
-  $.fn.toc = function(options) {
+  $.fn.toc = function(options) { // bind toc fun to $
     var defaults = {
       noBackToTopLinks: false,
-      title: '<span class="glyphicon glyphicon-list" aria-hidden="true"></span>',
+      title: '<p>Jump to</p>',
       minimumHeaders: 2,
       headers: 'h1, h2, h3, h4, h5, h6',
       listType: 'ul', // values: [ol|ul]
       showEffect: 'show', // values: [show|slideDown|fadeIn|none]
       showSpeed: 'slow' // set to 0 to deactivate effect
     },
-    settings = $.extend(defaults, options);
+    settings = $.extend(defaults, options);// use options > defaults
 
     function fixedEncodeURIComponent (str) {
       return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
@@ -49,7 +49,7 @@
     var level = get_level(headers[0]),
       this_level,
       html = settings.title + " <" + settings.listType + " class = 'nav nav-pills nav-stacked'>";
-    headers.on('click', function() {
+    headers.on('click', function() { // bind click fun in header
       if (!settings.noBackToTopLinks) {
         window.location.hash = this.id;
       }
@@ -71,7 +71,7 @@
       }
       else if (this_level > level) { // lower level than before; expand the previous to contain a ol
         for(i = this_level; i > level; i--) {
-          html += "<"+settings.listType+"><li>"
+          html += "<"+settings.listType+" class = 'nav nav-pills nav-stacked'>"+"<li>"
         }
         html += "<a href='#" + fixedEncodeURIComponent(header.id) + "'>" + header.innerHTML + "</a>";
       }
@@ -79,7 +79,7 @@
     });
     html += "</"+settings.listType+">";
     if (!settings.noBackToTopLinks) {
-      $(document).on('click', '.back-to-top', function() {
+        $(document).on('click', '.back-to-top', function() {
         $(window).scrollTop(0);
         window.location.hash = '';
       });
