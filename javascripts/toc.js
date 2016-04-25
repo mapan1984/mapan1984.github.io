@@ -78,7 +78,7 @@
       level = this_level; // update for the next one
     });
     html += "</"+settings.listType+">";
-    html += "<a class="back-to-top" href="#top">返回顶部</a>";
+    html += "<a class='back-to-top' href='#top'>返回顶部</a>";
     if (!settings.noBackToTopLinks) {
         $(document).on('click', '.back-to-top', function() {
         $(window).scrollTop(0);
