@@ -22,22 +22,29 @@ div.post-footer {
     margin: 0 auto;
 }
 #toc {
-   position: fixed;
-   top: 150px;
+    position: fixed;
+    top: 150px;
 }
 .anchor {
     padding-top: 55px;
 }
 .clickable-header {
-  cursor:pointer;
+    cursor:pointer;
 }
 .clickable-header:hover {
-  text-decoration:underline;
+    text-decoration:underline;
 }
 .top-level-header {
-  display:inline;
+    display:inline;
 }
 .back-to-top {
-  margin-left:5px;
-  cursor:pointer;
+    margin-left:5px;
+    cursor:pointer;
+}
+#to-top {
+    position:fixed;
+    left:50%; 
+    display:none;
+    margin-left:610px;
+    bottom:30px; 
 }
