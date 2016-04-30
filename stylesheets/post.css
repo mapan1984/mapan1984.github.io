@@ -43,8 +43,6 @@ div.post-footer {
 }
 #to-top {
     position:fixed;
-    left:50%; 
-    display:none;
-    margin-left:610px;
     bottom:30px; 
+    display:none;
 }

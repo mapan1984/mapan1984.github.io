@@ -35,24 +35,26 @@ type()函数既可以返回一个对象的类型，又可以创建出新的类�
 
 使用 metaclass 的主要目的就是在创建类的时候自动地改变它。
 
-    # the metaclass will automatically get passed the same argument
-    # that you usually pass to `type`
-    def upper_attr(future_class_name, future_class_parents, future_class_attr):
-        """
-        Return a class object, with the list of its attribute turned 
-        into uppercase.
-        """
-    
-        # pick up any attribute that doesn't start with '__'
-        attrs = ((name, value) for name, value in future_class_attr.items() if not name.startswith('__'))
-        # turn them into uppercase
-        uppercase_attr = dict((name.upper(), value) for name, value in attrs)
-    
-        # let `type` do the class creation
-        return type(future_class_name, future_class_parents, uppercase_attr)
-    
-    class Foo(object):
-        __metaclass__ = upper_attr # this will affect all classes in the module
-        hello = 'hello'
-    
-    print(Foo.__dict__)
+``` python
+# the metaclass will automatically get passed the same argument
+# that you usually pass to `type`
+def upper_attr(future_class_name, future_class_parents, future_class_attr):
+    """
+    Return a class object, with the list of its attribute turned 
+    into uppercase.
+    """
+
+    # pick up any attribute that doesn't start with '__'
+    attrs = ((name, value) for name, value in future_class_attr.items() if not name.startswith('__'))
+    # turn them into uppercase
+    uppercase_attr = dict((name.upper(), value) for name, value in attrs)
+
+    # let `type` do the class creation
+    return type(future_class_name, future_class_parents, uppercase_attr)
+
+class Foo(object):
+    __metaclass__ = upper_attr # this will affect all classes in the module
+    hello = 'hello'
+
+print(Foo.__dict__)
+```
