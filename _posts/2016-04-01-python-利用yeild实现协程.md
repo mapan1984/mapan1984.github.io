@@ -1,8 +1,8 @@
 ---
 layout: post 
-title: python 利用yeild实现协程(coroutine)
+title: Python 利用yeild实现协程(coroutine)
 categories: [linux]
-tags: [python, coroutine]
+tags: [Python, coroutine]
 ---
 
 ### 协程
@@ -15,50 +15,52 @@ tags: [python, coroutine]
 
 协程看上去也是子程序，但执行过程中，在子程序内部可中断，然后转而执行别的子程序，在适当的时候再返回来接着执行。
 
-不同点在于程序只有一个调用入口起始点，返回之后就结束了，而协程入口既可以是起始点，又可以从上一个返回点继续执行，也就是说协程之间可以通过 yield 方式转移执行权，对称（symmetric）、平级地调用对方，而不是像例程那样上下级调用关系。
+所以不同点在于程序只有一个调用入口起始点，返回之后就结束了，而协程入口既可以是起始点，又可以从上一个返回点继续执行，也就是说协程之间可以通过`yield`方式转移执行权，对称（symmetric）、平级地调用对方，而不是像例程那样上下级调用关系。
 
-### yeild, generator.next(), generator.send(None)
+### 相关语法
 
-在python中yield既可以返回一个值，也可以接收调用者发出的参数,比如：
+在Python中`yield`语句既可以返回一个值，也可以接收调用者发出的参数，同样，使用`generator.send()`可以接收一个值，也可以向`yield`传递一个值
 
-{% highlight python linenos %}
+比如定义一个`generator`：
+
+``` python
 def generator():
     n = 0
     while True:
         yield n
         n = n + 1
-{% endhighlight %}
+```
 
-使用for迭代:
+可以使用`for`迭代访问数据: 
 
-{% highlight python linenos %}
+``` python
 for value in generator():
     pritn(value)
-{% endhighlight %}
+```
 
-等价于：
+等价于使用`generator.next()`:
 
-{% highlight python linenos %}
-it = generator()
-while True:
-    try:
-        print(it.send(None))
-    except StopIteration:
-        break
-{% endhighlight %}
-
-等价于：
-
-{% highlight python linenos %}
+``` python
 it = generator()
 while True:
     try:
         print(it.next())
     except StopIteration:
         break
-{% endhighlight %}
+```
 
-即send(None) 相当于 next(), 而send()可以给generator传递参数
+等价于使用`generator.send(None)`:
+
+``` python
+it = generator()
+while True:
+    try:
+        print(it.send(None))
+    except StopIteration:
+        break
+```
+
+即`generator.next()`相当于`generator.send(None)`, 而且`send`函数可以给`generator`传递参数
 
 {% highlight python linenos %}
 def generator():
@@ -75,7 +77,7 @@ print("m = %d" % m)          # 输出 'm = 1'
 n = g.send('x')              # 向g发送‘x’, g重新从line3开始运行，yeild接收‘x’，即a='x', 
                              # 输出 'a = x'
                              # 输出 'step 2, line5', yeild返回2 ，n = 2
-print("n = %s" % n)          # 输出 'n = 2'
+print("n = %d" % n)          # 输出 'n = 2'
 {% endhighlight %}
 
 输出结果：
@@ -90,7 +92,7 @@ print("n = %s" % n)          # 输出 'n = 2'
 
 在生产者-消费者模型使用协程:
 
-{% highlight python linenos %}
+``` python
 def consumer():
     r = ''
     while True:
@@ -112,4 +114,4 @@ def produce(c):
 
 c = consumer()
 produce(c)
-{% endhighlight %}
+```
