@@ -2,7 +2,7 @@
 layout: post 
 title: python3的str与bytes 
 categories: [linux]
-tags: [python]
+tags: [Python]
 ---
 
 #### python3最重要的新特性
