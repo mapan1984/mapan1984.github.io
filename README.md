@@ -2,7 +2,7 @@
 
 ## Recording and sharing
 
-我把它当成笔记本来用
+我把它当成笔记本来用，整理自己的知识
 
 ## Continuous Learning 
 
