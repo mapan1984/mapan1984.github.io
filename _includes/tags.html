@@ -1,20 +1,22 @@
 <div class="container">
     {% include pre_tags.html %}
     <ul class="posts">
-    {% for tag in site.tags %}
-    <li id="{{ tag[0] }}" class="tag-list"><span class="label label-default">{{ tag[0] }}</span></li>
-        {% for post in tag[1] %}
-            <li class="post-list">
-            <div class="post-list-content">
-                <div class="post-list-date">
-                    {{ post.date | date_to_string }}
+        {% for tag in site.tags %}
+        <li id="{{ tag[0] }}"  style="position: relative; padding-top: 50px;" class="tag-list">
+            <span class="label label-default">{{ tag[0] }}</span>
+        </li>
+            {% for post in tag[1] %}
+                <li class="post-list">
+                <div class="post-list-content">
+                    <div class="post-list-date">
+                        {{ post.date | date_to_string }}
+                    </div>
+                    <div class="post-footer">
+                        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                    </div>
                 </div>
-                <div class="post-footer">
-                    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-                </div>
-            </div>
-            </li>
+                </li>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
     </ul>
 </div>
