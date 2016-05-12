@@ -12,7 +12,9 @@
         <h1>{{ page.title }}</h1>
         <div class="post-tags">
             {% for tag in page.tags %}
-            <span class="label label-primary">{{ tag }}</span>                
+                <a href="/Tags/#{{ tag }}">
+                    <span class="label label-primary">{{ tag }}</span>                
+                </a>
             {% endfor %}
         </div>
         <div class="post-date">
@@ -25,7 +27,7 @@
                  <div class="post-body">
                      {{ content }}
                  </div>
-                 {% include post_footer.html %}
+                 {% include page_turn.html %}
              </div><!-- post-content -->
         </div>
         <div class="col-md-3">
