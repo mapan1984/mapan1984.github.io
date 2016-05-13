@@ -2,8 +2,7 @@
 <html lang="zh-CN">
 <head>
     {% include head.html %}
-    <link rel="stylesheet" href="/stylesheets/post.css"><!-- for post -->
-    <link rel="stylesheet" href="/stylesheets/syntax.css"><!-- for syntax -->
+    <link rel="stylesheet" href="/stylesheets/post.css"><!-- for post fomat and syntax -->
 </head>
 <body style="position: relative; padding-top: 50px;" data-spy="scroll" data-target="#toc" data-offset="20">
 {% include nav.html %}
@@ -41,13 +40,12 @@
     </div><!-- row -->
 </div><!-- container -->
 {% include js.html %}
-<script src="/javascripts/toc.js" type="text/javascript"></script>
-<script src="/javascripts/to_top.js" type="text/javascript"></script>
+<script src="/javascripts/post.js" type="text/javascript"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-    $('#toc').toc();
-});
-$('body').scrollspy({ target: '#toc' })
+    $(document).ready(function() {
+        $('#toc').toc();
+    });
+    $('body').scrollspy({ target: '#toc' })
 </script>
 <script>
     /**

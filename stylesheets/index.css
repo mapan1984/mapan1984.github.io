@@ -1,3 +1,4 @@
+/*postlist*/
 div.pre-tags {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -24,4 +25,14 @@ div.post-list-content {
 }
 div.post-list-date {
     float: right;
+}
+/*profile*/
+.profile {
+    min-height: 260px;
+}
+svg {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
 }

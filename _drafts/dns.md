@@ -1,13 +1,13 @@
-域名访问是如何找到正确的DNS并访问主机IP的？
+### 域名访问是如何找到正确的DNS并访问主机IP的？
 
-首先域名是分层的：
+#### 首先域名是分层的：
 
 - 根域(.)
 - 顶级域(com, edu, gov,org,cn,mil等等，为组织域和国家地区域)
 - 二级域(Microsoft, zhihu,douban，google等等，是自己取的 )
 - 三级域(www, NEWS等)
 
-下面是查询过程，以"http://www.zhihu.com/"为例：
+#### 下面是查询过程，以"http://www.zhihu.com/"为例：
 
 1. 当你在浏览器输入域名(http://www.zhihu.com/)之后，浏览器会向本地DNS发送域名查询请求，本地DNS如果有对应的缓存则会找到对应IP并将IP返回，如果没有则会向根DNS服务器发送查询。
 2. 根DNS服务器知道所有的顶级域的DNS服务器(如com)，会把域名对应的顶级域的DNS服务器IP返回，本地DNS服务器继续向顶级域的DNS服务器(com)发送查询。
