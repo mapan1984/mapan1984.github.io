@@ -1,6 +1,6 @@
 # Site settings
 title: MaPan - Blog
-email: mapan1984@outlook.com 
+email: mapan1984@outlook.com
 github_username: mapan1984
 
 description: > # this means to ignore newlines until "baseurl:"
@@ -13,7 +13,7 @@ paginate_path: "page:num"
 
 # Build settings
 markdown: kramdown
-highlighter: rouge 
+highlighter: rouge
 
 permalink: pretty
 
@@ -25,6 +25,6 @@ host: 127.0.0.1
 defaults:
   -
     scope:
-      path: "_posts" # 一个空的字符串代表项目中所有的文件
+      path: "_posts"
     values:
       layout: "post"
