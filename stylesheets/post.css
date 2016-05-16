@@ -43,8 +43,8 @@ div.post-turn {
     cursor:pointer;
 }
 #to-top {
-    position:fixed;
-    bottom:30px; 
+    position: fixed;
+    bottom:20px; 
     display:none;
 }
 /*synatsx*/
