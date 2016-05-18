@@ -28,7 +28,7 @@
             {% else %}
                 {% assign color = 8 | minus: base %}
             {% endif %}
-            <a href="/Tags/#{{ tag[0] }}" 
+            <a href="/tags/#{{ tag[0] }}" 
                style="font-size: {{ size }}pt; color: #{{ color }}{{ color }}{{ color }};"
                class="list-group-item">
                 {{ tag[0] }}<span class="badge">{{tag[1].size}}</span>
