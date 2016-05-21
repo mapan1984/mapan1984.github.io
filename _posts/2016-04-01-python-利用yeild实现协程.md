@@ -1,6 +1,6 @@
 ---
 title: Python 利用yeild实现协程(coroutine)
-categories: [linux]
+categories: [Program]
 tags: [Python, coroutine]
 ---
 
