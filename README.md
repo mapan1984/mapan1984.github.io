@@ -11,3 +11,7 @@
 ### Continuous Learning
 
 ***If you are still looking for that one person who will change your life, take a look in the mirror.***
+
+### Thanks
+
+[github pages](https://pages.github.com/)
