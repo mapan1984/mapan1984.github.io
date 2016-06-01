@@ -1,16 +1,9 @@
 /*postlist*/
-div.pre-tags {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
 ul.posts {
     list-style-type: none;
     padding: 0px;
     margin: 10px 0px 0px 0px;
     border-top: 1px solid #e0e0e0;
-}
-ul.posta li.tag-list {
-    padding: 6px;
 }
 ul.posts li.post-list {
     padding: 8px;
@@ -19,12 +12,17 @@ ul.posts li.post-list {
 ul.posts li.post-list:hover {
     background-color: #f0f0f0;
 }
-div.post-list-content {
+li.post-list div.post-list-content {
     margin-left: 2px;
     min-height: 24px;
 }
-div.post-list-date {
+li.post-list div.post-list-date {
     float: right;
+}
+/*pre-tags*/
+div.pre-tags {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 /*profile*/
 .profile {

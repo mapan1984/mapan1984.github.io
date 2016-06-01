@@ -11,25 +11,31 @@ title: MaPan - Blog
             href="https://github.com/mapan1984/mapan1984.github.io" 
             role="button">Learn more</a></p>
     </div><!-- jumbotron -->
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#postlist" role="tab" data-toggle="tab">
+    <ul class="nav nav-pills" role="tablist">
+        <li role="presentation" class="active">
+          <a href="#postlist" aria-controls="postlist" role="tab" data-toggle="tab">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> PostList
-        </a></li>
-        <li><a href="#tags" role="tab" data-toggle="tab">
+          </a>
+        </li>
+        <li role="presentation">
+          <a href="#tags" aria-controls="tags" role="tab" data-toggle="tab">
             <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Tags
-        </a></li>
-        <li><a href="#profile" role="tab" data-toggle="tab">
+          </a>
+        </li>
+        <li role="presentation">
+          <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
-        </a></li>
+          </a>
+        </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="postlist">
+        <div role="tabpanel" class="tab-pane fade in active" id="postlist">
              {% include postlist.html %}
         </div>
-        <div class="tab-pane" id="tags">
+        <div role="tabpanel" class="tab-pane fade" id="tags">
              {% include pre_tags.html %}
         </div>
-        <div class="tab-pane" id="profile">
+        <div role="tabpanel" class="tab-pane fade" id="profile">
              {% include profile.html %}
         </div>
     </div><!-- tab-content -->

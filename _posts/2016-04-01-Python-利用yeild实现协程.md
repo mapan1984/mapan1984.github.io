@@ -1,7 +1,7 @@
 ---
 title: Python 利用yeild实现协程(coroutine)
 categories: [Program]
-tags: [Python, coroutine]
+tags: [Python, Coroutine]
 ---
 
 ### 协程
