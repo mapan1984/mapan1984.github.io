@@ -1,6 +1,6 @@
 ---
 title: python3的str与bytes 
-categories: [Program]
+categories: [Base]
 tags: [Python]
 ---
 

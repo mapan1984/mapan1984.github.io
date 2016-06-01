@@ -20,8 +20,10 @@ div.post-date {
     margin-top: -18px;
 }
 div.post-turn {
+    border-top: 1px solid #e0e0e0;
     margin: 0 auto;
 }
+/*标题目录*/
 #toc {
     position: fixed;
     top: 150px;
@@ -42,7 +44,8 @@ div.post-turn {
     margin-left:5px;
     cursor:pointer;
 }
-#to-top {
+/*回到顶部*/
+#back-to-top {
     position: fixed;
     bottom:20px; 
     display:none;

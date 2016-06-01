@@ -91,7 +91,7 @@
 // 生成回到顶部
 // 页面加载完触发
 window.onload = function(){
-    var obtn = document.getElementById('to-top');
+    var obtn = document.getElementById('back-to-top');
     //获取页面可视区的高度
     clientHeight = document.documentElement.clientHeight;
     var timer = null;
