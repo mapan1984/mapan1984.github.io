@@ -1,42 +1,33 @@
 ---
-layout: default
+layout: index
 title: MaPan - Blog
 ---
 
-<div class="container">
-    <div class="jumbotron">
-        <h1>Share and Record</h1>
-        <p>The best time to plant a tree was 10 years ago, The second best time is now.</p>
-        <p><a class="btn btn-primary btn-lg" 
-            href="https://github.com/mapan1984/mapan1984.github.io" 
-            role="button">Learn more</a></p>
-    </div><!-- jumbotron -->
-    <ul class="nav nav-pills" role="tablist">
-        <li role="presentation" class="active">
-          <a href="#postlist" aria-controls="postlist" role="tab" data-toggle="tab">
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> PostList
-          </a>
-        </li>
-        <li role="presentation">
-          <a href="#tags" aria-controls="tags" role="tab" data-toggle="tab">
-            <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Tags
-          </a>
-        </li>
-        <li role="presentation">
-          <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
-          </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade in active" id="postlist">
-             {% include posts-list.html %}
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="tags">
-             {% include tags-list.html %}
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="profile">
-             {% include profile.html %}
-        </div>
-    </div><!-- tab-content -->
-</div><!-- container -->
+<ul class="nav nav-pills" role="tablist">
+  <li role="presentation" class="active">
+  <a href="#postlist" aria-controls="postlist" role="tab" data-toggle="tab">
+    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> PostList
+  </a>
+  </li>
+  <li role="presentation">
+  <a href="#tags" aria-controls="tags" role="tab" data-toggle="tab">
+    <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Tags
+  </a>
+  </li>
+  <li role="presentation">
+  <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
+  </a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="postlist">
+    {% include posts-list.html %}
+  </div>
+  <div role="tabpanel" class="tab-pane fade" id="tags">
+    {% include tags-list.html %}
+  </div>
+  <div role="tabpanel" class="tab-pane fade" id="profile">
+    {% include profile.html %}
+  </div>
+</div><!-- tab-content -->
