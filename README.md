@@ -17,3 +17,5 @@
 [github pages](https://pages.github.com/)
 
 [Bootstrap](http://getbootstrap.com/)
+
+[Disqus](https://disqus.com/)
