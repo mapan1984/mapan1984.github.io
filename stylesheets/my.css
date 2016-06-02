@@ -1,3 +1,39 @@
+/*post-list*/
+ul.posts {
+    list-style-type: none;
+    padding: 0px;
+    margin: 10px 0px 0px 0px;
+    border-top: 1px solid #e0e0e0;
+}
+ul.posts li.post-list {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+ul.posts li.post-list:hover {
+    background-color: #f0f0f0;
+}
+li.post-list div.post-list-content {
+    margin-left: 2px;
+    min-height: 24px;
+}
+li.post-list div.post-list-date {
+    float: right;
+}
+/*pre-tags*/
+div.tags-list {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/*profile*/
+.profile {
+    min-height: 260px;
+}
+svg {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
 /*post*/
 div.post-content {
     list-style-type: none;

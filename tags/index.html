@@ -1,39 +1,57 @@
 ---
-layout: default
+layout: index
 title: tags
 ---
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="tags" style="position: fixed; top: 60px; width: 20%;">
-        {% include tags-list.html %}
-      </div>
-    </div>
-    <div class="col-md-8">
-      <ul class="posts">
-        {% for tag in site.tags %}
-          <li id="{{ tag[0] }}"  style="position: relative; padding-top: 50px;" class="tag-list">
-            <span class="label label-default">{{ tag[0] }}</span>
-          </li>
+  <ul class="nav nav-pills" role="tablist">
+    {% assign isfirst = 1 %}
+    {% for tag in site.tags %}
+      {% if isfirst == 1 %}
+        <li role="presentation" class="active">
+          <a href="#{{ tag[0] }}" aria-controls="{{ tag[0] }}" role="tab" data-toggle="tab">
+             {{ tag[0] }} <span class="badge">{{ tag[1].size }}</span>
+          </a>
+        </li>
+        {% assign isfirst = 0 %}
+      {% else %}
+        <li role="presentation">
+          <a href="#{{ tag[0] }}" aria-controls="{{ tag[0] }}" role="tab" data-toggle="tab">
+             {{ tag[0] }} <span class="badge">{{ tag[1].size }}</span>
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  <div class="tab-content">
+    {% assign isfirst = 1 %}
+    {% for tag in site.tags %}
+      {% if isfirst == 1 %}
+        <div role="tabpanel" class="tab-pane active" id="{{ tag[0] }}">
           {% for post in tag[1] %}
-          <li class="post-list">
-          <div class="post-list-content">
-            <div class="post-list-date">
-              {{ post.date | date_to_string }}
-            </div>
-            <div class="post-list-title">
-              <a href="{{ site.baseurl }}{{ post.url }}">
-                {{ post.title }}
+          <ul class="list-group">
+            <li class="list-group-item">
+              <a href="{{ post.url }}">
+                {{ post.title }} <span class="badge">{{ post.date | date:"%d/%m/%Y"}}</span>
               </a>
-            </div>
-          </div>
-          </li>
+            </li>
+          </ul>
           {% endfor %}
-        {% endfor %}
-      </ul>
-    </div>
+        </div>
+        {% assign isfirst = 0 %}
+      {% else %}
+        <div role="tabpanel" class="tab-pane" id="{{ tag[0] }}">
+          {% for post in tag[1] %}
+          <ul class="list-group">
+            <li class="list-group-item">
+              <a href="{{ post.url }}">
+                {{ post.title }} <span class="badge">{{ post.date | date:"%d/%m/%Y"}}</span>
+              </a>
+            </li>
+          </ul>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endfor %}
   </div>
 </div>
-
-

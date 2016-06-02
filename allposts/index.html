@@ -1,0 +1,37 @@
+---
+layout: default
+title: all posts
+---
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="tags" style="position: fixed; top: 60px; width: 20%;">
+        {% include tags-list.html %}
+      </div>
+    </div>
+    <div class="col-md-8">
+      <ul class="posts">
+        {% for tag in site.tags %}
+          <li id="{{ tag[0] }}"  style="position: relative; padding-top: 50px;" class="tag-list">
+            <span class="label label-default">{{ tag[0] }}</span>
+          </li>
+          {% for post in tag[1] %}
+          <li class="post-list">
+          <div class="post-list-content">
+            <div class="post-list-date">
+              {{ post.date | date_to_string }}
+            </div>
+            <div class="post-list-title">
+              <a href="{{ site.baseurl }}{{ post.url }}">
+                {{ post.title }}
+              </a>
+            </div>
+          </div>
+          </li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
