@@ -19,10 +19,13 @@ li.post-list div.post-list-content {
 li.post-list div.post-list-date {
     float: right;
 }
-/*pre-tags*/
-div.tags-list {
+/*tags-buttons*/
+div.tags-buttons {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+div.tags-buttons a {
+    margin: 3px 3px 3px 3px;
 }
 /*profile*/
 .profile {
