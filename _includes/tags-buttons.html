@@ -1,12 +1,7 @@
----
-layout: default
-title: all posts
----
-
-<div class="container">
+<div class="container" style="margin-top:30px;">
   <div class="row">
-    <div class="col-md-3">
-      <div class="btn-group-vertical" role="group" style="position: fixed; top: 60px;">
+    <div class="col-md-4">
+      <div class="tags-buttons">
         {% assign first = site.tags.first %}
         {% assign max = first[1].size %}
         {% assign min = max %}
@@ -43,28 +38,7 @@ title: all posts
         {% endfor %}
       </div>
     </div>
-    <div class="col-md-9">
-      <ul class="posts">
-        {% for tag in site.tags %}
-          <li id="{{ tag[0] }}"  style="position: relative; padding-top: 50px;" class="tag-list">
-            <span class="label label-default">{{ tag[0] }}</span>
-          </li>
-          {% for post in tag[1] %}
-          <li class="post-list">
-          <div class="post-list-content">
-            <div class="post-list-date">
-              {{ post.date | date_to_string }}
-            </div>
-            <div class="post-list-title">
-              <a href="{{ site.baseurl }}{{ post.url }}">
-                {{ post.title }}
-              </a>
-            </div>
-          </div>
-          </li>
-          {% endfor %}
-        {% endfor %}
-      </ul>
+    <div class="col-md-8">
     </div>
   </div>
 </div>
