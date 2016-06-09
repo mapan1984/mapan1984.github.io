@@ -9,3 +9,10 @@ ctrl+h 删除一个字符
 ctrl+l 清屏
 
 pwd "print working directory"
+
+### windows
+
+ipconfig
+ipconfig /all
+ipconfig /release
+ipconfig /renew
