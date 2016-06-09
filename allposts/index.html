@@ -4,8 +4,7 @@ title: all posts
 ---
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-3">
+    <div class="all-posts-tip">
       <div class="btn-group-vertical" role="group" style="position: fixed; top: 60px;">
         {% assign first = site.tags.first %}
         {% assign max = first[1].size %}
@@ -43,7 +42,7 @@ title: all posts
         {% endfor %}
       </div>
     </div>
-    <div class="col-md-9">
+    <div class="all-posts">
       <ul class="posts">
         {% for tag in site.tags %}
           <li id="{{ tag[0] }}"  style="position: relative; padding-top: 50px;" class="tag-list">
@@ -66,5 +65,4 @@ title: all posts
         {% endfor %}
       </ul>
     </div>
-  </div>
 </div>
