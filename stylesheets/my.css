@@ -39,8 +39,8 @@ svg {
 }
 /*post*/
 div.post-content {
-    list-style-type: none;
-    min-height: 48px;
+    width: 70%;
+    float: left;
     margin: 16px 0px 0px 0px;
     padding: 8px;
     border-top: 1px solid #e0e0e0;
@@ -62,10 +62,15 @@ div.post-turn {
     border-top: 1px solid #e0e0e0;
     margin: 0 auto;
 }
-/*标题目录*/
+/*post-tip*/
+div.post-tip {
+    width: 20%;
+    float: right;
+    margin: 0 0 0 20px;
+}
 #toc {
     position: fixed;
-    top: 150px;
+    top: 175px;
 }
 .anchor {
     padding-top: 50px;
@@ -83,11 +88,19 @@ div.post-turn {
     margin-left:5px;
     cursor:pointer;
 }
-/*回到顶部*/
 #back-to-top {
     position: fixed;
     bottom:20px; 
     display:none;
+}
+/*allposts*/
+.all-posts-tip {
+    width: 30%;
+    float: left;
+}
+.all-posts {
+    width: 70%;
+    float: right;
 }
 /*synatsx*/
 .highlight  { background: #ffffff; }
