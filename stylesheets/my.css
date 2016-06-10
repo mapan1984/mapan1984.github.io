@@ -95,8 +95,9 @@ div.post-tip {
 }
 /*allposts*/
 .all-posts-tip {
-    width: 30%;
+    width: 20%;
     float: left;
+    margin: 0 20px 0 0;
 }
 .all-posts {
     width: 70%;
