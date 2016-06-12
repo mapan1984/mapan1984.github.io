@@ -2,14 +2,12 @@
   <ul class="posts">
     {% for post in paginator.posts %}
     <li class="post-list">
-    <div class="post-list-content">
       <div class="post-list-date">
         {{ post.date | date_to_string }}
       </div>
       <div class="post-list-title">
         <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
       </div>
-    </div>
     </li>
     {% endfor %}
   </ul>

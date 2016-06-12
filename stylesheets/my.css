@@ -2,19 +2,16 @@
 ul.posts {
     list-style-type: none;
     padding: 0px;
-    margin: 10px 0px 0px 0px;
+    margin: 0px 5px 0px 5px;
     border-top: 1px solid #e0e0e0;
 }
 ul.posts li.post-list {
     padding: 8px;
+    min-height: 24px;
     border-bottom: 1px solid #e0e0e0;
 }
 ul.posts li.post-list:hover {
     background-color: #f0f0f0;
-}
-li.post-list div.post-list-content {
-    margin-left: 2px;
-    min-height: 24px;
 }
 li.post-list div.post-list-date {
     float: right;
@@ -94,11 +91,21 @@ div.post-tip {
     display:none;
 }
 /*allposts*/
-.all-posts-tip {
-    width: 30%;
+div.all-posts-tip {
+    width: 20%;
     float: left;
+    margin: 0 20px 0 0;
 }
-.all-posts {
+/*
+div.all-posts-buttons {
+    position: fixed;
+    top: 60px;
+}
+*/
+div.all-posts-buttons a{
+    margin: 3px 3px 3px 3px;
+}
+div.all-posts {
     width: 70%;
     float: right;
 }

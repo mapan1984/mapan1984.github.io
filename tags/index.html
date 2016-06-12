@@ -27,7 +27,7 @@ title: tags
     {% assign isfirst = 1 %}
     {% for tag in site.tags %}
       {% if isfirst == 1 %}
-        <div role="tabpanel" class="tab-pane active" id="{{ tag[0] }}">
+        <div role="tabpanel" class="tab-pane fade in active" id="{{ tag[0] }}">
           {% for post in tag[1] %}
           <ul class="list-group">
             <li class="list-group-item">
@@ -40,7 +40,7 @@ title: tags
         </div>
         {% assign isfirst = 0 %}
       {% else %}
-        <div role="tabpanel" class="tab-pane" id="{{ tag[0] }}">
+        <div role="tabpanel" class="tab-pane fade" id="{{ tag[0] }}">
           {% for post in tag[1] %}
           <ul class="list-group">
             <li class="list-group-item">

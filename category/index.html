@@ -27,7 +27,7 @@ title: category
     {% assign isfirst = 1 %}
     {% for category in site.categories %}
       {% if isfirst == 1 %}
-        <div role="tabpanel" class="tab-pane active" id="{{ category[0] }}">
+        <div role="tabpanel" class="tab-pane fade in active" id="{{ category[0] }}">
           {% for post in category[1] %}
           <ul class="list-group">
             <li class="list-group-item">
@@ -40,7 +40,7 @@ title: category
         </div>
         {% assign isfirst = 0 %}
       {% else %}
-        <div role="tabpanel" class="tab-pane" id="{{ category[0] }}">
+        <div role="tabpanel" class="tab-pane fade" id="{{ category[0] }}">
           {% for post in category[1] %}
           <ul class="list-group">
             <li class="list-group-item">
