@@ -4,66 +4,36 @@ title: all posts
 ---
 
 <div class="container">
-  <div class="all-posts-tip">
-    <div class="all-posts-buttons" style="display: block;">
-    {% assign first = site.tags.first %}
-    {% assign max = first[1].size %}
-    {% assign min = max %}
-    {% for tag in site.tags offset:1 %}
-      {% if tag[1].size > max %}
-        {% assign max = tag[1].size %}
-      {% elsif tag[1].size < min %}
-        {% assign min = tag[1].size %}
-      {% endif %}
-    {% endfor %}
-    {% assign diff = max | minus: min %}
-
-    {% for tag in site.tags %}
-      {% assign temp = tag[1].size | minus: min | times: 36 | divided_by: diff %}
-      {% assign base = temp | divided_by: 4 %}
-      {% assign remain = temp | modulo: 4 %}
-      {% if remain == 0 %}
-        {% assign size = base | plus: 9 %}
-      {% elsif remain == 1 or remain == 2 %}
-        {% assign size = base | plus: 9 | append: '.5' %}
-      {% else %}
-        {% assign size = base | plus: 10 %}
-      {% endif %}
-      {% if remain == 0 or remain == 1 %}
-        {% assign color = 9 | minus: base %}
-      {% else %}
-        {% assign color = 8 | minus: base %}
-      {% endif %}
-      <a href="/allposts/#{{ tag[0] }}" 
-        style="font-size: {{ size }}pt; color: #{{ color }}{{ color }}{{ color }};"
-        class="btn btn-default btn-lg active" role="button">
-        {{ tag[0] }} <span class="badge">{{tag[1].size}}</span>
-      </a>
-    {% endfor %}
-    </div>
-</div>
-<div class="all-posts">
-  <ul class="posts">
-    {% for tag in site.tags %}
-    <li id="{{ tag[0] }}"  style="position: relative; padding-top: 50px;" class="tag-list">
-    <span class="label label-default">{{ tag[0] }}</span>
-    </li>
-    {% for post in tag[1] %}
-    <li class="post-list">
-    <div class="post-list-content">
-      <div class="post-list-date">
-        {{ post.date | date_to_string }}
-      </div>
-      <div class="post-list-title">
-        <a href="{{ site.baseurl }}{{ post.url }}">
-          {{ post.title }}
-        </a>
-      </div>
-    </div>
-    </li>
-    {% endfor %}
-    {% endfor %}
-  </ul>
-</div>
+  <div id="all-posts-tip">
+    {% include tags-buttons.html %}
+  </div>
+  <div class="all-posts">
+    <ul class="posts">
+      {% for tag in site.tags %}
+        <li id="{{ tag[0] }}"  style="padding-top: 50px;" class="tag-list">
+          <span class="label label-default">{{ tag[0] }}</span>
+        </li>
+        {% for post in tag[1] %}
+          <li class="post-list">
+            <div class="post-list-date">
+              {{ post.date | date_to_string }}
+            </div>
+            <div class="post-list-title">
+              <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+            </div>
+          </li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </div>
 </div>
 {% include js.html %}
+<script>
+window.onload = function(){
+  var ptip = document.getElementById('all-posts-tip');
+  window.onscroll = function(){
+    var osTop = document.documentElement.scrollTop || document.body.scrollTop;
+    ptip.style.top=60 + osTop + 'px';
+  }
+}
+</script>

@@ -91,23 +91,19 @@ div.post-tip {
     display:none;
 }
 /*allposts*/
-div.all-posts-tip {
-    width: 20%;
-    float: left;
+#all-posts-tip {
+    width: 40%;
     margin: 0 20px 0 0;
-}
-/*
-div.all-posts-buttons {
-    position: fixed;
+    position: absolute;
     top: 60px;
+    right: 20px;
 }
-*/
 div.all-posts-buttons a{
     margin: 3px 3px 3px 3px;
 }
 div.all-posts {
-    width: 70%;
-    float: right;
+    width: 50%;
+    float: left;
 }
 /*synatsx*/
 .highlight  { background: #ffffff; }

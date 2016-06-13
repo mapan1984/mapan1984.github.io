@@ -25,7 +25,17 @@ title: MaPan - Blog
     {% include posts-list.html %}
   </div>
   <div role="tabpanel" class="tab-pane fade" id="tags">
-    {% include tags-buttons.html %}
+    <div class="container" style="margin-top:30px;">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="tags-buttons">
+            {% include tags-buttons.html %}
+          </div>
+        </div>
+        <div class="col-md-8">
+        </div>
+      </div>
+    </div>
   </div>
   <div role="tabpanel" class="tab-pane fade" id="profile">
     {% include profile.html %}
