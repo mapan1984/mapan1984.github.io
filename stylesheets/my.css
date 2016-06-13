@@ -67,7 +67,7 @@ div.post-tip {
 }
 #toc {
     position: fixed;
-    top: 175px;
+    top: 190;
 }
 .anchor {
     padding-top: 50px;
@@ -87,7 +87,7 @@ div.post-tip {
 }
 #back-to-top {
     position: fixed;
-    bottom:20px; 
+    bottom:30px; 
     display:none;
 }
 /*allposts*/
@@ -96,7 +96,7 @@ div.post-tip {
     margin: 0px 20px;
     position: absolute;
     right: 20px;
-    top: 60px;
+    top: 60;
 }
 #all-posts-tip a{
     margin: 3px;
