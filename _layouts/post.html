@@ -17,17 +17,18 @@ title: {{ page.title }}
       <span class="label label-default">Date: {{ page.date | date_to_string }}</span>
     </div>
   </div><!-- page-header -->
-  <div class="post">
+  <div class="post-body">
     <div class="post-content">
       {{ content }}
     </div>
     {% include post-turn.html %}
-    <div id="disqus_thread"></div>
-  </div><!-- post-content -->
+    <div id="disqus_thread">
+    </div>
+  </div><!-- post -->
   <div class="post-tip">
     <div id="toc">
     </div>
-    <button type="button" class="btn btn-default" aria-label="Left Align" id="back-to-top">
+    <button type="button" class="btn btn-info btn-sm" aria-label="Left Align" id="back-to-top">
       <span clas="glyphicon glyphicon-hand-up" aria-hidden="true"> 回到顶部</span>
     </button>
   </div>

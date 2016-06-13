@@ -10,15 +10,15 @@ title: all posts
   <div class="all-posts">
     <ul class="posts">
       {% for tag in site.tags %}
-        <li id="{{ tag[0] }}"  style="padding-top: 50px;" class="tag-list">
-          <span class="label label-default">{{ tag[0] }}</span>
+        <li id="{{ tag[0] }}"  style="padding-top: 50px;">
+          <span class="label label-primary">Tag: {{ tag[0] }}</span>                
         </li>
         {% for post in tag[1] %}
-          <li class="post-list">
-            <div class="post-list-date">
+          <li class="post">
+            <div class="post-date">
               {{ post.date | date_to_string }}
             </div>
-            <div class="post-list-title">
+            <div class="post-title">
               <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
             </div>
           </li>
