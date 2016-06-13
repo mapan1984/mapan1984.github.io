@@ -35,7 +35,7 @@ svg {
     vertical-align: middle;
 }
 /*post*/
-div.post-content {
+div.post {
     width: 70%;
     float: left;
     margin: 16px 0px 0px 0px;
