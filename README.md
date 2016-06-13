@@ -14,8 +14,8 @@
 
 ## Thanks
 
-[github pages](https://pages.github.com/)
+让我不再需要考虑购买域名和空间的[github pages](https://pages.github.com/)
 
-[Bootstrap](http://getbootstrap.com/)
+前端渣的福利[Bootstrap](http://getbootstrap.com/)
 
-[Disqus](https://disqus.com/)
+解决了评论问题[Disqus](https://disqus.com/)
