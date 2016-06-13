@@ -1,11 +1,11 @@
-<div class="container" "margin-top: 5px;">
+<div class="container">
   <ul class="posts">
     {% for post in paginator.posts %}
-    <li class="post-list">
-      <div class="post-list-date">
+    <li class="post">
+      <div class="post-date">
         {{ post.date | date_to_string }}
       </div>
-      <div class="post-list-title">
+      <div class="post-title">
         <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
       </div>
     </li>

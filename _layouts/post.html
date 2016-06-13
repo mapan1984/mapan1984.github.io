@@ -17,13 +17,14 @@ title: {{ page.title }}
       <span class="label label-default">Date: {{ page.date | date_to_string }}</span>
     </div>
   </div><!-- page-header -->
-  <div class="post">
+  <div class="post-body">
     <div class="post-content">
       {{ content }}
     </div>
     {% include post-turn.html %}
-    <div id="disqus_thread"></div>
-  </div><!-- post-content -->
+    <div id="disqus_thread">
+    </div>
+  </div><!-- post -->
   <div class="post-tip">
     <div id="toc">
     </div>
