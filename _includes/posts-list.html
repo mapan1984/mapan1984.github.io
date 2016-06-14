@@ -1,15 +1,13 @@
-<div class="container">
-  <ul class="posts">
-    {% for post in paginator.posts %}
-    <li class="post">
-      <div class="post-date">
-        {{ post.date | date_to_string }}
-      </div>
-      <div class="post-title">
-        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-      </div>
-    </li>
-    {% endfor %}
-  </ul>
-  {% include paginator.html %}
-</div>
+<ul class="posts">
+  {% for post in paginator.posts %}
+  <li class="post">
+    <div class="post-date">
+      {{ post.date | date_to_string }}
+    </div>
+    <div class="post-title">
+      <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% include paginator.html %}
