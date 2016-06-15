@@ -29,11 +29,11 @@ title: all posts
 </div>
 {% include js.html %}
 <script>
-window.onload = function(){
-  var ptip = document.getElementById('all-posts-tip');
-  window.onscroll = function(){
-    var osTop = document.documentElement.scrollTop || document.body.scrollTop;
-    ptip.style.top=60 + osTop + 'px';
-  }
-}
+$(document).ready(function (){
+  var postsTip = $('#all-posts-tip');
+  $(window).bind("scroll", function(){
+    var osTop = $(document).scrollTop();
+    postsTip.css('top', (osTop + 60) + 'px');
+  });
+});
 </script>
