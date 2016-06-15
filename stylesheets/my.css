@@ -18,6 +18,7 @@ li.post div.post-date {
 }
 /*tags-buttons*/
 div.tags-buttons {
+    width: 30%;
     margin-top: 10px;
     margin-bottom: 10px;
 }

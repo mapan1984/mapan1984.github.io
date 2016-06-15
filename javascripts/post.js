@@ -92,22 +92,6 @@ $(document).ready(function() {
   $('#toc').toc(); // 生成侧栏标题目录
   $('body').scrollspy({ target: '#toc' }); // 开启滚动监听
 });
-/** 
- *  recommended configuration variables: edit and uncomment the section below to insert dynamic values from your platform or cms.
- *  learn why defining these variables is important: https://disqus.com/admin/universalcode/#configuration-variables
- */
-/*
-  var disqus_config = function () {
-  this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-  this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-  };
- */
-(function() {  // DON'T EDIT BELOW THIS LINE
-  var d = document, s = d.createElement('script');
-  s.src = '//skkmp.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', +new Date());
-  (d.head || d.body).appendChild(s);
-})();
 /* 
  * 生成回到顶部
  * 调整侧栏位置
@@ -126,8 +110,8 @@ window.onload = function(){
   window.onscroll = function(){
     var osTop = document.documentElement.scrollTop || document.body.scrollTop;
 
-    if(osTop < 190){ // 调整侧栏位置
-      toc.style.top='190px';
+    if(osTop < 110){ // 调整侧栏位置
+      toc.style.top=190 - osTop + 'px';
     }else{
       toc.style.top='80px';
     }
@@ -147,17 +131,44 @@ window.onload = function(){
   obtn.onclick = function(){
     //设置定时器
     timer = setInterval(function(){
-    //获取滚动条距离顶部的高度
-    var osTop = document.documentElement.scrollTop || document.body.scrollTop;
+      //获取滚动条距离顶部的高度
+      var osTop = document.documentElement.scrollTop || document.body.scrollTop;
 
-    var ispeed = Math.floor(-osTop / 6);
-    document.documentElement.scrollTop = document.body.scrollTop = osTop +ispeed;
+      var ispeed = Math.floor(-osTop / 6);
+      document.documentElement.scrollTop = document.body.scrollTop = osTop +ispeed;
 
-    isTop = true;
-    console.log(osTop -ispeed);
+      isTop = true;
+      //console.log(osTop -ispeed);
       if (osTop == 0){
         clearInterval(timer);
       }
     },30);
+  }
+}
+// button 点击展开评论
+var disBtn = document.getElementById('show-dis'); // 评论按钮
+var disPan = document.getElementById('disqus_thread');
+var notLoad = true;
+var hasDised = false;
+function showDis(){
+  if(notLoad){
+    var s = document.createElement('script');
+    s.src = '//skkmp.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (document.head || document.body).appendChild(s);
+
+    notLoad = false;
+    hasDised = true;
+    disBtn.innerText = '收起评论';
+  }else{
+    if(hasDised){
+      disPan.style.display = 'none';
+      disBtn.innerText = '展开评论';
+      hasDised = false;
+    }else{
+      disPan.style.display = 'block';
+      disBtn.innerText = '收起评论';
+      hasDised = true;
+    }
   }
 }
