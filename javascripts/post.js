@@ -85,16 +85,15 @@
         window.location.hash = '';
       });
     }
-
     render[settings.showEffect]();
   };
 })(jQuery);
+
 $(document).ready(function() {
   var toc = $('#toc');
   toc.toc();     // 生成侧栏标题目录
   $('body').scrollspy({ target: '#toc' }); // 开启滚动监听
-  // 调整侧栏位置
-  $(window).bind("scroll", function(){
+  $(window).bind("scroll", function(){// 调整侧栏位置
     var osTop = $(document).scrollTop();
     if(osTop <= 110){
       toc.css('top', (190 - osTop) + 'px');
@@ -102,7 +101,6 @@ $(document).ready(function() {
       toc.css('top', '80px');
     }
   });
-
 });
 /* 
  * 生成回到顶部按钮
