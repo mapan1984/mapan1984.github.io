@@ -91,11 +91,8 @@
 })(jQuery);
 $(document).ready(function() {
   var toc = $('#toc');
-
   toc.toc();     // 生成侧栏标题目录
-
   $('body').scrollspy({ target: '#toc' }); // 开启滚动监听
-
   // 调整侧栏位置
   $(window).bind("scroll", function(){
     var osTop = $(document).scrollTop();
