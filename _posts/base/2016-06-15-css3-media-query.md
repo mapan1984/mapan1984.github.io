@@ -13,43 +13,44 @@ tags: [css]
 
 ### 基本语法
 
-1. 外联css语法
+#### 1.外联css语法
 
-    ``` css
-    /*link.css*/
+``` css
+/*link.css*/
+body {
+  background: red;
+}
+```
+
+``` html
+/*demo.html*/
+<html>
+<head>
+  <link type="text/css" rel="stylesheet" href="link.css" media="only screen and (max-width: 480px)"/>
+</head>
+<body>
+
+</body>
+</html>
+```
+
+#### 2.内嵌样式的语法
+
+``` html
+<html>
+<head>
+  <link type="text/css" rel="stylesheet" href="link.css" media="only screen and (max-width: 480px)"/>
+  <style>
+  @media screen and (min-width: 480px){
     body {
-      background: red;
+      background: blue;
     }
-    ```
-    ``` html
-    /*demo.html*/
-    <html>
-    <head>
-      <link type="text/css" rel="stylesheet" href="link.css" media="only screen and (max-width: 480px)"/>
-    </head>
-    <body>
-    
-    </body>
-    </html>
-    ```
+  }
+  </style>
+</head>
+<body>
 
-2. 内嵌样式的语法
+</body>
+</html>
 
-    ``` html
-    <html>
-    <head>
-      <link type="text/css" rel="stylesheet" href="link.css" media="only screen and (max-width: 480px)"/>
-      <style>
-      @media screen and (min-width: 480px){
-        body {
-          background: blue;
-        }
-      }
-      </style>
-    </head>
-    <body>
-    
-    </body>
-    </html>
-    
-    ```
+```
