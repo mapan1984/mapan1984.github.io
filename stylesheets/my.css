@@ -45,30 +45,53 @@ div.page-header div.post-date {
     float: right;
     margin-top: -18px;
 }
-div.post-body {
-    width: 70%;
-    float: left;
-    margin: 16px 0px 0px 0px;
-    padding: 8px;
-    border-top: 1px solid #e0e0e0;
-    border-bottom: 1px solid #e0e0e0;
+@media (min-width: 768px){
+    div.post-body {
+        width: 70%;
+        float: left;
+        margin: 16px 0px 0px 0px;
+        padding: 8px;
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    div.post-body div.post-content:hover {
+        background-color: #f0f0f0;
+    }
+    div.post-body div.post-turn {
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+        margin: 0 auto;
+    }
+    div.post-tip {
+        display: block;
+        width: 20%;
+        float: right;
+        margin: 0 0 0 15px;
+    }
 }
-div.post-body div.post-content:hover {
-    background-color: #f0f0f0;
-}
-div.post-body div.post-turn {
-    border-top: 1px solid #e0e0e0;
-    border-bottom: 1px solid #e0e0e0;
-    margin: 0 auto;
-}
-div.post-tip {
-    width: 20%;
-    float: right;
-    margin: 0 0 0 20px;
+@media (max-width: 768px){
+    div.post-body {
+        width: 100%;
+        margin: 16px 0px 0px 0px;
+        padding: 8px;
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    div.post-body div.post-content:hover {
+        background-color: #f0f0f0;
+    }
+    div.post-body div.post-turn {
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+        margin: 0 auto;
+    }
+    div.post-tip {
+        display: none;
+    }
 }
 #toc {
     position: fixed;
-    top: 190;
+    top: 190px;
 }
 .anchor {
     padding-top: 50px;
@@ -97,7 +120,7 @@ div.post-tip {
     margin: 0px 20px;
     position: absolute;
     right: 20px;
-    top: 60;
+    top: 60px;
 }
 #all-posts-tip a{
     margin: 3px;

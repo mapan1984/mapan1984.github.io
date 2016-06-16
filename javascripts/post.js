@@ -1,4 +1,5 @@
 //生成侧栏 https://github.com/ghiculescu/jekyll-table-of-contenteeees
+//为 $ 绑定toc函数
 (function($){
   $.fn.toc = function(options) { // bind toc fun to $
     var defaults = {
@@ -84,22 +85,28 @@
         window.location.hash = '';
       });
     }
-
     render[settings.showEffect]();
   };
 })(jQuery);
+
 $(document).ready(function() {
-  $('#toc').toc(); // 生成侧栏标题目录
+  var toc = $('#toc');
+  toc.toc();     // 生成侧栏标题目录
   $('body').scrollspy({ target: '#toc' }); // 开启滚动监听
+  $(window).bind("scroll", function(){// 调整侧栏位置
+    var osTop = $(document).scrollTop();
+    if(osTop <= 110){
+      toc.css('top', (190 - osTop) + 'px');
+    }else{
+      toc.css('top', '80px');
+    }
+  });
 });
 /* 
- * 生成回到顶部
- * 调整侧栏位置
- * 页面加载完触发
+ * 生成回到顶部按钮
  */
 window.onload = function(){
   var obtn = document.getElementById('back-to-top'); // 回到顶部按钮
-  var toc = document.getElementById('toc'); // 侧栏目录
 
   //获取页面可视区的高度
   clientHeight = document.documentElement.clientHeight;
@@ -109,12 +116,6 @@ window.onload = function(){
 
   window.onscroll = function(){
     var osTop = document.documentElement.scrollTop || document.body.scrollTop;
-
-    if(osTop < 110){ // 调整侧栏位置
-      toc.style.top=190 - osTop + 'px';
-    }else{
-      toc.style.top='80px';
-    }
 
     if (osTop >= clientHeight){
       obtn.style.display="block";//显示按钮
