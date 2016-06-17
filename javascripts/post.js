@@ -90,86 +90,81 @@
 })(jQuery);
 
 $(document).ready(function() {
-  var toc = $('#toc');
-  toc.toc();     // 生成侧栏标题目录
-  $('body').scrollspy({ target: '#toc' }); // 开启滚动监听
-  $(window).bind("scroll", function(){// 调整侧栏位置
-    var osTop = $(document).scrollTop();
+  var toc = $('#toc');                      // dom侧栏
+  toc.toc();                                // fun生成侧栏标题目录
+  $('body').scrollspy({ target: '#toc' });  // fun开启滚动监听
+  $(window).bind("scroll", function(){      // fun调整侧栏位置
+    var osTop = $(document).scrollTop();    // num获取滚动条距离顶部的高度
     if(osTop <= 110){
       toc.css('top', (190 - osTop) + 'px');
     }else{
       toc.css('top', '80px');
     }
   });
-});
-/* 
- * 生成回到顶部按钮
- */
-window.onload = function(){
-  var obtn = document.getElementById('back-to-top'); // 回到顶部按钮
 
-  //获取页面可视区的高度
-  clientHeight = document.documentElement.clientHeight;
-
-  var timer = null;
-  var isTop = true;
-
-  window.onscroll = function(){
-    var osTop = document.documentElement.scrollTop || document.body.scrollTop;
-
-    if (osTop >= clientHeight){
-      obtn.style.display="block";//显示按钮
-    }else {
-      obtn.style.display="none";//隐藏按钮
+  //(function(){  // fun点击button展开评论
+    var disBtn = document.getElementById('show-dis');        // dom评论按钮
+    var disPan = document.getElementById('disqus_thread');   // dom评论区域
+    var notLoad = true;
+    var hasShowed = false;
+    disBtn.onclick = function(){
+      if(notLoad){
+        //{{ act加载评论
+        var s = document.createElement('script');
+        s.src = '//skkmp.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (document.head || document.body).appendChild(s);
+        //}} 
+        notLoad = false;
+        hasShowed = true;
+        disBtn.innerText = '收起评论';
+      }else{
+        if(hasShowed){
+          disPan.style.display = 'none';
+          disBtn.innerText = '展开评论';
+          hasShowed = false;
+        }else{
+          disPan.style.display = 'block';
+          disBtn.innerText = '收起评论';
+          hasShowed = true;
+        }
+      }
     }
+  //})();
 
-    if (!isTop){
-      clearInterval(timer);
-    }
-    isTop = false;
-  }
+  //(function(){  // fun生成回到顶部按钮
+    var obtn = document.getElementById('back-to-top');    // dom回到顶部按钮
+    clientHeight = document.documentElement.clientHeight; // num获取页面可视区的高度
 
-  obtn.onclick = function(){
-    //设置定时器
-    timer = setInterval(function(){
-      //获取滚动条距离顶部的高度
-      var osTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var atTop = true;
+    window.onscroll = function(){
+      var osTop = $(document).scrollTop();   // num获取滚动条距离顶部的高度
 
-      var ispeed = Math.floor(-osTop / 6);
-      document.documentElement.scrollTop = document.body.scrollTop = osTop +ispeed;
+      if (osTop >= clientHeight){
+        obtn.style.display="block";  // act显示按钮
+      }else {
+        obtn.style.display="none";   // act隐藏按钮
+      }
 
-      isTop = true;
-      //console.log(osTop -ispeed);
-      if (osTop == 0){
+      if (!atTop){  // act点击按钮后，如有滚动，则清空定时器
         clearInterval(timer);
       }
-    },30);
-  }
-}
-// button 点击展开评论
-var disBtn = document.getElementById('show-dis'); // 评论按钮
-var disPan = document.getElementById('disqus_thread');
-var notLoad = true;
-var hasDised = false;
-function showDis(){
-  if(notLoad){
-    var s = document.createElement('script');
-    s.src = '//skkmp.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (document.head || document.body).appendChild(s);
-
-    notLoad = false;
-    hasDised = true;
-    disBtn.innerText = '收起评论';
-  }else{
-    if(hasDised){
-      disPan.style.display = 'none';
-      disBtn.innerText = '展开评论';
-      hasDised = false;
-    }else{
-      disPan.style.display = 'block';
-      disBtn.innerText = '收起评论';
-      hasDised = true;
+      atTop = false;
     }
-  }
-}
+
+    var timer = null;
+    obtn.onclick = function(){
+      timer = setInterval(function(){ // act设置定时器
+        var osTop = $(document).scrollTop();
+
+        var ispeed = Math.floor(-osTop / 6);
+        document.documentElement.scrollTop = document.body.scrollTop = osTop +ispeed;
+        atTop = true;
+        //console.log(osTop -ispeed);
+        if (osTop == 0){
+          clearInterval(timer);
+        }
+      },30);
+    }
+  //})();
+});
