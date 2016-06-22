@@ -93,6 +93,7 @@ $(document).ready(function() {
   var toc = $('#toc');                      // dom侧栏
   toc.toc();                                // fun生成侧栏标题目录
   $('body').scrollspy({ target: '#toc' });  // fun开启滚动监听
+
   $(window).bind("scroll", function(){      // fun调整侧栏位置
     var osTop = $(document).scrollTop();    // num获取滚动条距离顶部的高度
     if(osTop <= 110){
@@ -133,38 +134,17 @@ $(document).ready(function() {
   //})();
 
   //(function(){  // fun生成回到顶部按钮
-    var obtn = document.getElementById('back-to-top');    // dom回到顶部按钮
-    clientHeight = document.documentElement.clientHeight; // num获取页面可视区的高度
-
-    var atTop = true;
-    window.onscroll = function(){
-      var osTop = $(document).scrollTop();   // num获取滚动条距离顶部的高度
-
-      if (osTop >= clientHeight){
-        obtn.style.display="block";  // act显示按钮
-      }else {
-        obtn.style.display="none";   // act隐藏按钮
-      }
-
-      if (!atTop){  // act点击按钮后，如有滚动，则清空定时器
-        clearInterval(timer);
-      }
-      atTop = false;
-    }
-
-    var timer = null;
-    obtn.onclick = function(){
-      timer = setInterval(function(){ // act设置定时器
-        var osTop = $(document).scrollTop();
-
-        var ispeed = Math.floor(-osTop / 6);
-        document.documentElement.scrollTop = document.body.scrollTop = osTop +ispeed;
-        atTop = true;
-        //console.log(osTop -ispeed);
-        if (osTop == 0){
-          clearInterval(timer);
+    var obtn = $('#back-to-top');
+    obtn.on('click', function(){
+        $('html, body').animate({scrollTop: 0}, 800)
+    });
+    $(window).on('scroll', function(){
+        if($(window).scrollTop() > $(window).height()){
+            obtn.fadeIn();
+        }else{
+            obtn.fadeOut();
         }
-      },30);
-    }
+    });
+    $(window).trigger('scroll');
   //})();
 });
