@@ -115,7 +115,6 @@ div.post-body div.post-content {
 #back-to-top {
     position: fixed;
     bottom:30px; 
-    display:none;
 }
 /*allposts*/
 #all-posts-tip {
