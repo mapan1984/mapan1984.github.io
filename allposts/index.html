@@ -27,7 +27,7 @@ title: all posts
     </ul>
   </div>
 </div>
-{% include js.html %}
+<script src="/javascripts/jquery-bootstrap.min.js"></script>
 <script>
 $(document).ready(function (){
   var postsTip = $('#all-posts-tip');
@@ -35,5 +35,6 @@ $(document).ready(function (){
     var osTop = $(document).scrollTop();
     postsTip.css('top', (osTop + 60) + 'px');
   });
+  $(window).trigger('scroll');
 });
 </script>

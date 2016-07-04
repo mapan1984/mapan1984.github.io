@@ -1,7 +1,7 @@
 ---
 title: vim Script Tips
-categories: [Base]
-tags: [Vim]
+categories: [Manual]
+tags: [vim]
 ---
 
 * execute命令用来把一个字符串当作Vimscript命令执行。

@@ -1,6 +1,6 @@
 ---
 title: python3 Tips
-categories: [Base]
+categories: [Manual]
 tags: [Python]
 ---
 
