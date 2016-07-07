@@ -37,13 +37,13 @@ for value in generator():
     pritn(value)
 ```
 
-等价于使用`generator.next()`:
+等价于使用`next(generator)`:
 
 ``` python
 it = generator()
 while True:
     try:
-        print(it.next())
+        print(next(it))
     except StopIteration:
         break
 ```
@@ -59,7 +59,7 @@ while True:
         break
 ```
 
-即`generator.next()`相当于`generator.send(None)`, 而且`send`函数可以给`generator`传递参数
+即`next(generator)`相当于`generator.send(None)`, 而且`send`函数可以给`generator`传递参数
 
 {% highlight python linenos %}
 def generator():
