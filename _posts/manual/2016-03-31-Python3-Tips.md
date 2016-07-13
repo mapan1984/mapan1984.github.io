@@ -61,7 +61,7 @@ finally:
 
 ```
 
-### 列表生成式
+### List Comprehension
 
 ``` python
 [x*x for x in range(0, 10)]
@@ -88,7 +88,7 @@ def getidlist():
 ```
 
 
-### generator生成式
+### Generator Expression
 
 将列表生成式的[]换为()
 
@@ -176,12 +176,15 @@ list(r)
 
 3. Iterator = filter(fn, Iterable)
 
+Construct an iterator from those elements of iterable for which function returns true
+
 ``` python
 def is_odd(n):
     return n % 2 == 1
 
 list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
 # 结果: [1, 5, 9, 15]
+#(item for item in iterable if fn(item))
 ```
 
 4. lambda
@@ -193,7 +196,7 @@ lambda x: x * x
 ### 变量命名
 
 1. 实例的私有变量(private)以双下划线开头，只能内部访问，如`__name`, 一般内部访问为`self.__name`
-    *一般在外部可用`_类名__name`访问*
+    *一般在外部可用`_类名__name`访问, 通过`dir(类名)`可以查看到*
 2. 以双下划线开头和结尾的变量为特殊变量，不是私有变量，外部可访问，如`__name__`
 3. 以单下划线开头的变量可以外部访问，但其约定为私有变量，如`_name`
 
@@ -269,9 +272,10 @@ def change_it(n):
     1. 可以直接使用`1<x<9`
     2. `is`、`is not`
     3. `in`、`not in`
-3. `return 1, 2, 3`或`yield 1, 2, 3`会返回元组`(1, 2, 3)`，长度任意
-4. ("spam " "eggs") == "spam eggs"
-5. 文本以str类型表示，二进制数据以bytes类型表示
+3. `1, 2, 3 ....`不用加括号，即为tuple，所以可以使用`return 1, 2, 3`或`yield 1, 2, 3`会返回tuple`(1, 2, 3)`，长度任意，同时可实现`a, b = b, a`完成交换
+4. ("spam " "eggs") == "spam eggs"，可以用来将长字符串分割为多行
+5. `x if x<y else y`等同于C中`x<y ? x:y`
+6. 文本以str类型表示，二进制数据以bytes类型表示
 
            --> encdoe('utf-8') --> 
           /                       \
@@ -279,10 +283,10 @@ def change_it(n):
           \                       /
            <-- decode('utf-8') <--
 
-6. 使用`\\`分割过长的行（Python在分割的第一行，vimscript在分割的第二行）
-7. docstring:
+7. 使用`\\`分割过长的行（Python在分割的第一行，vimscript在分割的第二行）
+8. docstring:
     1. """triple  double  quotes"""
     2. Use  r"""raw  triple double  quotes"""   if you use any backslashes in your docstrings
     3. For Unicode docstrings, use  u"""Unicode   triple-quoted   strings"""
-8. 我的Python安装目录为`D:\Python35\\`第三方扩展安装目录为`D:\Python35\Lib\site-packages`
-9. `python3 -m http.server 8080`
+9. 我的Python安装目录为`D:\Python35\\`第三方扩展安装目录为`D:\Python35\Lib\site-packages`
+10. `python3 -m http.server 8080`
