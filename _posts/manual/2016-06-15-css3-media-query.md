@@ -1,6 +1,6 @@
 ---
 title: css3 media query
-categories: [Base]
+categories: [Manual]
 tags: [css]
 ---
 

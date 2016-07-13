@@ -1,3 +1,9 @@
+---
+title: vim Script Tips
+categories: [Manual]
+tags: [vim]
+---
+
 * execute命令用来把一个字符串当作Vimscript命令执行。
 * normal命令简单地接受一串键值并当作是在normal模式下输入的。
 * normal!可以避免执行映射，在写Vim脚本时，你应该总是使用normal!，永不使用normal。不要信任用户在~/.vimrc中的映射。

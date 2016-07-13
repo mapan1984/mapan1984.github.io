@@ -1,13 +1,11 @@
-//生成侧栏 https://github.com/ghiculescu/jekyll-table-of-contenteeees
-//为 $ 绑定toc函数
 (function($){
   $.fn.toc = function(options) { // bind toc fun to $
     var defaults = {
-      noBackToTopLinks: false,
+      noBackToTopLinks: true,
       title: '<span class="label label-info">文章目录</span>',
       minimumHeaders: 2,
       headers: 'h1, h2, h3, h4, h5, h6',
-      listType: 'ul', // values: [ol|ul]
+      listType: 'ol', // values: [ol|ul]
       showEffect: 'show', // values: [show|slideDown|fadeIn|none]
       showSpeed: 'slow' // set to 0 to deactivate effect
     },
@@ -56,7 +54,7 @@
       }
     })
     .addClass('clickable-header')
-    .addClass('anchor')
+    //.addClass('anchor')
     .each(function(_, header) {
       this_level = get_level(header);
       if (!settings.noBackToTopLinks && this_level === highest_level) {
@@ -81,7 +79,7 @@
     html += "</"+settings.listType+">";
     if (!settings.noBackToTopLinks) {
         $(document).on('click', '.back-to-top', function() {
-        $(window).scrollTop(0);
+        $(window).scrollTop(-70);
         window.location.hash = '';
       });
     }
@@ -102,7 +100,7 @@ $(document).ready(function() {
       toc.css('top', '80px');
     }
   });
-
+  
   //(function(){  // fun点击button展开评论
     var disBtn = document.getElementById('show-dis');        // dom评论按钮
     var disPan = document.getElementById('disqus_thread');   // dom评论区域
