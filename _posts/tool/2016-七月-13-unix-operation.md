@@ -1,47 +1,22 @@
-### 文件系统
+### 缩写  
 
 cd "Change (working) Dir"
 pwd "Print Working Dir"
 
+### 文件系统
+
     $ ls -l a.txt
     -rw-r--r-- 1 mapan mapan 327 Jun  6 22:53 a.txt
 
-1. file type
-
-        -: file
-        l: sym link
-        d: directory
-        ...: ...
-
-2. user-permission
-
-        rw-: owner file mode
-        r--: group file mode
-        r--: world file mode
-
-3. link number
-
-        1 link number
-
-4. owner
-
-        mapan
-
-5. group
-
-        mapan
-
-6. size in byte
-
-        327
-
-7. last modify time
-
-        Jun 6 22:53 
-
-8. file name
-
-        a.txt
+-----------------------------------------------------------------------------------------------------------------------------------
+file type         |       user-permission       |  link number       | owner  | group | size in byte | last modify time | file name
+------------------+-----------------------------+--------------------+--------+-------+--------------+------------------+----------
+-: file           |     rw-: owner file mode    |  1: link number    | mapan  | mapan | 327          | Jun 6 22:53      | a.txt
+l: sym link       |     r--: group file mode    |                    |        |       |              |                  |
+d: directory      |     r--: world file mode    |                    |        |       |              |                  |
+c: char device    |                             |                    |        |       |              |                  |
+b: block device   |                             |                    |        |       |              |                  |
+------------------+-----------------------------+--------------------+--------+-------+--------------+------------------+-----------
 
 ### file permission
 
@@ -59,7 +34,7 @@ pwd "Print Working Dir"
 
 ### change file mode
 
-    $ chmod 666 a.txt    # chmod 110110110 a.txt
+    $ chmod 666 a.txt       # chmod 110110110 a.txt
     $ ls -l a.txt
     -rw-rw-rw- 1 mapan mapan 327 Jun  6 22:55 a.txt
 
@@ -114,6 +89,7 @@ ctrl+q 恢复输出
 ctrl+d 注销/终止
 ctrl+h 删除一个字符
 ctrl+l 清屏
+crrl+z 
 
 ## windows
 
