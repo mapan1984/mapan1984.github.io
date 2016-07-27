@@ -1,3 +1,9 @@
+---
+title: Unix Operation
+categories: [Tool]
+tags: [Unix]
+---
+
 ### 缩写  
 
 cd "Change (working) Dir"
@@ -90,6 +96,11 @@ ctrl+d 注销/终止
 ctrl+h 删除一个字符
 ctrl+l 清屏
 crrl+z 
+
+alt-f 向前移动一个词
+alt-b
+ctrl-f 向前移动一个字符
+ctrl-b
 
 ## windows
 

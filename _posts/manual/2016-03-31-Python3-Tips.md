@@ -283,10 +283,10 @@ def change_it(n):
           \                       /
            <-- decode('utf-8') <--
 
-7. 使用`\\`分割过长的行（Python在分割的第一行，vimscript在分割的第二行）
+7. 使用 \ 分割过长的行（Shell Script、Python在分割的第一行，vimscript在分割的第二行）
 8. docstring:
     1. """triple  double  quotes"""
     2. Use  r"""raw  triple double  quotes"""   if you use any backslashes in your docstrings
     3. For Unicode docstrings, use  u"""Unicode   triple-quoted   strings"""
-9. 我的Python安装目录为`D:\Python35\\`第三方扩展安装目录为`D:\Python35\Lib\site-packages`
+9. 我的Python安装目录为`D:\Python35`第三方扩展安装目录为`D:\Python35\Lib\site-packages`
 10. `python3 -m http.server 8080`
