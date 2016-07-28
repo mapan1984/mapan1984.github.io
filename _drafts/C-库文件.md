@@ -6,6 +6,37 @@ TAGS: [C]
 
 ### C语言编译过程
 
+以gcc编译器为例：
+
+编辑:
+
+    $ file main.c
+    main.c: ASCII C program text
+
+预处理: 
+
+    $ gcc main.c -E -o main.i
+    $ file main.i
+    main.i: UTF-8 Unicode C program text
+
+编译: 
+
+    $ gcc main.i -S -o main.s
+    $ file main.s
+    main.s: ASCII assembler program text
+
+汇编: 
+
+    $ gcc main.s -c -o main.o
+    $ file main.o
+    main.o: ELF 32-bit LSB relocatable, Intel 80386, version 1 (SYSV), not stripped
+
+链接: 
+
+    $ gcc main.o -o main
+    $ file main
+    main: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shaed libs), for GUN/Linux 2.6.18, not stripped
+
 无论是C、C++、还是pas，首先要把源文件编译成中间代码文件，在Windows下也就是 .obj 文件，UNIX下是 .o 文件，即 Object File，这个动作叫做编译（compile）。然后再把大量的Object File合成执行文件，这个动作叫作链接（link）。
 
 编译时，编译器需要的是语法的正确，函数与变量的声明的正确。对于后者，通常是你需要告诉编译器头文件的所在位置（头文件中应该只是声明，而定义应该放在C/C++文件中），只要所有的语法正确，编译器就可以编译出中间目标文件。一般来说，每个源文件都应该对应于一个中间目标文件（O文件或是OBJ文件）。

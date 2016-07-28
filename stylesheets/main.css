@@ -1,0 +1,350 @@
+@charset "UTF-8";
+/*
+ * Our Globals variables
+ */
+/*
+ * Globals
+ */
+body {
+  font-family: "Microsoft YaHei", Georgia, "Times New Roman", Times, serif;
+  color: #555;
+  background-color: rgba(247, 247, 247, 0.4); }
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333; }
+
+/*
+ * post-list
+ */
+ul.posts {
+  list-style-type: none;
+  padding: 1px;
+  margin: 0px 5px 0px 5px;
+  border-top: 1px solid #e0e0e0; }
+  ul.posts > li.post {
+    padding: 8px;
+    min-height: 24px;
+    border-bottom: 1px solid #e0e0e0; }
+    ul.posts > li.post:hover {
+      background-color: #f0f0f0; }
+    ul.posts > li.post > div.post-date {
+      float: right; }
+
+/*
+ * tags-buttons
+ */
+div.tags-buttons {
+  width: 30%;
+  margin-top: 10px;
+  margin-bottom: 10px; }
+  div.tags-buttons a {
+    margin: 3px; }
+
+/*
+ * profile
+ */
+div.profile {
+  min-height: 260px; }
+  div.profile svg {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    vertical-align: middle; }
+    div.profile svg path {
+      fill: #828282; }
+
+/*
+ * post header, body, tip
+ */
+div.post-header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0; }
+  div.post-header > div.post-title {
+    margin-top: 30px;
+    margin-bottom: 0;
+    font-size: 60px;
+    font-weight: normal; }
+  div.post-header > div.post-tags {
+    float: right;
+    margin-top: -40px;
+    font-weight: bold; }
+  div.post-header > div.post-date {
+    float: right;
+    margin-top: -18px; }
+
+div.post-body {
+  margin: 5px;
+  padding: 8px;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0; }
+  div.post-body > div.post-content {
+    margin-top: 55px;
+    /*为了抵消文章标题带来的偏移（margin/padding）*/
+    line-height: 1.75;
+    font-size: 16px; }
+    div.post-body > div.post-content:hover {
+      background-color: #f0f0f0; }
+    div.post-body > div.post-content .clickable-header {
+      /* 所有的标题 */
+      padding-top: 55px;
+      margin-top: -55px;
+      color: #3776ab; }
+  div.post-body > div.post-turn {
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    margin: 0 auto; }
+
+@media (min-width: 768px) {
+  div.post-body {
+    width: 70%;
+    float: left; }
+
+  div.post-tip {
+    display: block;
+    width: 20%;
+    float: right;
+    margin-left: 15px; } }
+@media (max-width: 768px) {
+  div.post-body {
+    width: 100%; }
+
+  div.post-tip {
+    display: none; } }
+#toc {
+  position: fixed;
+  padding: 2px;
+  top: 190px; }
+  #toc > span {
+    position: relative;
+    bottom: 10px; }
+
+#back-to-top {
+  position: fixed;
+  bottom: 30px; }
+
+/*
+ * allposts
+ */
+#all-posts-tip {
+  width: 40%;
+  margin: 0px 20px;
+  position: absolute;
+  right: 20px;
+  top: 60px; }
+  #all-posts-tip a {
+    margin: 3px; }
+
+div.all-posts {
+  width: 50%;
+  float: left; }
+
+/*
+ * Syntax highlighting styles
+ */
+.highlight {
+  background-color: #f7f7f7; }
+  .highlight code {
+    font-family: Consolas, "Microsoft YaHei", Georgia, "Times New Roman", Times, serif; }
+  .highlight span {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    /* Comment */
+    /* Error */
+    /* Keyword */
+    /* Operator */
+    /* Comment.Multiline */
+    /* Comment.Preproc */
+    /* Comment.Single */
+    /* Comment.Special */
+    /* Generic.Deleted */
+    /* Generic.Deleted.Specific */
+    /* Generic.Emph */
+    /* Generic.Error */
+    /* Generic.Heading */
+    /* Generic.Inserted */
+    /* Generic.Inserted.Specific */
+    /* Generic.Output */
+    /* Generic.Prompt */
+    /* Generic.Strong */
+    /* Generic.Subheading */
+    /* Generic.Traceback */
+    /* Keyword.Constant */
+    /* Keyword.Declaration */
+    /* Keyword.Pseudo */
+    /* Keyword.Reserved */
+    /* Keyword.Type */
+    /* Literal.Number */
+    /* Literal.String */
+    /* Name.Attribute */
+    /* Name.Builtin */
+    /* Name.Class */
+    /* Name.Constant */
+    /* Name.Entity */
+    /* Name.Exception */
+    /* Name.Function */
+    /* Name.Namespace */
+    /* Name.Tag */
+    /* Name.Variable */
+    /* Operator.Word */
+    /* Text.Whitespace */
+    /* Literal.Number.Float */
+    /* Literal.Number.Hex */
+    /* Literal.Number.Integer */
+    /* Literal.Number.Oct */
+    /* Literal.String.Backtick */
+    /* Literal.String.Char */
+    /* Literal.String.Doc */
+    /* Literal.String.Double */
+    /* Literal.String.Escape */
+    /* Literal.String.Heredoc */
+    /* Literal.String.Interpol */
+    /* Literal.String.Other */
+    /* Literal.String.Regex */
+    /* Literal.String.Single */
+    /* Literal.String.Symbol */
+    /* Name.Builtin.Pseudo */
+    /* Name.Variable.Class */
+    /* Name.Variable.Global */
+    /* Name.Variable.Instance */
+    /* Literal.Number.Integer.Long */ }
+    .highlight span .c {
+      color: #999988;
+      font-style: italic; }
+    .highlight span .err {
+      color: #a61717;
+      background-color: #e3d2d2; }
+    .highlight span .k {
+      font-weight: bold; }
+    .highlight span .o {
+      font-weight: bold; }
+    .highlight span .cm {
+      color: #999988;
+      font-style: italic; }
+    .highlight span .cp {
+      color: #999999;
+      font-weight: bold; }
+    .highlight span .c1 {
+      color: #999988;
+      font-style: italic; }
+    .highlight span .cs {
+      color: #999999;
+      font-weight: bold;
+      font-style: italic; }
+    .highlight span .gd {
+      color: #000000;
+      background-color: #ffdddd; }
+    .highlight span .gd .x {
+      color: #000000;
+      background-color: #ffaaaa; }
+    .highlight span .ge {
+      font-style: italic; }
+    .highlight span .gr {
+      color: #aa0000; }
+    .highlight span .gh {
+      color: #999999; }
+    .highlight span .gi {
+      color: #000000;
+      background-color: #ddffdd; }
+    .highlight span .gi .x {
+      color: #000000;
+      background-color: #aaffaa; }
+    .highlight span .go {
+      color: #888888; }
+    .highlight span .gp {
+      color: #555555; }
+    .highlight span .gs {
+      font-weight: bold; }
+    .highlight span .gu {
+      color: #aaaaaa; }
+    .highlight span .gt {
+      color: #aa0000; }
+    .highlight span .kc {
+      font-weight: bold; }
+    .highlight span .kd {
+      font-weight: bold; }
+    .highlight span .kp {
+      font-weight: bold; }
+    .highlight span .kr {
+      font-weight: bold; }
+    .highlight span .kt {
+      color: #445588;
+      font-weight: bold; }
+    .highlight span .m {
+      color: #009999; }
+    .highlight span .s {
+      color: #d14; }
+    .highlight span .na {
+      color: #008080; }
+    .highlight span .nb {
+      color: #0086B3; }
+    .highlight span .nc {
+      color: #445588;
+      font-weight: bold; }
+    .highlight span .no {
+      color: #008080; }
+    .highlight span .ni {
+      color: #800080; }
+    .highlight span .ne {
+      color: #990000;
+      font-weight: bold; }
+    .highlight span .nf {
+      color: #990000;
+      font-weight: bold; }
+    .highlight span .nn {
+      color: #555555; }
+    .highlight span .nt {
+      color: #000080; }
+    .highlight span .nv {
+      color: #008080; }
+    .highlight span .ow {
+      font-weight: bold; }
+    .highlight span .w {
+      color: #bbbbbb; }
+    .highlight span .mf {
+      color: #009999; }
+    .highlight span .mh {
+      color: #009999; }
+    .highlight span .mi {
+      color: #009999; }
+    .highlight span .mo {
+      color: #009999; }
+    .highlight span .sb {
+      color: #d14; }
+    .highlight span .sc {
+      color: #d14; }
+    .highlight span .sd {
+      color: #d14; }
+    .highlight span .s2 {
+      color: #d14; }
+    .highlight span .se {
+      color: #d14; }
+    .highlight span .sh {
+      color: #d14; }
+    .highlight span .si {
+      color: #d14; }
+    .highlight span .sx {
+      color: #d14; }
+    .highlight span .sr {
+      color: #009926; }
+    .highlight span .s1 {
+      color: #d14; }
+    .highlight span .ss {
+      color: #990073; }
+    .highlight span .bp {
+      color: #999999; }
+    .highlight span .vc {
+      color: #008080; }
+    .highlight span .vg {
+      color: #008080; }
+    .highlight span .vi {
+      color: #008080; }
+    .highlight span .il {
+      color: #009999; }
+
+/*# sourceMappingURL=main.css.map */

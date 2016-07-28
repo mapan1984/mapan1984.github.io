@@ -13,7 +13,7 @@ tags: [Shell]
         cmd_output=$(COMMANDS)
         cmd_output=`COMMANDS`
 
-保留命令输出的空格和和换行: `cmd_output="$(COMMANDS)"`，推荐使用`$(commands)`而不是`\`commands\``
+*保留命令输出的空格和和换行: `cmd_output="$(COMMANDS)"`*
 
 ### 比较
 
@@ -69,12 +69,11 @@ IFS的默认值为空白字符（换行符、制表符或者空格）
 
 ### 一般语句
 
-请将`; do`、`; then`和`while`、`for`、`if` 放在同一行。
-
 #### for
 
 ``` sh
-for var in list; do
+for var in list;
+do
     commands; # 使用var
 done
 
@@ -95,7 +94,8 @@ for((i=0;i<10;i++))
 #### while
 
 ``` sh
-while condition; do
+while condition
+do
     commands;
 done
 ```
@@ -167,7 +167,3 @@ result=$(expr $no1 + 5)
 ``` sh
 result=`echo "$no * 1.5" | bc`
 ```
-
-### 点滴
-
-1. `$@`表示所有参数分别被双引号包含，`$*`表示所有参数被一对双引号包含
