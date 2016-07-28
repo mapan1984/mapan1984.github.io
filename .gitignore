@@ -1,5 +1,6 @@
 _site
 .sass-cache
+*.map
 .jekyll-metadata
 
 Thumbs.db 
