@@ -1,14 +1,5 @@
 _site
 .sass-cache
-*.map
 .jekyll-metadata
-
-Thumbs.db 
-.DS_Store 
-
-!.gitkeep 
-
-.rbenv-version 
-.rvmrc 
-
+*.map
 *.un~

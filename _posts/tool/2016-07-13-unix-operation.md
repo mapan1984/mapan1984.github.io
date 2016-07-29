@@ -6,23 +6,23 @@ tags: [Unix]
 
 ### 缩写  
 
-cd "Change (working) Dir"
-pwd "Print Working Dir"
+* cd "Change (working) Dir"
+* pwd "Print Working Dir"
 
 ### 文件系统
 
     $ ls -l a.txt
     -rw-r--r-- 1 mapan mapan 327 Jun  6 22:53 a.txt
 
------------------------------------------------------------------------------------------------------------------------------------
-file type         |       user-permission       |  link number       | owner  | group | size in byte | last modify time | file name
-------------------+-----------------------------+--------------------+--------+-------+--------------+------------------+----------
--: file           |     rw-: owner file mode    |  1: link number    | mapan  | mapan | 327          | Jun 6 22:53      | a.txt
-l: sym link       |     r--: group file mode    |                    |        |       |              |                  |
-d: directory      |     r--: world file mode    |                    |        |       |              |                  |
-c: char device    |                             |                    |        |       |              |                  |
-b: block device   |                             |                    |        |       |              |                  |
-------------------+-----------------------------+--------------------+--------+-------+--------------+------------------+-----------
+    -----------------------------------------------------------------------------------------------------------------------------------
+    file type         |       user-permission       |  link number       | owner  | group | size in byte | last modify time | file name
+    ------------------+-----------------------------+--------------------+--------+-------+--------------+------------------+----------
+    -: file           |     rw-: owner file mode    |  1: link number    | mapan  | mapan | 327          | Jun 6 22:53      | a.txt
+    l: sym link       |     r--: group file mode    |                    |        |       |              |                  |
+    d: directory      |     r--: world file mode    |                    |        |       |              |                  |
+    c: char device    |                             |                    |        |       |              |                  |
+    b: block device   |                             |                    |        |       |              |                  |
+    ------------------+-----------------------------+--------------------+--------+-------+--------------+------------------+-----------
 
 ### file permission
 
@@ -88,23 +88,23 @@ b: block device   |                             |                    |        | 
 
 ### 组合键
 
-ctrl+u 删除当前光标前一行
-ctrl+k 删除当后光标前一行
-ctrl+s 终止输出
-ctrl+q 恢复输出
-ctrl+d 注销/终止
-ctrl+h 删除一个字符
-ctrl+l 清屏
-crrl+z 
+* ctrl+u 删除当前光标前一行
+* ctrl+k 删除当后光标前一行
+* ctrl+s 终止输出
+* ctrl+q 恢复输出
+* ctrl+d 注销/终止
+* ctrl+h 删除一个字符
+* ctrl+l 清屏
+* crrl+z 
 
-alt-f 向前移动一个词
-alt-b
-ctrl-f 向前移动一个字符
-ctrl-b
+* alt-f 向前移动一个词
+* alt-b
+* ctrl-f 向前移动一个字符
+* ctrl-b
 
 ## windows
 
-ipconfig
-ipconfig /all
-ipconfig /release
-ipconfig /renew
+* ipconfig
+* ipconfig /all
+* ipconfig /release
+* ipconfig /renew
