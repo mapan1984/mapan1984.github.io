@@ -1,11 +1,19 @@
+### yield from
+
+在Python中
+
+``` python
+yield from iterate()
+```
+
+相当于
+
 ``` python
 for value in iterate():
     yield value
-
-    ==
-
-yield from iterate()
 ```
+
+比如:
 
 ``` python
 def g1():
