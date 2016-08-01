@@ -16,6 +16,8 @@
 
 让我不再需要考虑购买域名和空间的[github pages](https://pages.github.com/)
 
+可以生成静态网页的[jekyll](https://jekyllrb.com/)
+
 前端渣的福利[Bootstrap](http://getbootstrap.com/)
 
 解决了评论问题[Disqus](https://disqus.com/)
