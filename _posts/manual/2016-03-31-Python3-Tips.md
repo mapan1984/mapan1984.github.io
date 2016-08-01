@@ -163,18 +163,14 @@ r = map(abs, [-x for x in range(10)])
 list(r)
 ```
 
-2. reduce
+map是常用generator expressions的另一种形式:
 
 ``` python
->>> from functools import reduce
->>> def add(x, y):
-...     return x + y
-...
->>> reduce(add, [1, 3, 5, 7, 9])
-25
+map(abs, [-x for x in range(10)])
+(abs(-x) for x in range(10))
 ```
 
-3. Iterator = filter(fn, Iterable)
+2. Iterator = filter(fn, Iterable)
 
 Construct an iterator from those elements of iterable for which function returns true
 
@@ -184,7 +180,21 @@ def is_odd(n):
 
 list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
 # 结果: [1, 5, 9, 15]
-#(item for item in iterable if fn(item))
+```
+
+``` python
+(item for item in iterable if fn(item))
+```
+
+3. reduce
+
+``` python
+>>> from functools import reduce
+>>> def add(x, y):
+...     return x + y
+...
+>>> reduce(add, [1, 3, 5, 7, 9])
+25
 ```
 
 4. lambda
