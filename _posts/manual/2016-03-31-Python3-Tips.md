@@ -279,7 +279,7 @@ def change_it(n):
 
            --> encdoe('utf-8') --> 
           /                       \
-        string                   bytes
+        str                      bytes
           \                       /
            <-- decode('utf-8') <--
 
