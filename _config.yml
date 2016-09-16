@@ -9,26 +9,46 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 
 
-sass:
-    sass_dir: _sass
-    style: compress
-
 # Build settings
 #
 ## markdown
 markdown: kramdown
-highlighter: rouge
+kramdown:
+  input: GFM
+  extensions:
+    - autolink
+    - footnotes
+    - smart
+  enable_coderay: true
+  syntax_highlighter: rouge
+  coderay:
+    coderay_line_numbers:  nil
+#markdown: redcarpet
+#redcarpet:
+#    extensions: ["fenced_code_blocks", "hard_wrap","autolink", "tables", 
+#        "strikethrough", "superscript", "with_toc_data", "highlight", 
+#        "prettify","no_intra_emphasis", "smart"]
+#
+## sass
+sass:
+  sass_dir: _sass
+  style: compress
 #
 ## paginator
 gems: [jekyll-paginate]
 paginate: 5
 paginate_path: "page:num"
 #
+## permalink
 permalink: pretty
-
-# server
+#
+## 只重建修改过的posts和pages
+# incremental: true
+#
+## server
 port: 5000
 host: 127.0.0.1
+
 
 # defaults
 defaults:
@@ -37,3 +57,28 @@ defaults:
       path: "_posts"
     values:
       layout: "post"
+  -
+    scope:
+      path: "_posts/manual"
+    values:
+      categories: ["Manual"]
+  -
+    scope:
+      path: "_posts/network"
+    values:
+      categories: ["Network"]
+  -
+    scope:
+      path: "_posts/program"
+    values:
+      categories: ["Program"]
+  -
+    scope:
+      path: "_posts/system"
+    values:
+      categories: ["System"]
+  -
+    scope:
+      path: "_posts/tool"
+    values:
+      categories: ["Tool"]
