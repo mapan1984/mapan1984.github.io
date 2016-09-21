@@ -14,15 +14,13 @@ tags: [Unix]
     $ ls -l a.txt
     -rw-r--r-- 1 mapan mapan 327 Jun  6 22:53 a.txt
 
-    -----------------------------------------------------------------------------------------------------------------------------------
-    file type         |       user-permission       |  link number       | owner  | group | size in byte | last modify time | file name
-    ------------------+-----------------------------+--------------------+--------+-------+--------------+------------------+----------
-    -: file           |     rw-: owner file mode    |  1: link number    | mapan  | mapan | 327          | Jun 6 22:53      | a.txt
-    l: sym link       |     r--: group file mode    |                    |        |       |              |                  |
-    d: directory      |     r--: world file mode    |                    |        |       |              |                  |
-    c: char device    |                             |                    |        |       |              |                  |
-    b: block device   |                             |                    |        |       |              |                  |
-    ------------------+-----------------------------+--------------------+--------+-------+--------------+------------------+-----------
+|     file type    |    user-permission     |  link number     | owner  | group | size in byte | last modify time | file name |
+| ---------------- |:----------------------:|:----------------:|:------:|:-----:|:------------:|:----------------:|:---------:|
+| -: file          |  rw-: owner file mode  |  1: link number  | mapan  | mapan | 327          | Jun 6 22:53      | a.txt     |
+| l: sym link      |  r--: group file mode  |                  |        |       |              |                  |           |
+| d: directory     |  r--: world file mode  |                  |        |       |              |                  |           |
+| c: char device   |                        |                  |        |       |              |                  |           |
+| b: block device  |                        |                  |        |       |              |                  |           |
 
 ### file permission
 
