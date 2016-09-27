@@ -1,19 +1,27 @@
 ---
-layout: default
 title: MaPan - Blog
 ---
 
-<p class="pull-right visible-xs">
-  <button class="btn-xs btn btn-primary">Toggle</button>
-</p>
-<div class="jumbotron">
-  <div class="container">
-    <h1>Share and Record</h1>
-    <p>The best time to plant a tree was 10 years ago, The second best time is now.</p>
-    <p><a class="btn btn-primary btn-lg" 
-          href="https://github.com/mapan1984/mapan1984.github.io" 
-          role="button">Learn more</a></p>
-  </div><!-- jumbotron -->
-</div><!-- container -->
-{{ content }}
-<script src="/javascripts/jquery-bootstrap.min.js"></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  {% include head.html %}
+</head>
+<body style="position: relative; padding-top: 45px;">
+  {% include nav.html %}
+  <p class="pull-right visible-xs">
+    <button class="btn-xs btn btn-primary">Toggle</button>
+  </p>
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Share and Record</h1>
+      <p>The best time to plant a tree was 10 years ago, The second best time is now.</p>
+      <p><a class="btn btn-primary btn-lg" 
+            href="https://github.com/mapan1984/mapan1984.github.io" 
+            role="button">Learn more</a></p>
+    </div><!-- jumbotron -->
+  </div><!-- container -->
+  {{ content }}
+  <script src="/javascripts/jquery-bootstrap.min.js"></script>
+</body>
+</html>
