@@ -15,7 +15,7 @@ tags: [Unix]
     -rw-r--r-- 1 mapan mapan 327 Jun  6 22:53 a.txt
 
 |     file type    |    user-permission     |  link number     | owner  | group | size in byte | last modify time | file name |
-| ---------------- |:----------------------:|:----------------:|:------:|:-----:|:------------:|:----------------:|:---------:|
+|:----------------:|:----------------------:|:----------------:|:------:|:-----:|:------------:|:----------------:|:---------:|
 | -: file          |  rw-: owner file mode  |  1: link number  | mapan  | mapan | 327          | Jun 6 22:53      | a.txt     |
 | l: sym link      |  r--: group file mode  |                  |        |       |              |                  |           |
 | d: directory     |  r--: world file mode  |                  |        |       |              |                  |           |
@@ -24,17 +24,10 @@ tags: [Unix]
 
 ### file permission
 
-1. dir
-    * r --- ls dir
-    * w --- create/delete/rename files in it
-    * x --- cd dir
-    * -
-
-2. file
-    * r --- cat file
-    * w --- file
-    * x --- ./a.sh
-    * - 
+|      |    r     |  w                               |    x   | - |
+|:----:|:--------:|:--------------------------------:|:------:|:-:|
+| dir  | ls dir   | create/delete/rename files in it | cd dir |   |
+| file | cat file | file                             | ./a.sh |   |
 
 ### change file mode
 
@@ -86,23 +79,22 @@ tags: [Unix]
 
 ### 组合键
 
-* ctrl+u 删除当前光标前一行
-* ctrl+k 删除当后光标前一行
-* ctrl+s 终止输出
-* ctrl+q 恢复输出
-* ctrl+d 注销/终止
-* ctrl+h 删除一个字符
-* ctrl+l 清屏
-* crrl+z 
-
-* alt-f 向前移动一个词
-* alt-b
-* ctrl-f 向前移动一个字符
-* ctrl-b
-
-## windows
-
-* ipconfig
-* ipconfig /all
-* ipconfig /release
-* ipconfig /renew
+|  key   |          操作               |
+|:------:|:---------------------------:|
+| ctrl+p |   Previous                  |
+| ctrl+n |   Next                      |
+| ctrl+a |   Start of line             |
+| ctrl+e |   End of line               |
+| ctrl+u |   Delet ot start of line    |
+| ctrl+k |   Delet to end of line      |
+| alt+f  |   向前移动一个词            |
+| alt+b  |                             |
+| ctrl+f |   向前移动一个字符          |
+| ctrl+b |                             |
+| ctrl+h |   删除一个字符              |
+| ctrl+l |   清屏                      |
+| ctrl+r |   增量搜索命令              |
+| crrl+z |                             |
+| ctrl+s |   终止输出                  |
+| ctrl+q |   恢复输出                  |
+| ctrl+d |   注销/终止                 |
