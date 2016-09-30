@@ -28,13 +28,16 @@ permalink: /allposts/
     </ul>
   </div>
 </div>
-<script src="/javascripts/jquery-bootstrap.min.js"></script>
 <script>
 $(document).ready(function (){
   var postsTip = $('#all-posts-tip');
   $(window).bind("scroll", function(){
     var osTop = $(document).scrollTop();
-    postsTip.css('top', (osTop + 60) + 'px');
+    if(osTop <= 300){
+      postsTip.css('top', (360) + 'px');
+    }else{
+      postsTip.css('top', (osTop + 60) + 'px');
+    }
   });
   $(window).trigger('scroll');
 });
