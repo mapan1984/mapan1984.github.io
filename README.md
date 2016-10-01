@@ -2,9 +2,9 @@
 
 ## Recording and Sharing
 
-我把它当成笔记本来用，用于整理记录自己的知识，所以很多内容只是知识点的罗列，没有起承转合，不太适合阅读学习(就像国内教材 ^_^ )，但对于我来说，可以方便的查询回顾。
+Recording: 我的笔记本
 
-如果不小心看到的话... [Share](http://mapan1984.github.io)
+[Share](http://mapan1984.github.io)
 
 ## Continuous Learning
 
@@ -14,10 +14,10 @@
 
 ## Thanks
 
-让我不再需要考虑购买域名和空间的[github pages](https://pages.github.com/)
+托管平台[github pages](https://pages.github.com/)
 
-可以生成静态网页的[jekyll](https://jekyllrb.com/)
+静态网站生成器[jekyll](https://jekyllrb.com/)
 
 前端渣的福利[Bootstrap](http://getbootstrap.com/)
 
-解决了评论问题[Disqus](https://disqus.com/)
+解决了评论问题[多说](http://duoshuo.com/)
