@@ -4,7 +4,7 @@
 
 Recording: 我的笔记本
 
-[Share](http://mapan1984.github.io)
+Share: [博客地址](http://mapan1984.github.io)
 
 ## Continuous Learning
 
@@ -14,10 +14,10 @@ Recording: 我的笔记本
 
 ## Thanks
 
-托管平台[github pages](https://pages.github.com/)
+托管平台: [github pages](https://pages.github.com/)
 
-静态网站生成器[jekyll](https://jekyllrb.com/)
+静态网站生成器: [jekyll](https://jekyllrb.com/)
 
-前端渣的福利[Bootstrap](http://getbootstrap.com/)
+前端渣的福利: [Bootstrap](http://getbootstrap.com/)
 
-解决了评论问题[多说](http://duoshuo.com/)
+解决了评论问题: [多说](http://duoshuo.com/)

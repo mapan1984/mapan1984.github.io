@@ -12,7 +12,7 @@ permalink: /allposts/
     <ul class="posts">
       {% for tag in site.tags %}
         <li id="{{ tag[0] }}"  style="padding-top: 50px;">
-          <span class="label label-primary">Tag: {{ tag[0] }}</span>                
+          <span class="label label-primary">Tag: {{ tag[0] }}</span>
         </li>
         {% for post in tag[1] %}
           <li class="post">

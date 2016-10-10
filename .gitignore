@@ -8,3 +8,7 @@ _site
 
 # vim
 *.un~
+
+# javascript
+.eslintrc.json
+jsconfig.json
