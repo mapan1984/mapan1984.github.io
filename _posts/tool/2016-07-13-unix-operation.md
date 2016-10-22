@@ -81,20 +81,22 @@ tags: [Unix]
 
 |  key   |          操作               |
 |:------:|:---------------------------:|
-| ctrl+p |   Previous                  |
-| ctrl+n |   Next                      |
-| ctrl+a |   Start of line             |
-| ctrl+e |   End of line               |
-| ctrl+u |   Delet ot start of line    |
-| ctrl+k |   Delet to end of line      |
-| alt+f  |   向前移动一个词            |
-| alt+b  |                             |
-| ctrl+f |   向前移动一个字符          |
-| ctrl+b |                             |
-| ctrl+h |   删除一个字符              |
-| ctrl+l |   清屏                      |
-| ctrl+r |   增量搜索命令              |
-| crrl+z |                             |
-| ctrl+s |   终止输出                  |
-| ctrl+q |   恢复输出                  |
-| ctrl+d |   注销/终止                 |
+| ctrl+p |  Previous                   |
+| ctrl+n |  Next                       |
+| ctrl+a |  Move to Start of line      |
+| ctrl+e |  Move to End of line        |
+| alt+f  |  向前移动一个词             |
+| alt+b  |  向后移动一个词             |
+| ctrl+f |  向前移动一个字符           |
+| ctrl+b |  向后移动一个字符           |
+| ctrl+u |  Delet to start of line     |
+| ctrl+k |  Delet to end of line       |
+| ctrl+d |  向前删除一个字符           |
+| ctrl+h |  向后删除一个字符           |
+| ctrl+w |  向后删除一个单词           |
+| ctrl+l |  清屏                       |
+| ctrl+r |  增量搜索历史命令           |
+| crrl+z |  与fg配合使用               |
+| ctrl+s |  终止输出                   |
+| ctrl+q |  恢复输出                   |
+| ctrl+d |  注销/终止(当前无命令字符时)|

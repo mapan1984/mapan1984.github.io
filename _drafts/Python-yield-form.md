@@ -27,3 +27,5 @@ def g2(g):
 for i in g2(g1()):
     print(i)
 ```
+
+yield from会把内嵌的generator输出作为当前generator输出的一部分

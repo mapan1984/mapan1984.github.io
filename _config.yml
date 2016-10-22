@@ -18,8 +18,8 @@ kramdown:
     - smart
   enable_coderay: true
   syntax_highlighter: rouge
-  coderay:
-    coderay_line_numbers: nil
+  syntax_highlighter_opts:
+    coderay_line_numbers: ''
 #markdown: redcarpet
 #redcarpet:
 #    extensions: ["fenced_code_blocks", "hard_wrap","autolink", "tables",
