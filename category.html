@@ -29,28 +29,34 @@ permalink: /category
     {% for category in site.categories %}
       {% if isfirst == 1 %}
         <div role="tabpanel" class="tab-pane fade in active" id="{{ category[0] }}">
-          {% for post in category[1] %}
-          <ul class="list-group">
-            <li class="list-group-item">
-              <a href="{{ post.url }}">
-                {{ post.title }} <span class="badge">{{ post.date | date:"%d/%m/%Y"}}</span>
-              </a>
-            </li>
+          <ul class="posts">
+            {% for post in category[1] %}
+              <li class="post">
+                <div class="post-date">
+                  {{ post.date | date_to_string }}
+                </div>
+                <div class="post-title">
+                  <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                </div>
+              </li>
+            {% endfor %}
           </ul>
-          {% endfor %}
         </div>
         {% assign isfirst = 0 %}
       {% else %}
         <div role="tabpanel" class="tab-pane fade" id="{{ category[0] }}">
-          {% for post in category[1] %}
-          <ul class="list-group">
-            <li class="list-group-item">
-              <a href="{{ post.url }}">
-                {{ post.title }} <span class="badge">{{ post.date | date:"%d/%m/%Y"}}</span>
-              </a>
-            </li>
+          <ul class="posts">
+            {% for post in category[1] %}
+              <li class="post">
+                <div class="post-date">
+                  {{ post.date | date_to_string }}
+                </div>
+                <div class="post-title">
+                  <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                </div>
+              </li>
+            {% endfor %}
           </ul>
-          {% endfor %}
         </div>
       {% endif %}
     {% endfor %}

@@ -20,4 +20,4 @@ Share: [博客地址](http://mapan1984.github.io)
 
 前端渣的福利: [Bootstrap](http://getbootstrap.com/)
 
-解决了评论问题: [多说](http://duoshuo.com/)
+评论: [多说](http://duoshuo.com/)

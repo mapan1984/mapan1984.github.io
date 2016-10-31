@@ -1,0 +1,108 @@
+---
+---
+/*
+ * Globals variables
+ */
+$base-font-family: "Microsoft YaHei", Georgia, "Times New Roman", Times, serif;
+$base-boder: 1px solid #e0e0e0;
+/*
+ * Base
+ */
+body {
+    font-family: $base-font-family;
+    color: #555;
+    background-color: rgba(247, 247, 247, 0.4);
+}
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+    font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+}
+a {
+    &:link, visited {
+        text-decoration: none;
+    }
+}
+table {
+    background-color: transparent;
+    font-size: 12px;
+    line-height: 1.2;
+    border: 1px solid #ddd;
+    border-spacing: 0px;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    > thead > tr > td, 
+    > thead > tr > th,
+    > tbody > tr > td, 
+    > tbody > tr > th, 
+    > tfoot > tr > td, 
+    > tfoot > tr > th {
+        padding: 8px;
+        line-height: 1.4285;
+        vertical-align: top;
+    }
+}
+/*
+ * post-list
+ */
+ul.posts {
+    list-style-type: none;
+    padding: 1px;
+    margin: 0px 5px 0px 5px;
+    border-top: $base-boder;
+
+    > li.post {
+        padding: 8px;
+        min-height: 24px;
+        border-bottom: $base-boder;
+
+        &:hover {
+            background-color: #f0f0f0;
+        }
+
+        > div.post-date {
+            float: right;
+        }
+    }
+}
+/*
+ * tags-buttons
+ */
+div.tags-buttons {
+    width: 30%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    a {
+        margin: 3px;
+    }
+}
+/*
+ * profile
+ */
+div.profile {
+    min-height: 260px;
+
+    svg {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        vertical-align: middle;
+
+        path {
+            fill: #828282;
+        }
+    }
+}
+// post page
+@import "post";
+@import "syntax-highlighting";
+
+// allposts page
+@import "all-posts";

@@ -6,17 +6,10 @@
     </div>
     <div class="col-md-9">
       <h1>MaPan1984</h1>
-
-      <p>
-        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-        <a href="http://cn.bing.com/ditu/?q=china">China</a>
-      </p>
-
       <p>
         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
         <a href="mailto:mapan1984@outlook.com">mapan1984@outlook.com</a>
       </p>
-
       {% if site.github_username %}
       <p>
         <a href="https://github.com/{{ site.github_username }}">
@@ -25,16 +18,19 @@
         </a>
       </p>
       {% endif %}
-
       <p>
-        <span class="glyphicon glyphicon-education" aria-hidden="true"></span>
-        <a href="https://www.bing.com/search?q=%e5%93%88%e5%b0%94%e6%bb%a8%e5%b7%a5%e7%a8%8b%e5%a4%a7%e5%ad%a6">HEU</a>
+        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+        <a href="http://cn.bing.com/ditu/?q=china">China</a>
       </p>
-
+      <p>
+        Education <a href="https://www.bing.com/search?q=%e5%93%88%e5%b0%94%e6%bb%a8%e5%b7%a5%e7%a8%8b%e5%a4%a7%e5%ad%a6">HEU</a>
+      </p>
       <p class="rss-subscribe">
-        Subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a>
+        <a href="{{ "/feed.xml" | prepend: site.baseurl }}">
+          <span class="icon icon--github">{% include icon-rss.svg %}</span>
+          subscribe via rss
+        </a>
       </p>
-
     </div>
   </div>
 </div>

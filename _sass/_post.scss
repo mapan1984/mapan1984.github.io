@@ -1,0 +1,100 @@
+/*
+ * post header, body, tip
+ */
+div.post-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: $base-boder;
+
+    > div.post-title {
+        margin-top: 30px;
+        margin-bottom: 0;
+        font-size: 60px;
+        font-weight: normal;
+    }
+
+    > div.post-tags {
+        float: right;
+        margin-top: -40px;
+        font-weight: bold;
+    }
+
+    > div.post-date {
+        float: right;
+        margin-top: -18px;
+    }
+}
+div.post-body {
+    margin: 5px;
+    padding: 8px;
+
+    border: {
+        top: $base-boder;
+        bottom: $base-boder;
+    }
+
+    > div.post-content {
+        margin-top: 55px; /*为了抵消文章标题带来的偏移（margin/padding）*/
+        line-height: 1.75;
+        font-size: 16px;
+
+        &:hover {
+            background-color: #f0f0f0;
+        }
+
+        .clickable-header {  /* 所有的标题 */
+            padding-top: 55px;
+            margin-top: -55px;
+            color:#3776ab;
+        }
+        table {
+            font-size: 12px;
+            line-height: 1.2;
+        }
+    }
+
+    > div.post-turn {
+        border: {
+            top: $base-boder;
+            bottom: $base-boder;
+        }
+        margin: 0 auto;
+    }
+}
+div.post-tip {
+    #toc {
+        position: fixed;
+        padding: 2px;
+        top: 190px;
+
+        > span {
+            position: relative;
+            bottom: 10px;
+        }
+    }
+    #back-to-top {
+        position: fixed;
+        bottom:30px;
+    }
+}
+// 控制post-body和post-tip的显示
+@media (min-width: 768px){
+    div.post-body {
+        width: 70%;
+        float: left;
+    }
+    div.post-tip {
+        display: block;
+        width: 20%;
+        float: right;
+        margin-left: 15px;
+    }
+}
+@media (max-width: 768px){
+    div.post-body {
+        width: 100%;
+    }
+    div.post-tip {
+        display: none;
+    }
+}
