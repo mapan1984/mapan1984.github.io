@@ -1,7 +1,6 @@
 ---
 title: C 库文件 
-categories: [linux]
-TAGS: [C]
+tags: [C]
 ---
 
 ### C语言编译过程

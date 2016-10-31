@@ -156,7 +156,7 @@ for n in Fib():
 
 ### 函数式常用方法
 
-1. Iterator = map(fn, Iterable)
+*1. Iterator = map(fn, Iterable)*
 
 ``` python
 r = map(abs, [-x for x in range(10)])
@@ -170,7 +170,7 @@ map(abs, [-x for x in range(10)])
 (abs(-x) for x in range(10))
 ```
 
-2. Iterator = filter(fn, Iterable)
+*2. Iterator = filter(fn, Iterable)*
 
 Construct an iterator from those elements of iterable for which function returns true
 
@@ -186,7 +186,7 @@ list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
 (item for item in iterable if fn(item))
 ```
 
-3. reduce
+*3. reduce*
 
 ``` python
 >>> from functools import reduce
@@ -197,7 +197,7 @@ list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
 25
 ```
 
-4. lambda
+*4. lambda*
 
 ``` python
 lambda x: x * x
@@ -209,6 +209,7 @@ lambda x: x * x
     *一般在外部可用`_类名__name`访问, 通过`dir(类名)`可以查看到*
 2. 以双下划线开头和结尾的变量为特殊变量，不是私有变量，外部可访问，如`__name__`
 3. 以单下划线开头的变量可以外部访问，但其约定为私有变量，如`_name`
+4. 如果与Python关键字或内置变量重名，在变量后加单下划线，如`name_`
 
 ### oop
 

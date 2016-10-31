@@ -1,6 +1,5 @@
 ---
 title: Python 利用metaclass实现ORM 
-categories: [linux]
 tags: [python, ORM]
 ---
 
