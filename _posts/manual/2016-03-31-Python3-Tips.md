@@ -24,7 +24,7 @@ def all_computers_refresh(func): # 定义装饰器，更新所有电脑信息
 @manage.route('/all_computers')
 @all_computers_refresh
 def all_computers():
-    return render_template('manage/all_computers.html', 
+    return render_template('manage/all_computers.html',
                            computer_list=Computer.query.all())
 ```
 
@@ -156,7 +156,7 @@ for n in Fib():
 
 ### 函数式常用方法
 
-*1. Iterator = map(fn, Iterable)*
+**1. Iterator = map(fn, Iterable)**
 
 ``` python
 r = map(abs, [-x for x in range(10)])
@@ -170,7 +170,7 @@ map(abs, [-x for x in range(10)])
 (abs(-x) for x in range(10))
 ```
 
-*2. Iterator = filter(fn, Iterable)*
+**2. Iterator = filter(fn, Iterable)**
 
 Construct an iterator from those elements of iterable for which function returns true
 
@@ -186,7 +186,7 @@ list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
 (item for item in iterable if fn(item))
 ```
 
-*3. reduce*
+**3. reduce**
 
 ``` python
 >>> from functools import reduce
@@ -197,7 +197,7 @@ list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
 25
 ```
 
-*4. lambda*
+**4. lambda**
 
 ``` python
 lambda x: x * x
@@ -227,15 +227,15 @@ lambda x: x * x
 4. 使用`@property`
 
         class Student(object):
-        
+
             @property
             def birth(self):
                 return self._birth
-        
+
             @birth.setter
             def birth(self, value):
                 self._birth = value
-        
+
             @property
             def age(self):
                 return 2015 - self._birth
@@ -288,7 +288,7 @@ def change_it(n):
 5. `x if x<y else y`等同于C中`x<y ? x:y`
 6. 文本以str类型表示，二进制数据以bytes类型表示
 
-           --> encdoe('utf-8') --> 
+           --> encdoe('utf-8') -->
           /                       \
         str                      bytes
           \                       /

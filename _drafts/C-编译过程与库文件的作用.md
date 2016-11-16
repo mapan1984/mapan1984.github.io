@@ -1,0 +1,80 @@
+---
+title: C 编译过程与库文件作用
+tags: [C]
+---
+
+### C语言编译过程
+
+    源文件(.H, .C)                                  .A/.SO
+          \                                            \
+           \________>预编译----->编译------>汇编----->链接
+                                                       / \
+                                                     .o   \_____>可执行文件
+                                                    .obj
+
+以gcc编译器为例：
+
+编辑后的C源文件:
+
+    $ file main.c
+    main.c: ASCII C program text
+
+预处理(cpp): 预处理将处理已`#`开头的的命令，例如如果源文件包含`#include <stdio.h>`,预处理其cpp会读取系统头文件stdio.h的内容，并把它直接插入的程序文本中。
+
+    $ gcc main.c -E -o main.i
+    $ file main.i
+    main.i: UTF-8 Unicode C program text
+
+编译(ccl): 编译器(ccl)将文本文件main.i翻译为文本文件main.s，它包含的是汇编语言程序。
+
+    $ gcc main.i -S -o main.s
+    $ file main.s
+    main.s: ASCII assembler program text
+
+汇编(as): 汇编器(as)将main.s翻译成机器语言指令，把这些指令打包成可充定位目标程序的格式，并将结果保存在目标文件main.o中。
+
+    $ gcc main.s -c -o main.o
+    $ file main.o
+    main.o: ELF 32-bit LSB relocatable, Intel 80386, version 1 (SYSV), not stripped
+
+链接(ld): 链接器(ld)将目标文件与其他目标文件链接，例如main程序中使用了函数printf，链接器负责把printf.o合并到main程序中，得到可执行目标文件main。
+
+    $ gcc main.o -o main
+    $ file main
+    main: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shaed libs), for GUN/Linux 2.6.18, not stripped
+
+### 目标文件(Object File)
+
+接下来我们将预处理、编译、汇编统称为编译，只考虑由.c文件编译为.o文件，由.o文件链接为可执行目标文件的过程。
+
+无论是C、还是C++，要生成可执行程序，首先要把源文件编译成中间目标文件，在Windows下也就是.obj文件，UNIX下是.o文件，即Object File。链接过程(link)负责把这些Object File合成可执行目标文件。
+
+编译时，编译器只考虑语法的正确、函数的声明与定义与调用是否匹配、变量的声明与定义与使用是否匹配(*即使被调用函数未被声明，也可以生成object file，编译器会给出一个警告，但是如果函数有声明、定义、调用，那么它们必须匹配，负责在编译阶段会报错，无法生成Object File*)。
+
+通常是你需要告诉编译器头文件的所在位置(头文件中应该只是声明，而定义应该放在C/C++文件中)，只要所有的语法正确，编译器就可以编译出中间目标文件。一般来说，每个源文件都应该对应于一个中间目标文件(o文件或是obj文件)。
+
+我们可以使用这些中间目标文件(o文件或是obj文件)来链接我们的应用程序。链接器并不管函数所在的源文件，只需要函数的中间目标文件(Object File)。链接器主要是链接函数和全局变量，在所有的Object File中寻找函数的实现，如果找不到，链接器会报错。
+
+在大多数时候，由于源文件太多，编译生成的中间目标文件太多，而在链接时需要明显地指出中间目标文件名，这对于编译很不方便，所以，我们要给中间目标文件打个包，在Windows下这种包叫“库文件”（Library File)，也就是 .lib 文件，在UNIX下，是Archive File，也就是 .a 文件。
+
+### 静态库(.A)
+
+静态库是指在链接过程中，将汇编生成的目标文件.o与库一起链接到可执行文件中，链接方式称为静态链接
+
+- 静态库对函数库的链接是放在编译时期完成的
+- 程序在运行时与函数库再无瓜葛，移植方便
+- 浪费空间和资源，因为所有相关的目标文件与牵涉到的函数库被链接合成一个可执行文件
+
+编译源码但不执行链接
+
+    gcc -c foo.c
+
+编译并链接
+
+    gcc foo.c bar.c -o out
+
+### 动态库(.SO)
+
+动态库编译时并不会链接到可执行文件中，而是在程序运行时才被载入
+
+**WINDOWS上对应的是 .LIB .DLL**
