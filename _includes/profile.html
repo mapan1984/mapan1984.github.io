@@ -13,7 +13,7 @@
       {% if site.github_username %}
       <p>
         <a href="https://github.com/{{ site.github_username }}">
-          <span class="icon icon--github">{% include icon-github.svg %}</span>
+          <span class="icon">{% include icon-github.svg %}</span>
           <span class="username">{{ site.github_username }}</span>
         </a>
       </p>
@@ -23,11 +23,14 @@
         <a href="http://cn.bing.com/ditu/?q=china">China</a>
       </p>
       <p>
-        Education <a href="https://www.bing.com/search?q=%e5%93%88%e5%b0%94%e6%bb%a8%e5%b7%a5%e7%a8%8b%e5%a4%a7%e5%ad%a6">HEU</a>
+        <a href="https://www.bing.com/search?q=%e5%93%88%e5%b0%94%e6%bb%a8%e5%b7%a5%e7%a8%8b%e5%a4%a7%e5%ad%a6">
+          <span class="icon">{% include icon-education.svg %}</span>
+          HEU
+        </a>
       </p>
       <p class="rss-subscribe">
         <a href="{{ "/feed.xml" | prepend: site.baseurl }}">
-          <span class="icon icon--github">{% include icon-rss.svg %}</span>
+          <span class="icon">{% include icon-rss.svg %}</span>
           subscribe via rss
         </a>
       </p>
