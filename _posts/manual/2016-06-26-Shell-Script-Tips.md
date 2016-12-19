@@ -6,14 +6,34 @@ tags: [Shell]
 
 ### 引号
 
-1. 单引号': 不对包含字符作任何处理；
-2. 双引号“: 对包含字符中的特殊字符(`$、\、"`)作处理；
+1. 单引号': 不对包含字符作任何处理(但是在单引号内，两个单引号被转义为一个单引号，如`'I''m angry!'`)
+2. 双引号": 对包含字符中的特殊字符(`$、\、"`)作处理；
 3. 反引号\`: 执行引用命令，用命令的输出代替\`包含的内容
 
         cmd_output=$(COMMANDS)
         cmd_output=`COMMANDS`
 
     保留命令输出的空格和和换行: `cmd_output="$(COMMANDS)"`，推荐使用`$(commands)`而不是\`commands\`
+
+### 重定向
+
+``` sh
+# 默认重定向stdout
+# 重定向stderr
+2 >
+# 将stderr转换为stdout
+2 > &1
+```
+
+``` sh
+# 重定向无关信息到/dev/null
+$ some_command 2 > /dev/null
+```
+
+``` sh
+# 将文件重定向到命令
+$ cmd < file
+```
 
 ### 比较
 
@@ -184,3 +204,14 @@ IFS=$oldIFS
 ```
 
 IFS的默认值为空白字符（换行符、制表符或者空格）
+
+### ~
+
+POSIX shell中，`~`必须出现在复合表达式的最前面，否则它只是不同字符，不能代表家目录。
+
+``` sh
+# 错误
+export PATH=$PATH:~/bin
+# 正确
+export PATH=$PATH:$HOME/bin
+```
