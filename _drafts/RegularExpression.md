@@ -2,18 +2,28 @@
 
     . ^ $ * + ? { [ ] } \ | ( )
 
+    .  (除换行外的)任意字符
     ^ 行开头
     $ 行结束
+    [] 用来包括一类(class)字符，如[abc]；也可用[a-c]代替；元字符在括号内不代表任何特殊意义; '^'如果在类开头则是非的意思，如[^5]表示匹配除'5'外任何字符
+    () 用来包括一组(group)字符
+    | 或者
+    \  转义字符
 
 ### 字符匹配
 
-    .  (出换行外的)任意字符
     \d [0-9]
     \D [^0-9]
-    \s [\t\n\r\f\v] 任何空白字符
-    \S [^\t\n\r\f\v]
-    \w [a-zA-Z0-9]
-    \W [^a-zA-Z0-9]
+    \s [ \t\n\r\f\v] 任何空白字符
+    \S [^ \t\n\r\f\v]
+    \w regex pattern is expressed in bytes: [a-zA-Z0-9_]
+       regex pattern is a string: all the characters marked as letters in the Unicode database
+    \W [^a-zA-Z0-9_]
+
+    \A matches only at the start of the string
+    \Z matches only at the end of the string
+    \b word boundary
+    \B not word boundary
 
 ### 重复
     
@@ -22,8 +32,6 @@
     * {0,}
     + {1,}
     ? {0,1}
-
-A or B  A|B
 
 ### 贪婪匹配
 
