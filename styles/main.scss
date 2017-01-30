@@ -27,27 +27,6 @@ a {
         text-decoration: none;
     }
 }
-table {
-    background-color: transparent;
-    font-size: 12px;
-    line-height: 1.2;
-    border: 1px solid #ddd;
-    border-spacing: 0px;
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 20px;
-    > thead > tr > td, 
-    > thead > tr > th,
-    > tbody > tr > td, 
-    > tbody > tr > th, 
-    > tfoot > tr > td, 
-    > tfoot > tr > th {
-        padding: 8px;
-        line-height: 1.4285;
-        vertical-align: top;
-    }
-}
 /*
  * post-list
  */

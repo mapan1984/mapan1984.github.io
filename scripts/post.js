@@ -115,3 +115,13 @@ $(document).ready(function() {                // fun返回顶部按钮行为
     });
     $(window).trigger('scroll');
 });
+
+$(document).ready(function() {                // 使table使用bootstrap的样式
+    let tables = $('table');
+    if (tables.length > 0) {
+        tables.addClass('table');
+        tables.addClass('table-bordered');
+        tables.addClass('table-hover');
+        tables.addClass('table-condensed');
+    }
+});
