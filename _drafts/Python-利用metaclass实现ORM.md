@@ -3,6 +3,12 @@ title: Python 利用metaclass实现ORM
 tags: [python, ORM]
 ---
 
+### 
+
+Python的类本身是一种对象，这种对象用来创建其他对象。当用`class Foo`声明Foo类时，其实创建了这种特殊对象，因此可以向创建对象一样，动态的创建类。
+
+    [instance] ---is instance of--> [class] ---is instance of--> [metaclass]
+
 ### type()
 
 type()函数既可以返回一个对象的类型，又可以创建出新的类型，比如，我们可以通过type()函数创建出Hello类，而无需通过class Hello(object)...的定义：
@@ -21,17 +27,19 @@ type()函数既可以返回一个对象的类型，又可以创建出新的类�
 
 要创建一个class对象，type()函数依次传入3个参数：
 
-1.class的名称；
-2.继承的父类集合，注意Python支持多重继承，如果只有一个父类，别忘了tuple的单元素写法；
-3.class的方法名称与函数绑定，这里我们把函数fn绑定到方法名hello上。
+1. str类型: class的名称；
+2. typle类型: 继承的父类集合，注意Python支持多重继承，如果只有一个父类，别忘了tuple的单元素写法；
+3. dict类型: class的属性与值的绑定，这里我们把函数fn绑定到方法名hello上。
 
-通过type()函数创建的类和直接写class是完全一样的，因为Python解释器遇到class定义时，仅仅是扫描一下class定义的语法，然后调用type()函数创建出class。
-
-正常情况下，我们都用class Xxx...来定义类，但是，type()函数也允许我们动态创建出类来，也就是说，动态语言本身支持运行期动态创建类，这和静态语言有非常大的不同，要在静态语言运行期创建类，必须构造源代码字符串再调用编译器，或者借助一些工具生成字节码实现，本质上都是动态编译，会非常复杂。
+通过type()函数创建的类和直接写class是完全一样的，class语句只是Python提供的语法糖。
 
 ### 自定义mateclass
 
-使用 metaclass 的主要目的就是在创建类的时候自动地改变它。
+metaclass就是创建类的东西，`type`就是Python在底层用来创建所有类的mateclass。使用metaclass的主要目的就是在创建类的时候自动地改变它。
+
+在Python2中，当在模块中定义`__metaclass__`时，Python2就会使用`__metaclass__`创建类，否则使用`type`创建类。
+
+在Python3中，在类定义时加入关键字参数`metaclass`，如果不指定`metaclass`，则相当于`metaclass=type`。
 
 ``` python
 # the metaclass will automatically get passed the same argument
@@ -43,16 +51,68 @@ def upper_attr(future_class_name, future_class_parents, future_class_attr):
     """
 
     # pick up any attribute that doesn't start with '__'
-    attrs = ((name, value) for name, value in future_class_attr.items() if not name.startswith('__'))
+    attrs = ((name, value) 
+             for name,value in future_class_attr.items() 
+             if not name.startswith('__'))
     # turn them into uppercase
-    uppercase_attr = dict((name.upper(), value) for name, value in attrs)
+    uppercase_attr = dict((name.upper(), value) for name,value in attrs)
 
     # let `type` do the class creation
     return type(future_class_name, future_class_parents, uppercase_attr)
 
-class Foo(object):
-    __metaclass__ = upper_attr # this will affect all classes in the module
-    hello = 'hello'
 
-print(Foo.__dict__)
+class Foo(metaclass=upper_attr): # global __metaclass__ won't work with "object" though
+  # but we can define __metaclass__ here instead to affect only this class
+  # and this will work with "object" childrend
+  bar = 'bip'
+
+print(hasattr(Foo, 'bar'))
+# Out: False
+print(hasattr(Foo, 'BAR'))
+# Out: True
+
+f = Foo()
+print(f.BAR)
+# Out: 'bip'
 ```
+
+### __new__
+
+`__new__`方法创建并返回对象，之后`__init__`初始化属性。
+
+    Foo.__new__用来创建Foo的实例。
+
+`type`是一个类，它拥有`__call__`方法，所以Python可以把它当成一个函数来来调用，实际`type.__call__`调用了`type.__new__`根据参数数量来返回参数的type或者初始化一个type类的实例。
+
+    type.__new__用来创建Foo
+
+所以自定义metaclass时，让metaclass继承type，并修改`__new__`方法。
+
+``` python
+# remember that `type` is actually a class like `str` and `int`
+# so you can inherit from it
+class UpperAttrMetaclass(type):
+    # __new__ is the method called before __init__
+    # it's the method that creates the object and returns it
+    # while __init__ just initializes the object passed as parameter
+    # you rarely use __new__, except when you want to control how the object
+    # is created.
+    # here the created object is the class, and we want to customize it
+    # so we override __new__
+    # you can do some stuff in __init__ too if you wish
+    # some advanced use involves overriding __call__ as well, but we won't
+    # see this
+    def __new__(upperattr_metaclass, future_class_name,
+                future_class_parents, future_class_attr):
+
+        attrs = ((name, value) 
+                 for name, value in future_class_attr.items() 
+                 if not name.startswith('__'))
+        uppercase_attr = dict((name.upper(), value) for name, value in attrs)
+
+        return type(future_class_name, future_class_parents, uppercase_attr)
+```
+
+### Object Relational Mapping
+
+

@@ -12,3 +12,9 @@ _site
 # javascript
 .eslintrc.json
 jsconfig.json
+
+# python
+*.pyc
+
+# vscode
+.vscode
