@@ -37,6 +37,10 @@ ul.posts {
     border-top: $base-boder;
 
     > li.post {
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: row;
+        justify-content: space-between;
         padding: 8px;
         min-height: 24px;
         border-bottom: $base-boder;
@@ -44,29 +48,18 @@ ul.posts {
         &:hover {
             background-color: #f0f0f0;
         }
-
-        > div.post-date {
-            float: right;
-        }
-    }
-}
-/*
- * tags-buttons
- */
-div.tags-buttons {
-    width: 30%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-    a {
-        margin: 3px;
     }
 }
 /*
  * profile
  */
 div.profile {
-    min-height: 260px;
+    img {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        vertical-align: middle;
+    }
 
     svg {
         display: inline-block;
@@ -77,6 +70,17 @@ div.profile {
         path {
             fill: #828282;
         }
+    }
+}
+/*
+ * tags-buttons
+ */
+div.tags-buttons {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    a {
+        margin: 3px;
     }
 }
 // post page

@@ -33,7 +33,7 @@ sass:
 #
 ## paginator
 gems: [jekyll-paginate]
-paginate: 5
+paginate: 15
 paginate_path: "page:num"
 #
 ## permalink

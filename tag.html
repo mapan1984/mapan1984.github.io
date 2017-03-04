@@ -32,11 +32,11 @@ permalink: /tag
           <ul class="posts">
             {% for post in tag[1] %}
               <li class="post">
-                <div class="post-date">
-                  {{ post.date | date_to_string }}
-                </div>
                 <div class="post-title">
                   <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                </div>
+                <div class="post-date">
+                  {{ post.date | date_to_string }}
                 </div>
               </li>
             {% endfor %}
@@ -48,11 +48,11 @@ permalink: /tag
           <ul class="posts">
             {% for post in tag[1] %}
               <li class="post">
-                <div class="post-date">
-                  {{ post.date | date_to_string }}
-                </div>
                 <div class="post-title">
                   <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                </div>
+                <div class="post-date">
+                  {{ post.date | date_to_string }}
                 </div>
               </li>
             {% endfor %}

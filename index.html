@@ -4,40 +4,17 @@ title: MaPan - Blog
 ---
 
 <div class="container">
-<ul class="nav nav-pills" role="tablist">
-  <li role="presentation" class="active">
-  <a href="#postlist" aria-controls="postlist" role="tab" data-toggle="tab">
-    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> PostList
-  </a>
-  </li>
-  <li role="presentation">
-  <a href="#tags" aria-controls="tags" role="tab" data-toggle="tab">
-    <span class="glyphicon glyphicon-tags" aria-hidden="true"></span> Tags
-  </a>
-  </li>
-  <li role="presentation">
-  <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
-    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile
-  </a>
-  </li>
-</ul>
-<div class="tab-content">
-  <div role="tabpanel" class="tab-pane fade in active" id="postlist">
-    <div class="container" style="margin-top:10px;">
+  <div class="row">
+    <div class="col-md-8 blog-main">
       {% include posts-list.html %}
     </div>
-  </div>
-  <div role="tabpanel" class="tab-pane fade" id="tags">
-    <div class="container" style="margin-top:10px;">
+    <div class="col-md-3 col-md-offset-1 blog-sidebar">
+      <div class="profile">
+        {% include profile.html %}
+      </div>
       <div class="tags-buttons">
         {% include tags-buttons.html %}
       </div>
     </div>
   </div>
-  <div role="tabpanel" class="tab-pane fade" id="profile">
-    <div class="container" style="margin-top:10px;">
-      {% include profile.html %}
-    </div>
-  </div>
-</div><!-- tab-content -->
-</div><!-- container -->
+</div>
