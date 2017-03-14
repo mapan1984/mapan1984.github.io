@@ -30,13 +30,6 @@ jQuery(document).ready(function($) {
     $(".info-unit h2").append('<span class="unit-remove"><i class="iconfont icon-delete"></i></span>');
     
 
-    var portrait_modal = $('[data-remodal-id=portrait-modal]').remodal();
-    $(".portrait").click(function(event) {
-        portrait_modal.open();
-    });
-    $('[data-remodal-id=portrait-modal] button').click(function(event) {
-        $(".portrait").css('background-image', 'url("{0}")'.format($("#avatar-url").val()));
-    });
     var weixin_modal = $('[data-remodal-id=weixin-modal]').remodal();
     $(".weixin").click(function(event) {
         weixin_modal.open();
