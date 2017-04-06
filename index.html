@@ -3,18 +3,16 @@ layout: index
 title: MaPan - Blog
 ---
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-8 blog-main">
-      {% include posts-list.html %}
+<div class="row">
+  <div class="col-md-8 blog-main">
+    {% include posts-list.html %}
+  </div>
+  <div class="col-md-3 col-md-offset-1 blog-sidebar">
+    <div class="profile">
+      {% include profile.html %}
     </div>
-    <div class="col-md-3 col-md-offset-1 blog-sidebar">
-      <div class="profile">
-        {% include profile.html %}
-      </div>
-      <div class="tags-buttons">
-        {% include tags-buttons.html %}
-      </div>
+    <div class="tags-buttons">
+      {% include tags-buttons.html %}
     </div>
   </div>
 </div>
