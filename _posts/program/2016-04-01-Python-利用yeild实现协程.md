@@ -30,7 +30,7 @@ def generator():
         n = n + 1
 ```
 
-可以使用`for`迭代访问数据: 
+可以使用`for`迭代访问数据:
 
 ``` python
 for value in generator():
@@ -73,7 +73,7 @@ def generator():
 g = generator()
 m = g.send(None)             # 激活g, 运行至line3, 输出 'step 1, line2'，yeild返回1，m = 1
 print("m = %d" % m)          # 输出 'm = 1'
-n = g.send('x')              # 向g发送‘x’, g重新从line3开始运行，yeild接收‘x’，即a='x', 
+n = g.send('x')              # 向g发送‘x’, g重新从line3开始运行，yeild接收‘x’，即a='x',
                              # 输出 'a = x'
                              # 输出 'step 2, line5', yeild返回2 ，n = 2
 print("n = %d" % n)          # 输出 'n = 2'

@@ -10,7 +10,7 @@ tags: [vim, channel]
 ``` vim
 let channel = ch_open({address} [, {options}])
 if ch_status(channel) == "open"
-  " use the channel
+    " use the channel
 ```
 
 `{address}`是一个形式为"hostname:port"的字符串，指定address的channel意味着channel使用socket进行通信。
@@ -39,7 +39,7 @@ if ch_status(channel) == "open"
 4. "drop"： 指定什么时候丢弃信息：
     * "auto": 当没有会调函数处理信息时
     * "never": 所有的信息都会保存
-5. "waittime": 
+5. "waittime":
 6. "timeout":
 
 使用`ch_close`关闭一个channel，当channel使用socket通信是，`ch_close`会关闭所有的socket，当channel使用pipes通信时，如果pipes使用了stdin, stdout, stderr时，它们也会关闭，所以***谨慎使用ch_close***，关闭job使用`job_stop`会更加合适。

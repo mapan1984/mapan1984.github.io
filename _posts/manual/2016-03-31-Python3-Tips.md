@@ -98,13 +98,7 @@ def getidlist():
 
 ### Iterable Iterator
 
-凡是可作用于for循环的对象都是Iterable类型；
-
-凡是可作用于next()函数的对象都是Iterator类型，它们表示一个惰性计算的序列；
-
-集合数据类型如list、dict、str等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。
-
-Python的for循环本质上就是通过不断调用next()函数实现的，例如：
+凡是可作用于for循环的对象都是Iterable类型，for循环先使用iter()获得一个Iterator对象，然后通过不断对该Iterator对象调用next()函数获得下一个值，例如：
 
 ``` python
 for x in [1, 2, 3, 4, 5]:
@@ -126,7 +120,37 @@ while True:
         break
 ```
 
-使用iter()，的第二个参数，检测到''则停止
+也就是说，要想被Python的for访问，首先要定义`__iter__`方法，这个方法返回一个Iterator对象(也就是说，对象内部定义了`__next__`方法)
+
+凡是可作用于next()函数的对象都是Iterator类型，它们表示一个惰性计算的序列；
+
+集合数据类型如list、dict、str等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。
+
+包含`__next__`方法的类为可迭代对象，可通过next()方法调用。类如果定义`__iter__`方法返回一个可迭代对象，则可以使用`for ... in class`，会不断调用该可迭代对象的`__next__`方法，直到遇到StopIteration错误时退出循环(复杂的generator)
+
+``` python
+class Fib(object):
+    def __init__(self):
+        self.a, self.b = 0, 1  # 初始化两个计数器a，b
+
+    def __iter__(self):
+        return self  # 实例本身就是迭代对象，故返回自己
+
+    def __next__(self):
+        self.a, self.b = self.b, self.a + self.b  # 计算下一个值
+        if self.a > 100000:  # 退出循环的条件
+            raise StopIteration();
+        return self.a  # 返回下一个值
+
+for n in Fib():
+    print(n)
+```
+
+### iter()
+
+如果iter()只有一个参数，则这个参数必须有`__iter__`或`__getitem__`方法(__getitem__使用从0开始的参数)；如果使用iter()的第二个参数，则第一个参数必须是callable object，调用第一个参数返回一个iterator，如果iterator返回的value等于第二个参数，则raise StopIteration。
+
+例如，读一个文件，检测到某一行为''则停止：
 
 ``` python
 with open('mydata.txt') as fp:
@@ -134,40 +158,26 @@ with open('mydata.txt') as fp:
         process_line(line)
 ```
 
-包含__next__()方法的类为可迭代对象，可通过next()方法调用。类如果定义__iter__()方法返回一个可迭代对象，则可以使用`for ... in class`，会不断调用该可迭代对象的__next__()方法，直到遇到StopIteration错误时退出循环(复杂的generator)
-
-``` python
-class Fib(object):
-    def __init__(self):
-        self.a, self.b = 0, 1 # 初始化两个计数器a，b
-
-    def __iter__(self):
-        return self # 实例本身就是迭代对象，故返回自己
-
-    def __next__(self):
-        self.a, self.b = self.b, self.a + self.b # 计算下一个值
-        if self.a > 100000: # 退出循环的条件
-            raise StopIteration();
-        return self.a # 返回下一个值
-
-for n in Fib():
-    print(n)
-```
-
 ### 函数式常用方法
 
-**1. Iterator = map(fn, Iterable)**
+**1. Iterator = map(fn, Iterable...)**
 
 ``` python
-r = map(abs, [-x for x in range(10)])
-list(r)
+r = map(abs, range(0,-10,-1))
 ```
 
-map是常用generator expressions的另一种形式:
+map是常用generator expressions的另一种形式，上式相当于:
 
 ``` python
-map(abs, [-x for x in range(10)])
-(abs(-x) for x in range(10))
+r = (abs(x) for x in range(0,-10-1))
+```
+
+如果提供多个Iterable，则fn必须接受多个参数:
+
+``` python
+r = map(cmp, iter1, iter2)
+
+r = (cmp(a, b) for a,b in zip(iter1, iter2))
 ```
 
 **2. Iterator = filter(fn, Iterable)**
