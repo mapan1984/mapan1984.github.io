@@ -81,7 +81,13 @@ printf("time = %f ms", space*0.001);
 
 ### qsort
 
+比较函数接受的是待排列数组中元素的地址，`qsort`接受待排列数组首地址、元素个数、元素大小和排序函数。
+
+排序一个有N个元素的字符串数组：
+
 ``` c
+char *str[N];
+
 /* scmp: string compare of *p1 and *p2 */
 int scmp(const void *p1, const void *p2)
 {
@@ -91,8 +97,13 @@ int scmp(const void *p1, const void *p2)
     return strcmp(v1, v2);
 }
 
-char *str[N];
 qsort(str, N, sizeof(str[0]), scmp);
+```
+
+排序一个有N个元素的整型数组：
+
+``` c
+int arr[N];
 
 /* icmp: integer compare of *p1 and *p2 */
 int icmp(const void *p1, const void *p2)
@@ -109,13 +120,6 @@ int icmp(const void *p1, const void *p2)
     }
 }
 
-int arr[N];
 qsort(arr, N, sizeof(arr[0]), icmp);
-
 ```
 
-### bsearch
-
-``` c
-
-```

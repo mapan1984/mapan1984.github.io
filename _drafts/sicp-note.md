@@ -56,6 +56,35 @@
 * 将条件判断别为表格查找
 * 可加性
 
+#### 有穷状态机
+
+M = {S, S0, SA, op}
+
+op(S, c) = S
+
+|op|0 |1...9|other|
+|--|--|-----|-----|
+|s0|s1| s2  |  se |
+|s1|se| se  |  se |
+|s2|s2| s2  |  se |
+|s3|se| se  |  se |
+
+``` c
+char = next_char();
+state = s0;
+
+while (char != eof && state != se) {
+    state = op(state, char);
+    char = next_char();
+}
+
+if (state in SA) {
+    report acceptance;
+} else {
+    report failure;
+}
+```
+
 ### 带有通用型操作的系统
 
 * 抽象数据

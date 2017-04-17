@@ -1,3 +1,8 @@
+---
+title: Learn makefile
+tags: [makefile]
+---
+
 ## 跟我一起写 Makefile
 
 陈皓 (CSDN)

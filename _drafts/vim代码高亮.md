@@ -1,3 +1,7 @@
+---
+title: vim代码高亮
+tags: [vim]
+---
 
 ### 避免重复加载
 
@@ -38,9 +42,10 @@ syntax match OverLength "\v^.{80,}$"
 highlight link OverLength ErrorMsg
 ```
 
-### 
+### 区域匹配
 
 ``` vim
 syntax region potionString start=/\v"/ skip=/\v\\./ end=/\v"/
 highlight link potionString String
 ```
+
