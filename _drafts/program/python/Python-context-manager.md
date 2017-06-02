@@ -1,3 +1,8 @@
+---
+title: Python context manager
+tags: [python]
+---
+
 ``` python
 class OpenUrl():
     def __init_(self, request):
