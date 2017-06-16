@@ -8,7 +8,7 @@
             listType: 'ul', // values: [ol|ul]
             showEffect: 'show', // values: [show|slideDown|fadeIn|none]
             showSpeed: 'slow' // set to 0 to deactivate effect
-        };  
+        };
         var settings = $.extend(defaults, options);// use options > defaults
 
         function fixedEncodeURIComponent (str) {
@@ -16,7 +16,7 @@
                 return '%' + c.charCodeAt(0).toString(16);
             });
         }
-    
+
         var headers = $(settings.headers).filter(function() {
             // get all headers with an ID
             var previousSiblingName = $(this).prev().attr( "name" );
@@ -100,7 +100,7 @@ $(document).ready(function() {
         }
     });
 });
-    
+
 $(document).ready(function() {                // fun返回顶部按钮行为
     var obtn = $('#back-to-top');
     obtn.on('click', function(){
