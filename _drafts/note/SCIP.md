@@ -1,4 +1,4 @@
-### 
+### 过程
 
 * 将若干简单过程组合为复杂过程
 * 将两个过程放在一起对照，得到它们的相互关系
@@ -30,7 +30,7 @@
 (define (cdr z) (z 1))
 ```
 
-*数据与过程:只要满足数据应有的特性，那它就可以被当作数据看待*
+*数据与过程：只要满足数据应有的特性，那它就可以被当作数据看待*
 
 ``` scheme
 (define (point x y)
@@ -70,12 +70,12 @@ op(S, c) = S
 |s3|se| se  |  se |
 
 ``` c
-char = next_char();
+c = next_char();
 state = s0;
 
-while (char != eof && state != se) {
-    state = op(state, char);
-    char = next_char();
+while (c != eof && state != se) {
+    state = op(state, c);
+    c = next_char();
 }
 
 if (state in SA) {

@@ -24,8 +24,8 @@
 
 ### class
 
-QObject  - QWidget
-         - QLayout
+QObject - QWidget
+        - QLayout
 
 ### 通过ui文件绘制界面
 

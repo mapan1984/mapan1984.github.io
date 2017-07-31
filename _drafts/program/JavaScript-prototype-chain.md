@@ -1,4 +1,4 @@
-### 
+### __proto__
 
 ``` javascript
 var o = {a: 1};
@@ -44,7 +44,7 @@ Graph.prototype.__proto__ === Object.prototype  // true
 // g ---> Graph.prototype ---> Object.prototype ---> null
 ```
 
-`Graph`相当于Python中的`__init__`函数，用来初始化对象；而`Graph.prototype`中的内容，相当与Python类中定义类方法以及熟悉，于对象共享。
+`Graph`相当于Python中的`__init__`函数，用来初始化对象；而`Graph.prototype`中的内容，相当与Python类中定义类方法以及属性，用于所有对象共享。
 
 new操作相当于:
 
@@ -63,7 +63,7 @@ Graph.call将Graph中的this设置为g，然后执行Graph。
 调用Object.create()创建一个新对象，新对象的原型就是调用create方法是传入的第一个参数
 
 ``` javascript
-var a = {a: 1}; 
+var a = {a: 1};
 // a ---> Object.prototype ---> null
 
 var b = Object.create(a);

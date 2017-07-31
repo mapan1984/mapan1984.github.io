@@ -35,7 +35,7 @@ syntax match potionComment "\v#.*$"
 highlight link potionComment Comment
 ```
 
-Python代码超出80个字符显示为错误信息：
+比如在Python代码(以ErrorMsg形式)高亮超出80个字符的行：
 
 ``` vim
 syntax match OverLength "\v^.{80,}$"
@@ -43,6 +43,8 @@ highlight link OverLength ErrorMsg
 ```
 
 ### 区域匹配
+
+比如高亮字符串：
 
 ``` vim
 syntax region potionString start=/\v"/ skip=/\v\\./ end=/\v"/

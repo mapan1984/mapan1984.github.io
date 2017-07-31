@@ -80,7 +80,7 @@ command也就是make需要执行的命令。（任意的Shell命令）
            insert.o search.o files.o utils.o
         cc -o edit main.o kbd.o command.o display.o /
             insert.o search.o files.o utils.o
-    
+
     main.o : main.c defs.h
         cc -c main.c
     kbd.o : kbd.c defs.h command.h
@@ -147,7 +147,7 @@ command也就是make需要执行的命令。（任意的Shell命令）
 
     objects = main.o kbd.o command.o display.o /
               insert.o search.o files.o utils.o
-    
+
     edit : $(objects)
         cc -o edit $(objects)
     main.o : main.c defs.h
@@ -182,10 +182,10 @@ GNU的make很强大，它可以自动推导文件以及文件依赖关系后面�
 
     objects = main.o kbd.o command.o display.o /
               insert.o search.o files.o utils.o
-    
+
     edit : $(objects)
         cc -o edit $(objects)
-    
+
     main.o : defs.h
     kbd.o : defs.h command.h
     command.o : defs.h command.h
@@ -194,11 +194,11 @@ GNU的make很强大，它可以自动推导文件以及文件依赖关系后面�
     search.o : defs.h buffer.h
     files.o : defs.h buffer.h command.h
     utils.o : defs.h
-    
+
     .PHONY : clean
     clean :
         rm edit $(objects)
-    
+
 这种方法，也就是make的“隐晦规则”。上面文件内容中，`.PHONY`表示，clean是个伪目标文件。
 
 关于更为详细的“隐晦规则”和“伪目标文件”，我会在后续给你一一道来。
@@ -209,14 +209,14 @@ GNU的make很强大，它可以自动推导文件以及文件依赖关系后面�
 
     objects = main.o kbd.o command.o display.o /
               insert.o search.o files.o utils.o
-    
+
     edit : $(objects)
         cc -o edit $(objects)
-    
+
     $(objects) : defs.h
     kbd.o command.o files.o : command.h
     display.o insert.o search.o files.o : buffer.h
-    
+
     .PHONY : clean
     clean :
         rm edit $(objects)
@@ -456,13 +456,13 @@ vapth使用方法中的<pattern>需要包含“%”字符。“%”的意思是�
 
     all : prog1 prog2 prog3
     .PHONY : all
-    
+
     prog1 : prog1.o utils.o
         cc -o prog1 prog1.o utils.o
-    
+
     prog2 : prog2.o
         cc -o prog2 prog2.o
-    
+
     prog3 : prog3.o sort.o utils.o
         cc -o prog3 prog3.o sort.o utils.o
 
@@ -470,13 +470,13 @@ vapth使用方法中的<pattern>需要包含“%”字符。“%”的意思是�
 随便提一句，从上面的例子我们可以看出，目标也可以成为依赖。所以，伪目标同样也可成为依赖。看下面的例子：
 
     .PHONY: cleanall cleanobj cleandiff
-    
+
     cleanall : cleanobj cleandiff
         rm program
-    
+
     cleanobj :
         rm *.o
-    
+
     cleandiff :
         rm *.diff
 
@@ -520,9 +520,9 @@ prereq-parrterns是目标的依赖模式，它对target-parrtern形成的模式�
 看一个例子：
 
     objects = foo.o bar.o
-    
+
     all: $(objects)
-    
+
     $(objects): %.o: %.c
         $(CC) -c $(CFLAGS) $< -o $@
 
@@ -537,7 +537,7 @@ prereq-parrterns是目标的依赖模式，它对target-parrtern形成的模式�
 试想，如果我们的`%.o`有几百个，那种我们只要用这种很简单的“静态模式规则”就可以写完一堆规则，实在是太有效率了。“静态模式规则”的用法很灵活，如果用得好，那会一个很强大的功能。再看一个例子：
 
     files = foo.elc bar.o lose.o
-    
+
     $(filter %.o,$(files)): %.o: %.c
         $(CC) -c $(CFLAGS) $< -o $@
     $(filter %.elc,$(files)): %.elc: %.el
