@@ -23,7 +23,7 @@ body {
 ```
 
 ``` html
-/*demo.html*/
+<!-- demo.html -->
 <html>
 <head>
   <link type="text/css" rel="stylesheet" href="link.css" media="only screen and (max-width: 480px)"/>
@@ -41,7 +41,7 @@ body {
 <head>
   <link type="text/css" rel="stylesheet" href="link.css" media="only screen and (max-width: 480px)"/>
   <style>
-  @media screen and (min-width: 480px){
+  @media screen and (min-width: 480px) {
     body {
       background: blue;
     }

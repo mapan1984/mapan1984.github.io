@@ -42,7 +42,7 @@ tags: [Shell]
 
     ${animals[moo]}
     ```
-3. ternary condition 
+3. ternary condition
     ``` bash
     ${varname:-word}  # 如果varname存在且不为null，返回$varname；否则返回word
     ${varname:=word}  # 如果varname存在且不为null，返回$varname；否则赋值varname=word，并返回word

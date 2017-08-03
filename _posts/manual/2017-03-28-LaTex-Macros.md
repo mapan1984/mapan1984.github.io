@@ -11,7 +11,7 @@ tags: [LaTex]
 \newcommand{name}[num]{definition}
 ```
 
-*name*是新命令的名字，*num*指出新命令的参数个数，默认是0，*definition*是定义的内容，将来要替换LaTex文档中出现的*name*命令。
+*name*是新命令的名字，*num*指出新命令的参数个数，默认是0，*definition*是定义的内容，将来要(宏)替换LaTex文档中出现的*name*命令。
 
 在*definition*中，使用`#1`,`#2`...等代表参数。
 

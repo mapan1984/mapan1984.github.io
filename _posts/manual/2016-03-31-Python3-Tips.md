@@ -4,35 +4,9 @@ categories: [Manual]
 tags: [Python]
 ---
 
-### @functools.wraps
-
-使用装饰器，一定记得加`@functools.wraps`，平时不注意，觉得被装饰函数的`__name__`属性改变也没什么，等到定义路由时就发现，`__name__`一变，路由处理函数就就找不到了。
-
-``` python
-import functools
-
-def all_computers_refresh(func): # 定义装饰器，更新所有电脑信息
-    @functools.wraps(func)
-    def wrapper(*args, **kw):
-        computer_list = Computer.query.all()
-        for computer in computer_list:
-            computer.refresh()
-            db.session.add(computer)
-        return func(*args, **kw)
-    return wrapper
-
-@manage.route('/all_computers')
-@all_computers_refresh
-def all_computers():
-    return render_template('manage/all_computers.html',
-                           computer_list=Computer.query.all())
-```
-
-我在上面的路由处理函数中遇到的问题，直接粘过来。
-
 ### 错误处理
 
-自定义错误与抛出错误,`Exception`All built-in, non-system-exiting exceptions are derived from this class. All user-defined exceptions should also be derived from this class
+`Exception`: All built-in, non-system-exiting exceptions are derived from this class. All user-defined exceptions should also be derived from this class
 
 ``` python
 class NotFound(Exception):
@@ -52,13 +26,12 @@ try:
     pass
 except NotFound as e:
     print('except:', e)
-except Anther as e:
+except Another as e:
     pass
 else:
     pass
 finally:
     pass
-
 ```
 
 ### List Comprehension
@@ -68,14 +41,14 @@ finally:
 [x*x for x in range(0, 10) if x%2 != 0]
 [m+n for m in range(0, 10) for n in range[0, 10]]
 [k+'='+v for k, v in d.items()]
-[s.lower() for s in my_string]
 ```
+
 对比
 
 ``` python
-def geridlist():
+def getidlist():
     l = []
-    with open('iid.xml', 'r') as f:
+    with open('id.xml', 'r') as f:
         for line in f.readlines():
             l.append(line.strip())
     return l
@@ -83,10 +56,9 @@ def geridlist():
 
 ``` python
 def getidlist():
-    with open('iid.xml', 'r') as f:
+    with open('id.xml', 'r') as f:
         return [line.strip() for line in f.readlines()]
 ```
-
 
 ### Generator Expression
 
@@ -117,6 +89,7 @@ while True:
         x = next(it)
     except StopIteration:
         # 遇到StopIteration就退出循环
+        del it
         break
 ```
 
@@ -126,7 +99,9 @@ while True:
 
 集合数据类型如list、dict、str等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。
 
-包含`__next__`方法的类为可迭代对象，可通过next()方法调用。类如果定义`__iter__`方法返回一个可迭代对象，则可以使用`for ... in class`，会不断调用该可迭代对象的`__next__`方法，直到遇到StopIteration错误时退出循环(复杂的generator)
+*另外，实现`__getitem__`方法的对象也是Iterable*
+
+包含`__next__`方法的对象为Iterator对象，可通过next()方法调用。类如果定义`__iter__`方法返回一个可迭代对象，则可以使用`for ... in class`，会不断调用该可迭代对象的`__next__`方法，直到遇到StopIteration错误时退出循环(复杂的generator)
 
 ``` python
 class Fib(object):
@@ -138,8 +113,8 @@ class Fib(object):
 
     def __next__(self):
         self.a, self.b = self.b, self.a + self.b  # 计算下一个值
-        if self.a > 100000:  # 退出循环的条件
-            raise StopIteration();
+        if self.a > 100:  # 退出循环的条件
+            raise StopIteration()
         return self.a  # 返回下一个值
 
 for n in Fib():
@@ -150,7 +125,7 @@ for n in Fib():
 
 如果iter()只有一个参数，则这个参数必须有`__iter__`或`__getitem__`方法(__getitem__使用从0开始的参数)；如果使用iter()的第二个参数，则第一个参数必须是callable object，调用第一个参数返回一个iterator，如果iterator返回的value等于第二个参数，则raise StopIteration。
 
-例如，读一个文件，检测到某一行为''则停止：
+例如，读一个文件，检测到文件为空则停止(`readline`在读完文件后会不断返回`''`)：
 
 ``` python
 with open('mydata.txt') as fp:
@@ -216,7 +191,7 @@ lambda x: x * x
 ### 变量命名
 
 1. 实例的私有变量(private)以双下划线开头，只能内部访问，如`__name`, 一般内部访问为`self.__name`
-    *一般在外部可用`_类名__name`访问, 通过`dir(类名)`可以查看到*
+    *一般在外部可用`_类名__name`访问, 通过`dir(实例)`可以查看到*
 2. 以双下划线开头和结尾的变量为特殊变量，不是私有变量，外部可访问，如`__name__`
 3. 以单下划线开头的变量可以外部访问，但其约定为私有变量，如`_name`
 4. 如果与Python关键字或内置变量重名，在变量后加单下划线，如`name_`
@@ -304,6 +279,14 @@ def change_it(n):
           \                       /
            <-- decode('utf-8') <--
 
+7. json
+
+           ----> json.loads ---->
+          /                       \
+        str                      object
+          \                       /
+           <---- json.dumps <----
+
 7. 使用 \ 分割过长的行（Shell Script、Python在分割的第一行，vimscript在分割的第二行）
 8. docstring:
     1. """triple  double  quotes"""
@@ -311,3 +294,38 @@ def change_it(n):
     3. For Unicode docstrings, use  u"""Unicode   triple-quoted   strings"""
 9. 我的Python安装目录为`D:\Python35`第三方扩展安装目录为`D:\Python35\Lib\site-packages`
 10. `python3 -m http.server 8080`
+11. *
+
+        a, b, *rest = range(5)
+
+        def fun(*args):
+            pass
+        t = (1, 2)
+        fun(*t)
+
+### @functools.wraps
+
+使用装饰器，一定记得加`@functools.wraps`，平时不注意，觉得被装饰函数的`__name__`属性改变也没什么，等到定义路由时就发现，`__name__`一变，路由处理函数就就找不到了。
+
+``` python
+import functools
+
+def all_computers_refresh(func): # 定义装饰器，更新所有电脑信息
+    @functools.wraps(func)
+    def wrapper(*args, **kw):
+        computer_list = Computer.query.all()
+        for computer in computer_list:
+            computer.refresh()
+            db.session.add(computer)
+        return func(*args, **kw)
+    return wrapper
+
+@manage.route('/all_computers')
+@all_computers_refresh
+def all_computers():
+    return render_template('manage/all_computers.html',
+                           computer_list=Computer.query.all())
+```
+
+我在上面的路由处理函数中遇到的问题，直接粘过来。
+

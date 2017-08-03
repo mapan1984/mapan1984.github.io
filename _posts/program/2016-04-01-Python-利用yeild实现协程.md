@@ -18,7 +18,7 @@ tags: [Python, Coroutine]
 
 ### 相关语法
 
-在Python中`yield`语句既可以返回一个值，也可以接收调用者发出的参数，同样，使用`generator.send()`可以接收一个值，也可以向`yield`传递一个值
+在Python中`yield`语句既可以返回一个值，也可以接收调用者发出的参数，同样，使用`generator.send()`可以接收一个值，也可以向`yield`传递一个值。
 
 比如定义一个`generator`：
 
@@ -59,7 +59,7 @@ while True:
         break
 ```
 
-即`next(generator)`相当于`generator.send(None)`, 而且`send`函数可以给`generator`传递参数
+即`next(generator)`相当于`generator.send(None)`, 而且`send`函数可以给`generator`传递参数。
 
 {% highlight python linenos %}
 def generator():
@@ -87,6 +87,8 @@ print("n = %d" % n)          # 输出 'n = 2'
     step 2, line5
     n = 2
 
+*第一个`next(core)`或`core.send(None)`被称为prime，用来让协程向前运行到第一个yield表达式，准备好从后续的`core.send(value)`调用中接收值*
+
 ### 使用协程
 
 在生产者-消费者模型使用协程:
@@ -96,7 +98,7 @@ def consumer():
     r = ''
     while True:
         n = yield r
-        if not n:
+        if n is None:
             return
         print('[CONSUMER] Consuming %s...' % n)
         r = '200 OK'

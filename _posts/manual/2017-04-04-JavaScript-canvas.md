@@ -11,15 +11,15 @@ tags: [JavaScript, canvas]
 </canvas>
 ```
 
-canvas只用width和height属性，默认值为300px和150px
+canvas只有width和height属性，默认值为300px和150px。
 
-canvas中的元素为替换内容，用于在不支持canvas的浏览器中显示
+canvas中的元素为替换内容，用于在不支持canvas的浏览器中显示。
 
 ### 使用JavaScript绘制canvas内容
 
 #### 获取The rendering context
 
-canvas创建了固定大小的画布，公开render context用于绘制和处理要展示的内容
+canvas创建了固定大小的画布，得到render context用于绘制和处理要展示的内容。
 
 ``` javascript
 var canvas = document.getElementById('graph');
@@ -28,7 +28,7 @@ var ctx = canvas.getContext('2d')
 
 #### 坐标
 
-canvas以像素为单位，左上角为坐标原点，向左为x轴正方向，向下为y轴正方向
+canvas以像素为单位，左上角为坐标原点，向左为x轴正方向，向下为y轴正方向。
 
 #### 矩形
 
@@ -108,7 +108,7 @@ context.clearRect(0, 0, canvas.width, canvas.height);
 context.restore();
 ```
 
-或者
+或者(改变canvas的宽或高)：
 
 ``` javascript
 canvas.width = canvas.width;

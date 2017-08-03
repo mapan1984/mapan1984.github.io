@@ -5,7 +5,7 @@ tags: [vim, channel]
 
 ### 操作channel
 
-使用`ch_open`打开一个channel
+使用`ch_open`打开一个channel：
 
 ``` vim
 let channel = ch_open({address} [, {options}])
