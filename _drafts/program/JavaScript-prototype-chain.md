@@ -1,5 +1,7 @@
 ### __proto__
 
+`__proto__ = constructor.prototype`，即一个对象的`__proto__`是这个对象的构造函数原型的简写。
+
 ``` javascript
 var o = {a: 1};
 // o ---> Object.prototype ---> null
@@ -11,7 +13,7 @@ var a = [1, 2, 3];
 a.__proto__ === Array.prototype  // true
 
 
-function f(){
+function f() {
     return 42;
 }
 // f ---> Function.prototype ---> Object.prototype ---> null
@@ -20,7 +22,7 @@ f.__proto__ === Function.prototype  // true
 
 ### 使用构造器
 
-构造器是一个普通的函数，当使用new操作符来作用这个函数时，它就可以被称为构造方法
+构造器是一个普通的函数，当使用new操作符来作用这个函数时，它就可以被称为构造方法。
 
 ``` javascript
 function Graph() {
