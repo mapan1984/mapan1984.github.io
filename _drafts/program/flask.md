@@ -1,0 +1,354 @@
+## WSGI(Web Server GateWay Interface)
+
+对于新的Pythoner来说Web框架的选择是一个问题，因为在过去Web框架经常被设计为只适用于CGI, FastCGI, mod_python， 或者其他一些web server的通用的API，所以Web的框架的选择会限制Web server的选择。
+
+WSGI被创造出来作为一种位于web server和web application or framework之间的低层次的接口。
+
+在Python的世界里，通过WSGI约定了Web服务器怎么调用Web应用程序的代码，以及Web应用程序需要符合什么样的规范。只要Web应用程序和Web服务器都遵守WSGI协议，那么，Web应用程序和Web服务器就可以随意的组合。这也就是WSGI存在的原因。
+
+``` python
+# 一个WSGI-compatible "Hello World" application
+def application(environ, start_response):
+    """
+    environ: 包含了请求的所有信息
+    start_response: 一个callable，需要两个参数: status 和 response_headers
+    """
+    start_response('200 OK', [('Content-Type', 'text/html')])
+    return '<h1>Hello, Web!</h1>'
+```
+
+``` python
+# 一个调用application的例子
+def call_application(app, environ):
+    """
+    app: application
+    environ: 可能包含请求方法等信息
+    """
+    body = []
+    status_headers = [None, None]
+
+    def start_response(status, headers):
+        status_headers[:] = [status, headers]
+        return body.append(status_headers)
+
+    app_iter = app(environ, start_response)
+
+    try:
+        for item in app_iter:
+            body.append(item)
+    finally:
+        if hasattr(app_iter, 'close'):
+            app_iter.close()
+    return status_headers[0], status_headers[1], ''.join(body)
+
+status, headers, body = call_application(app, {...environ...})
+```
+
+``` python
+import eventlet
+
+def hello_world(environ, start_response):
+    start_response('200 OK', [('Content-Type', 'text/plain')])
+    return ['Hello, world!\r\n']
+
+eventlet.wsgi.server(eventlet.listen(('', 8080)), hello_world)
+```
+
+server调用application，并提供environ, start_response
+
+``` python
+httpd = make_server('localhost', 8000, application)
+httpd.serve_forever()
+```
+
+wsgi有两边，一边是server或gateway(比如Apache或Nginx)，另一边是application或framework。处理一个请求，server执行application并且提供environment信息和一个callback function给application。application处理请求，用服务器提供的callback function向server返回响应。
+
+在server和application之间，可能有wsgi middleware，它提供了两边的api。server接收来自client的request并把它向前传递给middleware，经过处理，middleware把request传递给application。application的response经过middleware传递给server并最终到达client。
+
+middleware部分可能提供以下functions:
+
+* 分发request给不同的application根据URL，之后改变environment variables响应的。
+* 允许multiple application 或 framework 运行 side-by-side在一个process
+* 负载均衡和remote processing，根据forward requests and response
+* performing content post-processing, such as applying XSLT stylesheets
+
+## jinja2
+
+一个功能齐全的模板引擎，有完整的unicode支持，一个可选的集成沙箱执行环境。
+
+``` python
+>>> from jinja2 import Template
+>>> template = Template('Hello {{name}}!')
+>>> template.render(name='John Doe')
+u'Hello John Doe!'
+```
+
+## Werkzeug
+
+Werkzeug是一个WSGI工具包，可以作为web框架的底层库。WSGI是一个web应用和服务器通信的协议，一个基本的”Hello World”WSGI应用看起来是这样的:
+
+``` python
+def application(environ, start_response):
+    start_response('200 OK', [('Content-Type', 'text/plain')])
+    return ['Hello World!']
+```
+
+上面这小段代码就是WSGI协议的约定，它规定web application接受两个参数，一个可调用的start_response，和一个包含了请求信息的environ。通过Werkzeug，我们可以不必直接处理请求或者响应这些底层的东西，它已经为我们封装好了这些。
+
+请求数据在environ对象中，Werkzeug允许我们以一个轻松的方式访问请求数据。响应对象是一个WSGI应用，提供了更好的方法来创建响应。如下所示：
+
+``` python
+from werkzeug.wrappers import Response
+
+def application(environ, start_response):
+    response = Response('Hello World!', mimetype='text/plain')
+    return response(environ, start_response)
+```
+
+### Flask, werkzeug, WSGI, jinja2之间的关系
+
+Flask是一个基于Python开发并且依赖jinja2模板和Werkzeug WSGI服务的一个微型框架，对于Werkzeug，它只是工具包，其用于接收http请求并对请求进行预处理，然后触发Flask框架，开发人员基于Flask框架提供的功能对请求进行相应的处理，并返回给用户，如果要返回给用户复杂的内容时，需要借助jinja2模板来实现对模板的处理。将模板和数据进行渲染，将渲染后的字符串返回给用户浏览器。
+
+Flask永远不会包含数据库层，也不会有表单库或是这个方面的其它东西。Flask本身只是Werkzeug和Jinja2的之间的桥梁，前者实现一个合适的WSGI应用，后者处理模板。当然，Flask也绑定了一些通用的标准库包，比如logging。除此之外其它所有一切都交给扩展来实现。
+
+为什么呢？因为人们有不同的偏好和需求，Flask不可能把所有的需求都囊括在核心里。大多数web应用会需要一个模板引擎。然而不是每个应用都需要一个SQL数据库的。
+
+Flask的理念是为所有应用建立一个良好的基础，其余的一切都取决于你自己或者扩展。
+
+### 源码剖析
+
+Flask的基本使用：
+
+``` python
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+if __name__ == "__main__":
+    app.run()
+```
+
+Flask类：
+
+``` python
+class Flask:
+    def __init__(self, package_name):
+        self.package_name = package_name
+        self.root_path = _get_package_path(self.package_name)
+
+        self.view_functions = {}
+        self.error_handlers = {}
+        self.before_request_funcs = []
+        self.after_request_funcs = []
+        self.url_map = Map()
+```
+
+用route装饰器注册url到view的映射：
+
+``` python
+def route(rule):
+    def decorator(f):
+        self.add_url_rule(rule, f.__name__, **options)
+        self.view_functions[f.__name__] = f
+        return f
+    return decorator
+```
+
+app启动时的调用堆栈：
+
+``` python
+app.run()
+    run_simple(host, port, self, **options)
+        __call__(self, environ, start_response)
+            wsgi_app(self, environ, start_response)
+```
+
+wsgi_app是什么：
+
+``` python
+def wsgi_app(self, environ, start_response):
+    """The actual WSGI application.
+    """
+    # 创建请求上下文，并把它压栈。这个在后面会详细解释
+    ctx = self.request_context(environ)
+    ctx.push()
+    error = None
+
+    try:
+        try:
+            # 正确的请求处理路径，会通过路由找到对应的处理函数
+            response = self.full_dispatch_request()
+        except Exception as e:
+            # 错误处理，默认是 InternalServerError 错误处理函数，客户端会看到服务器 500 异常
+            error = e
+            response = self.handle_exception(e)
+        return response(environ, start_response)
+    finally:
+        if self.should_ignore_error(error):
+            error = None
+        # 不管处理是否发生异常，都需要把栈中的请求 pop 出来
+        ctx.auto_pop(error)
+```
+
+dispatch_request函数，有flask的错误处理逻辑：
+
+``` python
+def dispatch_request(self):
+    try:
+        endpoint, values = self.match_request()
+        return self.view_functions[endpoint](**values)
+    except HTTPException, e:
+        handler = self.error_handlers.get(e.code)
+        if handler is None:
+            return e
+        return handler(e)
+    except Exception, e:
+        handler = self.error_handlers.get(500)
+        if self.debug or handler is None:
+            raise
+        return handler(e)
+```
+
+### 上下文
+
+在使用flask的开发过程中，我们可以通过以下方式访问url中的参数：
+
+``` python
+from flask import request
+
+@app.route('/')
+def hello():
+    name = request.args.get('name', None)
+```
+
+request看起来像是一个全局变量，但是一个全局变量为什么可以在一个多线程环境中随意使用呢？
+
+``` python
+_request_ctx_stack = LocalStack()
+current_app = LocalProxy(lambda: _request_ctx_stack.top.app)
+request = LocalProxy(lambda: _request_ctx_stack.top.request)
+session = LocalProxy(lambda: _request_ctx_stack.top.session)
+g = LocalProxy(lambda: _request_ctx_stack.top.g)
+```
+
+``` python
+class Local(object):
+    """提供了多线程/协程隔离的属性访问"""
+    def __init__(self):
+        # 数据保存在__storage__中，后续访问都是对该属性的操作
+        object.__setattr__(self, '__storage__', {})
+        object.__setattr__(self, '__ident_func__', get_ident)
+
+    # 下面三个方法实现了属性的访问、设置和删除。
+    # 注意到，内部都调用 `self.__ident_func__` 获取当前线程或者协程的 id，然后再访问对应的内部字典。
+    # 如果访问或者删除的属性不存在，会抛出 AttributeError。
+    # 这样，外部用户看到的就是它在访问实例的属性，完全不知道字典或者多线程/协程切换的实现
+    def __getattr__(self, name):
+        try:
+            return self.__storage__[self.__ident_func__()][name]
+        except KeyError:
+            raise AttributeError(name)
+
+    def __setattr__(self, name, value):
+        ident = self.__ident_func__()
+        storage = self.__storage__
+        try:
+            storage[ident][name] = value
+        except KeyError:
+            storage[ident] = {name: value}
+
+    def __delattr__(self, name):
+        try:
+            del self.__storage__[self.__ident_func__()][name]
+        except KeyError:
+            raise AttributeError(name)
+```
+
+```
+__storage__ = {
+    'thread_id_1': {name: value, name: value, ..., name: value},
+    'thread_id_2': {name: value, name: value, ..., name: value},
+    'thread_id_3': {name: value, name: value, ..., name: value},
+}
+```
+
+``` python
+class LocalStack(object):
+    """基于Local实现的栈结构，提供了隔离的栈访问"""
+    def __init__(self):
+        self._local = Local()
+
+    # push、pop 和 top 三个方法实现了栈的操作，
+    # 可以看到栈的数据是保存在 self._local.stack 属性中的
+    def push(self, obj):
+        rv = getattr(self._local, 'stack', None)
+        if rv is None:
+            self._local.stack = rv = []
+        rv.append(obj)
+        return rv
+
+    def pop(self):
+        stack = getattr(self._local, 'stack', None)
+        if stack is None:
+            return None
+        elif len(stack) == 1:
+            release_local(self._local)
+            return stack[-1]
+        else:
+           return stack.pop()
+
+    @property
+    def top(self):
+        try:
+            return self._local.stack[-1]
+        except (AttributeError, IndexError):
+            return None
+```
+
+```
+_local.__storage__ = {
+    `thread_id_1`: {'stack': [a, b, c, ...]},
+    `thread_id_2`: {'stack': []},
+    `thread_id_3`: {'stack': []},
+}
+```
+
+``` python
+class LocalProxy(object):
+    """Local对象的代理，负责把所有对自己的操作转发给内部的Local对象"""
+    def __init__(self, local, name=None):
+        object.__setattr__(self, '_LocalProxy__local', local)
+        object.__setattr__(self, '__name__', name)
+
+    def _get_current_object(self):
+        if not hasattr(self.__local, '__release_local__'):
+            return self.__local
+        try:
+            return getattr(self.__local, self.__name__)
+        except AttributeError:
+            raise RuntimeError('no object bound to %s' % self__name__)
+
+    @property
+    def __dict__(self):
+        try:
+            return self._get_current_object().__dict__
+        except RuntimeError:
+            raise AttributeError('__dict__')
+
+    def __getattr__(self, name):
+        if name == '__members__':
+            return dir(self._get_current_object())
+        return getattr(self._get_current_object(), name)
+
+    def __setitem__(self, key, value):
+        self._get_current_object()[key] = value
+```
+
+```
+_request_ctx_stack = LocalStack()
+request = LocalProxy(lambda: _request_ctx_stack.top.request)
+```
+
