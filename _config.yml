@@ -32,7 +32,7 @@ sass:
   style: compressed
 #
 ## paginator
-gems: [jekyll-paginate]
+plugins: [jekyll-paginate]
 paginate: 15
 paginate_path: "page:num"
 #
