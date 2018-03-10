@@ -302,6 +302,7 @@ def change_it(n):
             pass
         t = (1, 2)
         fun(*t)
+12. `from module import *`如果module中有`__all__`，则只会引入`__all__`中的项。如果没有`__all__`则会引入除以下划线开头的项。
 
 ### @functools.wraps
 

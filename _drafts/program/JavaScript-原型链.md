@@ -1,14 +1,19 @@
+---
+title: JavaScript原型链
+tags: [JavaScript]
+---
+
 ### __proto__
 
 `__proto__ = constructor.prototype`，即一个对象的`__proto__`是这个对象的构造函数原型的简写。
 
 ``` javascript
-var o = {a: 1};
+let o = {a: 1};
 // o ---> Object.prototype ---> null
 o.__proto__ === Object.prototype  // true
 
 
-var a = [1, 2, 3];
+let a = [1, 2, 3];
 // a ---> Array.prototype ---> Object.prototype ---> null
 a.__proto__ === Array.prototype  // true
 
@@ -37,7 +42,7 @@ Graph.prototype = {
   }
 };
 
-var g = new Graph();
+let g = new Graph();
 // g是生成的对象,他的自身属性有'vertices'和'edges'.
 // 在g被实例化时,g.[[Prototype]]指向了Graph.prototype.
 g.__proto__ === Graph.prototype  // true
@@ -51,9 +56,9 @@ Graph.prototype.__proto__ === Object.prototype  // true
 new操作相当于:
 
 ``` javascript
-// var g = new Graph()
+// let g = new Graph()
 
-var g = new Object();
+let g = new Object();
 g.__proto__ = Graph.prototype;
 Graph.call(g)
 ```
@@ -65,17 +70,17 @@ Graph.call将Graph中的this设置为g，然后执行Graph。
 调用Object.create()创建一个新对象，新对象的原型就是调用create方法是传入的第一个参数
 
 ``` javascript
-var a = {a: 1};
+let a = {a: 1};
 // a ---> Object.prototype ---> null
 
-var b = Object.create(a);
+let b = Object.create(a);
 // b ---> a ---> Object.prototype ---> null
 console.log(b.a); // 1 (继承而来)
 
-var c = Object.create(b);
+let c = Object.create(b);
 // c ---> b ---> a ---> Object.prototype ---> null
 
-var d = Object.create(null);
+let d = Object.create(null);
 // d ---> null
 console.log(d.hasOwnProperty); // undefined, 因为d没有继承Object.prototype
 ```
@@ -83,8 +88,6 @@ console.log(d.hasOwnProperty); // undefined, 因为d没有继承Object.prototype
 ### 使用class关键字
 
 ``` javascript
-"use strict";
-
 class Polygon {
   constructor(height, width) {
     this.height = height;
@@ -105,6 +108,5 @@ class Square extends Polygon {
   }
 }
 
-var square = new Square(2);
-
+let square = new Square(2);
 ```

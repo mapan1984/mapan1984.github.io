@@ -1,3 +1,6 @@
+
+三次握手的目的是同步连接双方的序列号和确认并交互TCP窗口大小信息。
+
                        客户                          服务器
                   socket|                              |socket, bind, listen
                         |                              |LISTEN(被动打开)

@@ -1,10 +1,15 @@
+---
+title: JavaScript执行机制
+tags: [JavaScript]
+---
+
 ### Stack
 
-函数调用形成堆栈帧
+函数调用形成堆栈帧。
 
 ### Heap
 
-对象被分配在一个堆中
+对象被分配在一个堆中。
 
 ### Queue
 

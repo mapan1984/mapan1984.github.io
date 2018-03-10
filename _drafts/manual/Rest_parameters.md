@@ -24,17 +24,18 @@ fun(*[1, 2, 3, 4, 5])
 ### Go
 
 ``` go
-func fun(args ...int) int {
-    sum := 0
-    for _, v := range args {
-        sum = sum + v
+func sum(args ...int) int {
+    total := 0
+    for _, val := range args {
+        total +=  val
     }
 
-    return sum
+    return total
 }
 
 func main() {
     arr := []int{2, 4}
-    sum := fun(arr...)
+    fmt.Println(sum(1, 2, 3))
+    fmt.Println(sum(arr...))
 }
 ```
