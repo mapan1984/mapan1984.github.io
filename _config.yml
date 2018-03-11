@@ -55,6 +55,7 @@ defaults:
       path: "_posts"
     values:
       layout: "post"
+      comments: true
   -
     scope:
       path: "_posts/algorithm"
