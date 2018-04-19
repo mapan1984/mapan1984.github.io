@@ -79,6 +79,11 @@ tags: [Unix]
 
 ### 组合键
 
+ALT+U - 将单词内光标后的字母转为大写。
+ALT+L - 将单词内光标后的字母转为小写。
+ALT+R - 撤销对从历史记录中带来的命令的修改。
+ALT+. - 使用上一条命令的最后一个单词。
+
 |  key   |          操作               |
 |:------:|:---------------------------:|
 | ctrl+a |  Move to Start of line      |
@@ -92,11 +97,21 @@ tags: [Unix]
 | ctrl+d |  向后删除一个字符           |
 | ctrl+h |  向前删除一个字符           |
 | ctrl+w |  向前删除一个单词           |
+| ctrl+y |  恢复上一个删除或剪切的条目 |
 | ctrl+u |  Delet to start of line     |
 | ctrl+k |  Delet to end of line       |
 | ctrl+l |  清屏                       |
-| ctrl+r |  增量搜索历史命令           |
-| crrl+z |  与fg配合使用               |
+| ctrl+r |  向后搜索历史命令           |
+| ctrl+s |  向前搜索历史命令           |
+| ctrl+g |  退出历史搜索模式           |
+| ctrl+t |  交换最后两个字符           |
+| esc+t  |  交换最后两个单词           |
+| !!     |  重复上一个命令             |
+
+|  key   |          操作               |
+|:------:|:---------------------------:|
+| crrl+z |  与fg/bg配合使用            |
 | ctrl+s |  终止输出                   |
 | ctrl+q |  恢复输出                   |
 | ctrl+d |  注销/终止(当前无命令字符时)|
+

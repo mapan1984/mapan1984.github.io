@@ -1,6 +1,6 @@
 ---
 title: Win10开机自启动
-tags: [win10]
+tags: [Win10]
 ---
 
 ## 设置开机自启动

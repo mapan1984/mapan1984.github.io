@@ -15,11 +15,14 @@ function greet(name) {
     console.log(s + ',' + name + '!')
 }
 
+// exports对象用于导出当前模块的方法或变量
+// module对象代表模块本身，exports是module的属性
 module.exports = greet
 ```
 
 ``` javascript
 // app.js
+// 导入的greet的值相当于exports的值
 let greet = require('./hello')
 let name = 'mapan'
 greet(name)
@@ -75,3 +78,76 @@ module.exports = {
 // 引入
 let {bar, foo} = module.exports
 ```
+
+### AMD
+
+CommonJs的模块机制几乎全都是同步的，它适用于Nodejs，但不适用于前端模块的引入()。
+
+AMD(Asynchronous Module Definition)避免了同步带来的阻塞，在前端场场景中适用。
+
+``` javascript
+// define(id?, dependencies?, factory)
+define(function() {
+    let exports = {}
+    exports.sayHello = function() {
+        alert('Hello from module: '+module+id)
+    }
+    return exports
+})
+```
+
+### CMD
+
+``` javascript
+define(function(require, exports, module) {
+    // The module code goes here
+})
+```
+
+### 兼容
+
+``` javascript
+;(function (name, definition) { // 检测上文环境是否为AMDCMD var hasDefine = typeof define === 'function', // 检查上文环境是否为Node hasExports = typeof module !== 'undefined' && module.exports;
+if (hasDefine) { // AMD环境CMD环境 define(definition);
+} else if (hasExports) { // 定义为通Node模块 module.exports = definition();
+} else { // 将模块的执行结在window量中在器中thiswindow对象 this[name] = definition();
+}
+})('hello', function () { var hello = function () {}; return hello;
+});
+```
+
+### ES6
+
+default:
+
+```javascript
+// hello.js
+function sayHello() {
+    console.log('hello, world!')
+}
+
+export default sayHello
+```
+
+```javascript
+// app.js
+import sayHello from './hello'
+```
+
+
+对象：
+
+```javascript
+// hello.js
+function sayHello() {
+    console.log('hello, world!')
+}
+
+export {sayHello}
+```
+
+```javascript
+// app.js
+import {sayHello} from './hello'
+```
+

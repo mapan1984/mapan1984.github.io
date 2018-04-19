@@ -2,10 +2,43 @@
 
 HTTPS是HTTP协议与SSL/TLS协议的组合，SSL(Secure Sockets Layer)是网景公司发明协议，用于解决HTTP协议明文传输造成的安全泄露问题，而后，因为SSL应用广泛，成为互联网的一个标准，并改名为TLS(Transport Layer Security)。
 
+SSL作为一种安全协议，它在传输层提供对网络连接加密的功能。对于应用层而言，它是透明的，数据在传递到应用层之前就已经完成了加密和解密的过程。
+
+### TLS/SSL
+
+利用openssl分别生成服务器和客户端的私钥和公钥：
+
+    $ openssl genrsa -out server.key 1024
+    $ openssl genrsa -out client.key 1024
+
+    $ openssl rsa -in server.key -pubout -out server.pem
+    $ openssl rsa -in client.key -pubout -out client.pem
+
+为了避免第三方攻击，需要第三方CA(Certificate Authority)为站点颁发数字证书，这个证书具有CA通过自己的公钥和私钥实现的签名。
+
+为了得到签名，服务器需要通过自己的私钥生成CSR(Certificate Signing Request)文件。CA将通过这个文件颁发属于该服务器的签名证书，只要通过CA机构就能验证证书是否合法。
+
+
+自己扮演CA机构，给自己的服务器颁发证书：
+
+    // 生成私钥
+    $ openssl genrsa -out ca.key 1024
+    // 生成CSR文件
+    $ openssl req -new -key ca.key -out ca.csr
+    // 通过私钥子签名生成证书
+    $ openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt
+
+生成服务器的证书：
+
+    // 生成服务器CSR文件
+    $ openssl req -new -key server.key -out server.csr
+    // 生成服务器证书
+    $ openssl x509 -req -CA ca.crt -CAkey ca.key -CAcreateserial -in server.csr -out server.crt
+
 ### 原理
 
 1. 客户端首先会将自己支持的加密算法，打个包告诉服务器端。
-2. 服务器端从客户端发来的加密算法中，选出一组加密算法和HASH算法，并将自己的身份信息以电子证书(而证书中包含了网站的地址，加密用的公钥，以及证书的颁发机构等)的形式发回给客户端。
+2. 服务器端从客户端发来的加密算法中，选出一组加密算法和HASH算法，并将自己的身份信息以**电子证书**(而证书中包含了服务器的名称和地址，服务器加密用的公钥，签名颁发机构名称，来自签名颁发机构的签名等，在建立连接前，会通过证书中的签名确认收到的公钥是来自目标服务器的，从而产生信任关系，避免中间人攻击)的形式发回给客户端。
 3. 客户端收到了服务器发来的数据包后，会做这么几件事情：
     1. 验证一下证书是否合法。一般来说，证书是用来标示一个站点是否合法的标志。如果说该证书是由权威的第三方颁发和签名的，则说明证书合法。
     2. 如果证书合法，或者客户端接受和信任了不合法的证书，则客户端就会随机产生一串序列号，使用服务器发来的公钥进行加密。这时候，一条返回的消息就基本就绪。

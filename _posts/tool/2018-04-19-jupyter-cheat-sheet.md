@@ -1,5 +1,5 @@
 ---
-title: Jupyter使用
+title: Jupyter cheat sheet
 tags: [Jupyter]
 ---
 

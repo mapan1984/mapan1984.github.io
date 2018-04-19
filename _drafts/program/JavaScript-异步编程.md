@@ -3,12 +3,23 @@ title: JavaScript异步编程
 tags: [JavaScript]
 ---
 
+### 事件发布/订阅
+
+```JavaScript
+emitter.on('event', function(result) {
+    // do somethings with result
+})
+
+emitter.emit('event', 'result')
+```
+
 ### Promise
 
 `Promise`对象的特点：
 
-1. 对象的状态不受外界影响，`Promise`对象代表一个一般操作，有三种状态：`pending`, `fulfilled`, `rejected`，只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作无法改变这个状态。
-2. 一旦状态改变，就不会在变，任何时候都可以得到这个结果。`Promise`对象状态改变，只有两种可能：从`pending`到`fulfilled`或到`rejected`，只要这两种改变发生，状态就不会在变，这时称为resolved。
+1. `Promise`对象代表一个一般操作，只会处在三种状态的一种：`pending`, `fulfilled`, `rejected`。
+2. `Promise`对象状态改变，只有两种可能：从`pending`到`fulfilled`或到`rejected`。
+3. `Promise`对象的状态一旦改变，就不能被更改。
 
 ```javascript
 const promise = new Promise(function(resolve, reject) {
@@ -34,8 +45,7 @@ promise.then(function(value) {
 })
 ```
 
-.then(x,y) 和 then(x).catch(x)
-.then 接受第二个回调参数来处理错误。虽然与 then(x).catch(x) 看一起类似，但却有所不同，不同点在于可捕获的错误。
+虽然与 then(x).catch(x) 看起来类似，但却有所不同，不同点在于可捕获的错误。
 
 下面例子很好地说了这个问题：
 
@@ -68,7 +78,7 @@ let prom = Promise.resolve(5)
 
 ```javascript
 const obj = {
-    [Symbol.iterator] : function() {
+    [Symbol.iterator]: function() {
         let index = 0
         return {  // 返回遍历器对象
             next: function() {
@@ -231,6 +241,7 @@ for (let x of obj) {
 ### async函数
 
 async函数是Generator函数的语法糖
+
 ```javascript
 const fs = require('fs')
 
@@ -267,3 +278,4 @@ const asyncReadFile = async function () {
 `async`函数的返回值是Promise对象,可以使用`then`方法添加回调函数。`async`函数内部`return`语句的返回值，会成为`then`方法回调函数的参数。`async`函数内部抛出错误，会导致返回的 Promise 对象变为`reject`状态。抛出的错误对象会被`catch`方法回调函数接收到。
 
 当函数执行的时候，一旦遇到`await`就会先返回，等到异步操作完成，再接着执行函数体内后面的语句。
+
