@@ -295,3 +295,12 @@ export PATH=$PATH:~/bin
 # 正确
 export PATH=$PATH:$HOME/bin
 ```
+
+### 执行方式
+
+1. `./script.sh`: 父进程会fork一个子进程，shell script在子进程中执行，对环境的改变(如设置环境变量、跳转到其他目录)只在子进程中生效，只有子进程的输出文本打印当前shell。
+2. `source`: 在原进程中执行，不会fork子进程；
+3. `sh`: 父进程会fork一个子进程，shell script在子进程中执行；
+    * `-n`: 语法检查
+    * `-x`: 语句逐条跟踪
+4. `exec`: 不启动新的shell，而是用要被执行的命令替换当前的 shell 进程

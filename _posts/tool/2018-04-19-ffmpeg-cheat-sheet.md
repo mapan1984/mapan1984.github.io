@@ -30,6 +30,10 @@ file ./split1.mp4
 file ./split2.mp4
 ```
 
+提取图片：
+
+    $ ffmpeg –i input.mp4 –r 1 –f image2 image-%3d.jpeg
+
 ## 字幕
 
 转换字幕格式
@@ -43,4 +47,15 @@ file ./split2.mp4
 嵌入srt字幕
 
     $ ffmpeg -i input.mp4 -vf subtitles=subtitles.srt output.mp4
+
+## 音频
+
+合并音频与视频：
+
+    $ ffmpeg -i video.mp4 -i avdio.mp4 output.mp4
+
+抽取音频：
+
+    $ ffmpeg -i video.mp4 -vn -y -acodec copy avdio.aac
+    $ ffmpeg -i video.mp4 -vn -y -acodec copy avdio.m4a
 

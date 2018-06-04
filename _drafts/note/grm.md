@@ -1,0 +1,273 @@
+## 简单句的五大句型
+
+1. 主语 + 谓语
+
+2. 主语 + 谓语 + 宾语
+
+3. 主语 + 谓语 + 宾语 + 宾语
+        - Please do me a favor. (Could you do me a favor?)
+        - Love gives us a fairy tale.
+        - I will make Alex a cake.
+        - She will make him a good wife.
+
+        检验原则：两个宾语可以调换位置（需增加相应介词to/for)。
+
+4. 主语 + 谓语 + 宾语 + 补语(=主语 + 谓语 + 复合宾语)
+        - I found the book easy.
+        - Love makes man grow up or sink down.
+        - She will make him a good husband.
+
+        检验原则：宾语和补语之间加一个系动词，可以构成语义通顺的句子。
+
+   **An arrogant person considers himself perfect.** This is the chief harm of arrogance. It interferes with a person's main task in life -- becoming a better person.
+
+5. 主语 + 谓语 + 补语(= 主语 + 系动词 + 表语)
+        - You are my sunshine.
+
+        系动词：linking verb (连接主语和后面的成分)
+
+   >  **You are my sunshine** my only sunshine
+   >
+   >  **You make me happy** when skies are grey
+   >
+   >  You'll never know dear how much I love you
+   >
+   >  So please don't take my sunshine away
+
+## 如何分析句子：
+
+1. 抓主干：主谓宾
+2. 修饰成分：定状补
+
+An easy-going non-self-denying life will never be one of power.
+
+
+Tools and technology have been ignored.
+
+Tools and technology themselves(本身) as a source of fundamental innovation have largely been ignored by historians an philosophers of science..
+
+## 谓语单一原则
+
+一个简单句只能有一个谓语。
+
+如果要表达多个动作概念，有三种方式：
+
+1. 连词
+2. 非谓语动词：
+    1. 分词`v-ing`(主动)
+    2. 过去分词`v-ed`(被动)
+    3. 动词不定式`to do`(将要)
+3. 从句
+
+下面给一个在一个句子中表达多个动作概念的例子：
+
+- 有很多恋人最后都变成了陌生人。
+- There *are* many lovers *become* the strangers finally.(错误，有`are`和`become`两个动词)
+
+解决方法有三种：
+
+1. 连词(并列)：
+    - There *are* many lovers **and** they *become* the strangers finally.
+    - There *are* many lovers **and** *become* the strangers finally.（并列句中后面的句子可省略与前一句中相同成分的部分）
+
+    一个复杂句中有N个谓语动词就意味着N个简单句，需要N-1个连接词。
+2. 非谓语动词：There are many **lovers becoming the strangers** finally.
+3. 从句：There are many **lovers who become the strangers** finally.
+
+## 句子的分类
+
+1. 简单句
+        - Great minds discuss ideas. Average minds discuss events. Small minds discuss people.
+2. 并列句
+        - Life is fragile, and evil is real, but courage triumphs.
+        - We are all in the gutter, but some of us are looking at the stars.
+3. 复合句
+    - 由一个主句和一个或多个从句构成。
+    - 主机是全句的主体，通常可以独立存在；从句则是一个句子成分，不能独立存在。
+    - 从句不能单独成句，但它也有主语部分和谓语部分。所不同在于，从句须由一个关系词引导。
+
+## 主语和从句的关系
+
+从句 = 引导词 + 句子
+引导词总是谓语从句之首
+
+## 如何在主从复合句中找到主句？
+
+1. 划出所有引导词
+2. 引导词之后的第一个动词为从句谓语动词
+3. 所有从句谓语动词找到之后，最后剩下的即为主语谓语动词
+
+- I think this idea is available.
+- You are **the last `man` `I` will marry**.(引导词省略)
+- 两个名词是句子之间的天然隔断
+
+## 从句的分类
+
+> If there is anyone out there (who still doubts (that America is a place (where all things are possible))), (who still wonders (if the dream of our founders is alive in our time)), (who still questions the power of our democracy), tonight is your answer.
+
+1. 名词性从句
+
+        主语   +   谓语   +   宾语
+          |                    |
+          +---> 名词性从句 <---+
+
+
+        主语   +   系动词   +   表语
+          |                      |
+          +----> 名词性从句 <----+
+
+    名词型从句在句子中做名词成分，根据位置的不同，可将名词性从句分为：
+
+    1. 主语从句
+    2. 宾语从句
+    3. 表语从句
+    4. 同位语从句
+
+2. 形容词性从句（定语从句）
+
+        (定语)主语 + (状语)谓语 + (定语)宾语
+
+3. 副词性从句（状语从句）
+
+        (定语)主语 + (状语)谓语 + (定语)宾语
+
+### 主语从句
+
+- **What is worth doing** is worth doing well.
+- **When he will come** is not known.
+
+#### 主语从句的变体:
+
+为避免头重脚轻，用It替代主语：
+
+- It is + 形容词 + that 从句:
+  - It is clear that ...
+  - It is natural that ...
+  - It is fortunate that ...
+  - It is likely that ...
+
+要注意上面的句型与强调句的区别，强调句如下所示：
+
+- It is **the Start** that **stops most people**.
+
+它们有相同的形式，但强调句的`It is`和`that`可以去掉，剩下的部分任可以构成完整句。
+
+#### 主语从句的写作应用
+
+利弊作文结尾句：
+
+> **Whether ... is blessing or cursing** is a difficult question to answer, yet **the comfort or convenience that it brings** will not be eliminated.
+
+### 宾语从句
+
+- Life is like a box of chocolate, you never know **what you are going to get**.
+- We can't run from **who we are**.
+- I don't know **what your name is**.
+
+#### 从句使用陈述句语序
+
+- 当你身处困境的时候，就会知道谁是你真正的朋友。
+- 错误：When you are in trouble, you will know **who is your real friend**.
+- 正确：When you are in trouble, you will know **who your real friend is**.
+
+#### 写作应用
+
+图表作文引出数据：
+
+A recent *investigation* *indicated* that ...
+
+- investigation, study, survey
+- indicate, show, suggest
+
+### 表语从句
+
+- The great thing about a computer notebook is **that no matter how much you stuff into it, it doesn't get bigger or heavier**.
+- Middle age is **when your broad mind and narrow waist begin to change places**.
+
+### 同位语从句
+
+同位语从句和其修饰的名词内容相等，是名词后的完整句。
+
+1. 一般修饰抽象名词，例如：truth, idea, news, information, hope
+2. 形式通常为：抽象名词 + that + 陈述句
+
+- 同位语：Beijing, **the capital of China**, is very beautiful.
+- 定语从句：The idea **that he told me** was true.
+- 同位语从句：The idea **that the number 13 will bring bad luck** is true.
+
+## 动词时态
+
+时间(tiem)与状态(aspect)分开处理，时间观念（现在、过去、未来）非常简单，状态的观念比较麻烦，如果再把主动、被动语态(voice)加进来，变换就更多了。
+
+把be动词当作动词，其后的分词则视为形容词补语，则只要分析be动词写的简单式，以及用have been写的完成式两种状态。
+
+### 简单式
+
+#### 过去时间
+
+- The U.S **established** diplomatic relations with the P.R.C **in 1997**.
+- The movable print **was** introduced to English **in 1485**.
+- I **was** visiting clients **the whole day yesterday**.
+- I **was** watching TV **when I heard the doorbell**.
+- The witness **was** being questioned in court **when he had a heart attack**.
+
+#### 现在时间
+
+- Huang **pitches** a fast ball. Li **swings**. It **looks** like a hit. The shortstop **fails** to stop it. It'**s** a double!
+- Bush **is** the U.S President.
+- All mothers **love** their children.
+- 7-ELEVEN **is** selling big cokes at a discount **this month**.
+- According to the NASA survey, the ozone layer **is** being depleted.
+
+#### 未来时间
+
+- There **will be** a major election **in March**.
+- Don't call me at six tomorrow. I **will** still **be** sleeping **then**.
+- The building **will be** razed **next month**.
+
+### 完成式
+
+#### 现在时间
+
+- I'm sure I **have seen** this face somewhere.
+- We **have been** working overtime **for a week** to fill your order.
+- The house **has been** redecorated twice since they moved in.
+
+#### 过去时间
+
+- Many soldiers **had died** from pneumonia **before the discovery of penicillin**.
+- I **had been** smoking three packs of cigarettes a day **before I decided to quit**.
+- Japan **had not been** defeated yet **by the time Germany surrendered** unconditionally.
+
+#### 未来时间
+
+- Next April, I **will have worked** here for 20 years.
+- Come back **at 5:00**. Your car **will have been** fixed **by then**.
+- **In two more minutes**, she **will have been** talking on the phone **for three hours**!
+
+## A of B
+
+### A of B：B的A
+
+A和B都是名词
+
+- a hard-working man
+- a man of diligence
+- The Sound of Music：音乐之声
+- The lord of Ring：指环王
+- The Return of the King：王者归来
+- With this faith, we are able to hew out of **the mountain of despair** **a stone of hope**.
+- Failure is the foundation of success; success is the lurking place of failure.
+
+### A of B of C：C的B的A
+
+- the insights of great men of genius
+
+### 作为量词
+
+- a box of chocolate
+
+### A of B in Writing
+
+- The pervasive **issue of ...** is heatedly debated by the public recently. Some individuals contend that ..., while others claim that ....
+

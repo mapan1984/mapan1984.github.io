@@ -17,13 +17,20 @@ For example: `ubuntu`
 
 启动默认distro的bash。
 
-## 在Windows命令行中执行wsl命令
+## 执行命令
+
+在Windows命令行中执行wsl命令
 
     > <distroname> -c [command]
     > bash -c [command]
     > wsl [command]
 
-## 在wsl中执行Windows命令
+在wsl中执行Windows命令
 
     $ [binary name].exe
 
+## 挂载盘符
+
+    $ sudo mkdir /mnt/g
+    $ sudo mount -t drvfs G: /mnt/g
+    $ sudo umount /mnt/g

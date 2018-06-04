@@ -1,25 +1,7 @@
 ---
 title: Flask源码解析
-tags: [Python]
+tags: [Python, Flask]
 ---
-
-## 技术分享——Flask
-
-> Flask is a microframework for Python based on Werkzeug, Jinja 2 and good intentions.
-
-Flask的hello world应用：
-
-``` python
-from flask import Flask
-app = Flask(__name__)
-
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
-if __name__ == '__main__':
-    app.run()
-```
 
 ### 设计特点
 
@@ -28,17 +10,9 @@ if __name__ == '__main__':
 * 模块化(Blueprint)：使用蓝图(Blueprint)实现应用的模块化，让应用层次清晰。
 * 上下文(Context)：利用上下文将请求等信息变为全局可访问。
 
-#### 微框架
+### 依赖
 
-设计哲学是Django与Flask之间区别最大的地方，Django提供了一站式的解决方案，从模板，ORM, Session, Authentication，Flask的设计目标是保持核心的精简但是可扩展，提供机制，而不是强加规范。
-
-> “Micro” does not mean that your whole web application has to fit into a single Python file (although it certainly can), nor does it mean that Flask is lacking in functionality. The “micro” in microframework means Flask aims to keep the core simple but extensible. Flask won’t make many decisions for you, such as what database to use. Those decisions that it does make, such as what templating engine to use, are easy to change. Everything else is up to you, so that Flask can be everything you need and nothing you don’t.
-
-#### 依赖
-
-flask依赖jinja2和Werkzeug
-
-##### Jinja2
+#### Jinja2
 
 jinja2是一个功能齐全的模板引擎，这里提供一个简单示例：
 
@@ -49,21 +23,23 @@ jinja2是一个功能齐全的模板引擎，这里提供一个简单示例：
 u'Hello John Doe!'
 ```
 
-##### Werkzeug
+#### Werkzeug
 
-对于新的Pythoner来说Web框架的选择是一个问题，因为在过去Web框架经常被设计为只适用于CGI, FastCGI, mod_python， 或者其他一些web server的通用的API，所以Web的框架的选择会限制Web server的选择。
+##### WSGI
 
-WSGI被创造出来作为一种位于web server和web application or framework之间的低层次的接口。
+在过去，对于新的Pythoner来说，Web框架的选择会是一个问题，因为在过去Web框架经常被设计为只适用于CGI, FastCGI, mod_python， 或者其他一些web server的通用的API，这样Web的框架的选择会限制Web server的选择。
+
+WSGI被创造出来作为一种位于Web Server和Web Application or Framework之间的低层次的接口。
 
 在Python的世界里，通过WSGI约定了Web服务器怎么调用Web应用程序的代码，以及Web应用程序需要符合什么样的规范。只要Web应用程序和Web服务器都遵守WSGI协议，那么，Web应用程序和Web服务器就可以随意的组合。这也就是WSGI存在的原因。
-
 
 ``` python
 # 一个WSGI-compatible "Hello World" application
 def application(environ, start_response):
     """
-    environ: 包含了请求的所有信息
-    start_response: application需要调用的函数，参数分别是status和response_headers
+    Args:
+        environ: 包含了请求的所有信息
+        start_response: application需要调用的函数，参数分别是status和response_headers
     """
     start_response('200 OK', [('Content-Type', 'text/html')])
     return '<h1>Hello, Web!</h1>'
@@ -75,8 +51,9 @@ Flask的实例(如上面的`app`)就是WSGI兼容的application，
 # 一个调用application的例子
 def call_application(app, environ):
     """
-    app: application
-    environ: 可能包含请求方法等信息
+    Args:
+        app: application
+        environ: 可能包含请求方法等信息
     """
     body = []
     status_headers = [None, None]
@@ -98,27 +75,46 @@ def call_application(app, environ):
 status, headers, body = call_application(app, {...environ...})
 ```
 
-wsgi有两边，一边是server或gateway(比如Apache或Nginx)，另一边是application或framework。处理一个请求，server执行application并且提供environment信息和一个callback function给application。application处理请求，用服务器提供的callback function向server返回响应。
+WSGI有两边，一边是Server或Gateway(比如Apache或Nginx)，另一边是Application或Framework。处理一个请求，Server执行Application并且提供Environment信息和一个Callback function给Application。Application处理请求，用服务器提供的Callback function向Server返回响应。
 
-在server和application之间，可能有wsgi middleware，它提供了两边的api。server接收来自client的request并把它向前传递给middleware，经过处理，middleware把request传递给application。application的response经过middleware传递给server并最终到达client。
-
-middleware部分可能提供以下functions:
-
-* 分发request给不同的application根据URL，之后改变environment variables响应的。
-* 允许multiple application 或 framework 运行 side-by-side在一个process
-* 负载均衡和remote processing，根据forward requests and response
-* performing content post-processing, such as applying XSLT stylesheets
+在Server和Application之间，可能有WSGI middleware，它提供了两边的api。Server接收来自Client的Request并把它向前传递给Middleware，经过处理，Middleware把Request传递给Application。Application的Response经过Middleware传递给Server并最终到达Client。
 
 ``` python
 # 提供服务
 import eventlet
 
 def hello_world(environ, start_response):
+    if environ['PATH_INFO'] != '/':
+        start_response('400 Not Found', [('Content-Type', 'text/plain')])
+        return ['Not Found!\r\n']
     start_response('200 OK', [('Content-Type', 'text/plain')])
     return ['Hello, world!\r\n']
 
 eventlet.wsgi.server(eventlet.listen(('', 8080)), hello_world)
 ```
+
+上述的例子用eventlet创建了一个简单的WSGI服务器，`eventlet.listen`创建了一个套接字，`eventlet.wsgi.server`监听对应的地址，端口等，将请求传递给WSGI应用`hello_world`处理。
+
+```
+$ pip install gunicorn
+$ cat myapp.py
+  def app(environ, start_response):
+      data = b"Hello, World!\n"
+      start_response("200 OK", [
+          ("Content-Type", "text/plain"),
+          ("Content-Length", str(len(data)))
+      ])
+      return iter([data])
+$ gunicorn -w 4 myapp:app
+[2014-09-10 10:22:28 +0000] [30869] [INFO] Listening at: http://127.0.0.1:8000 (30869)
+[2014-09-10 10:22:28 +0000] [30869] [INFO] Using worker: sync
+[2014-09-10 10:22:28 +0000] [30874] [INFO] Booting worker with pid: 30874
+[2014-09-10 10:22:28 +0000] [30875] [INFO] Booting worker with pid: 30875
+[2014-09-10 10:22:28 +0000] [30876] [INFO] Booting worker with pid: 30876
+[2014-09-10 10:22:28 +0000] [30877] [INFO] Booting worker with pid: 30877
+```
+
+##### Werkzeug
 
 Werkzeug是一个WSGI工具包，可以作为web框架的底层库。通过Werkzeug，我们可以不必直接处理请求或者响应这些底层的东西，它已经为我们封装好了这些。
 
@@ -132,33 +128,25 @@ def application(environ, start_response):
     return response(environ, start_response)
 ```
 
-### Flask, werkzeug, WSGI, jinja2之间的关系
+### Flask, Werkzeug, WSGI, jinja2之间的关系
 
 Flask是一个基于Python开发并且依赖jinja2模板和Werkzeug WSGI服务的一个微型框架，对于Werkzeug，它只是工具包，其用于接收http请求并对请求进行预处理，然后触发Flask框架，开发人员基于Flask框架提供的功能对请求进行相应的处理，并返回给用户，如果要返回给用户复杂的内容时，需要借助jinja2模板来实现对模板的处理。将模板和数据进行渲染，将渲染后的字符串返回给用户浏览器。
 
-Flask永远不会包含数据库层，也不会有表单库或是这个方面的其它东西。Flask本身只是Werkzeug和Jinja2的之间的桥梁，前者实现一个合适的WSGI应用，后者处理模板。当然，Flask也绑定了一些通用的标准库包，比如logging。除此之外其它所有一切都交给扩展来实现。
-
-为什么呢？因为人们有不同的偏好和需求，Flask不可能把所有的需求都囊括在核心里。大多数web应用会需要一个模板引擎。然而不是每个应用都需要一个SQL数据库的。
-
-Flask的理念是为所有应用建立一个良好的基础，其余的一切都取决于你自己或者扩展。
-
-### 启动过程
-
-Flask的基本使用：
+### Flask启动过程
 
 ``` python
 from flask import Flask
-app = Flask(__name__)
+app = Flask(__name__)           # 实例化Flask类，实例为一个WSGI应用
 
-@app.route("/")
+@app.route("/")                 # 注册路由和相应的处理函数
 def hello():
     return "Hello World!"
 
 if __name__ == "__main__":
-    app.run()
+    app.run()                   # 运行
 ```
 
-Flask类：
+Flask类保存了所有应用需要的信息：
 
 ``` python
 class Flask:
@@ -176,11 +164,11 @@ class Flask:
 用route装饰器注册url到view的映射：
 
 ``` python
-def route(rule):
-    def decorator(f):
-        self.add_url_rule(rule, f.__name__, **options)
-        self.view_functions[f.__name__] = f
-        return f
+def route(self, rule):
+    def decorator(fun):
+        self.add_url_rule(rule, fun.__name__, **options)
+        self.view_functions[fun.__name__] = fun
+        return fun
     return decorator
 ```
 
@@ -197,8 +185,7 @@ wsgi_app是什么：
 
 ``` python
 def wsgi_app(self, environ, start_response):
-    """The actual WSGI application.
-    """
+    """ The actual WSGI application. """
     # 创建请求上下文，并把它压栈。这个在后面会详细解释
     ctx = self.request_context(environ)
     ctx.push()
@@ -227,21 +214,21 @@ def dispatch_request(self):
     try:
         endpoint, values = self.match_request()
         return self.view_functions[endpoint](**values)
-    except HTTPException, e:
+    except HTTPException as e:
         handler = self.error_handlers.get(e.code)
         if handler is None:
             return e
         return handler(e)
-    except Exception, e:
+    except Exception as e:
         handler = self.error_handlers.get(500)
         if self.debug or handler is None:
             raise
         return handler(e)
 ```
 
-#### 路由设计
+### 路由设计
 
-Django的路由设计是采用集中处理的方法，利用正则匹配。Flask也能这么做，但Flask更推荐采用装饰器注册url到view的映射：
+Flask更采用装饰器注册url到view的映射：
 
 ``` python
 @app.route("/")
@@ -260,19 +247,16 @@ class Flask:
         self.url_map = Map()
 
     def route(rule, **options):
-        """
-        rule: the URL rule as string
-        """
-        def decorator(f):
-            self.add_url_rule(rule, f.__name__, **options)
-            self.view_functions[f.__name__] = f
-            return f
+        def decorator(fun):
+            self.add_url_rule(rule, fun.__name__, **options)
+            self.view_functions[fun.__name__] = fun
+            return fun
         return decorator
 ```
 
-#### 模块化
+### 模块化
 
-Django的模块化是集成在命令中的，通过Django提供的命令初始整个项目的结构以及application的结构，为以后的复用提供了便利。Flask通过蓝图(Blueprint)实现模块化，自己对项目结构进行划分，组织成不同的模块。
+Flask通过蓝图(Blueprint)实现模块化，自己对项目结构进行划分，组织成不同的模块。
 
 ``` python
 # admin.py
@@ -303,7 +287,7 @@ if __name__ == '__main__':
     app.run()
 ```
 
-#### 上下文
+### 上下文
 
 在使用Flask的开发过程中，我们可以通过以下方式获得http请求的信息：
 
@@ -313,13 +297,14 @@ from flask import request
 @app.route('/')
 def hello():
     # 获得请求的`name`参数
-    name = request.args.get('name', None)
+    name = request.args.get('name')
 ```
 
 request看起来像是一个全局变量，但是一个全局变量为什么可以在一个多线程环境中随意使用呢？
 
 ``` python
 _request_ctx_stack = LocalStack()
+
 current_app = LocalProxy(lambda: _request_ctx_stack.top.app)
 request = LocalProxy(lambda: _request_ctx_stack.top.request)
 session = LocalProxy(lambda: _request_ctx_stack.top.session)
@@ -362,6 +347,8 @@ class Local(object):
         except KeyError:
             raise AttributeError(name)
 ```
+
+在多线程环境下，实际的`__storage__`属性看起来如下：
 
 ``` python
 __storage__ = {
@@ -408,6 +395,8 @@ class LocalStack(object):
             return None
 ```
 
+在多线程环境下，`_local`属性看起来如下：
+
 ``` python
 _local.__storage__ = {
     `thread_id_1`: {'stack': [a, b, c, ...]},
@@ -416,12 +405,22 @@ _local.__storage__ = {
 }
 ```
 
-LocalProxy则是一个典型的代理模式实现，它在构造时接受一个callable的参数（比如一个函数），这个参数被调用后的返回值本身应该是一个Thread Local对象。对一个LocalProxy对象的所有操作，包括属性访问、方法调用（当然方法调用就是属性访问）甚至是二元操作都会转发到那个callable参数返回的Thread Local对象上。
+Flask实际的`_request_ctx_stack`
+
+``` python
+{
+    880: {'stack': [<flask._RequestContext object>]},
+    13232: {'stack': [<flask._RequestContext object>]}
+}
+```
+
+LocalProxy则是一个典型的代理模式实现，它在构造时接受一个callable的参数（比如一个函数），这个参数被调用后的返回值本身应该是一个Thread Local对象。对一个LocalProxy对象的所有操作，包括属性访问都会转发到那个callable参数返回的Thread Local对象上。
 
 ``` python
 class LocalProxy(object):
     """Local对象的代理，负责把所有对自己的操作转发给内部的Local对象"""
     def __init__(self, local, name=None):
+        # 注意`_LocalProxy__local`是为了找到类的私有属性`__local`
         object.__setattr__(self, '_LocalProxy__local', local)
         object.__setattr__(self, '__name__', name)
 
@@ -450,16 +449,4 @@ class LocalProxy(object):
             raise AttributeError('__dict__')
 ```
 
-``` python
-{
-    880: {'stack': [<flask._RequestContext object>]},
-    13232: {'stack': [<flask._RequestContext object>]}
-}
-```
-
-``` python
-_request_ctx_stack = LocalStack()
-
-request = LocalProxy(lambda: _request_ctx_stack.top.request)
-```
-
+我们可以直接对`LocalStack`进行操作，但向上面的情况，在请求为发生时`LocalStack`还为空，而**`LocalProxy`可以让我们把对`LocalStack`的访问推迟到进行具体操作(比如属性访问)的时候**，这样的话我们可以做到在开始就引入`request`，在视图函数中(即`LocalStack`已经有请求对象时)进行访问就会取到我们要的值。
