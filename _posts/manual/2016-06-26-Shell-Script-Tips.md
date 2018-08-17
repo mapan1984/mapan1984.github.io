@@ -32,6 +32,11 @@ tags: [Shell]
 
     # 获取数组长度
     ${#array[@]}
+
+    for i in "${array[@]}"
+    do
+        # do some
+    done
     ```
 3. map
     ``` bash

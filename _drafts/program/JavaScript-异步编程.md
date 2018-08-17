@@ -45,7 +45,7 @@ promise.then(function(value) {
 })
 ```
 
-虽然与 then(x).catch(x) 看起来类似，但却有所不同，不同点在于可捕获的错误。
+虽然与`then(x).catch(x)`看起来类似，但却有所不同，不同点在于是否可捕获`then`中发生的错误。
 
 下面例子很好地说了这个问题：
 
@@ -64,7 +64,7 @@ promise.then(function(value) {
 });
 ```
 
-JavaScript 提供了 Promise.resolve API，是产生 Promise 对象的一种快捷方式，这个 promise 对象是被 resolve 的。
+JavaScript 提供了`Promise.resolve`API，是产生`Promise`对象的一种快捷方式，这个promise对象是被resolve的。
 
 ```JavaScript
 let similarProm = new Promise(res => res(5))
@@ -74,7 +74,7 @@ let prom = Promise.resolve(5)
 
 ### Iterator 和 for ... of 循环
 
-默认的Iterator接口部署在数据结构的`Symbol.iterator`属性，`Symbol.iterator`属性本身是一个函数，就是当前数据结构默认的遍历器生成函数，执行这个函数，就会返回一个遍历器。
+默认的Iterator接口部署在对象的`Symbol.iterator`属性，`Symbol.iterator`属性本身是一个函数，就是当前对象默认的遍历器生成函数，执行这个函数，就会返回一个遍历器。
 
 ```javascript
 const obj = {
@@ -130,7 +130,7 @@ function range(start, stop) {
   return new RangeIterator(start, stop)
 }
 
-for (var value of range(0, 3)) {
+for (let value of range(0, 3)) {
   console.log(value) // 0, 1, 2
 }
 ```
@@ -142,13 +142,15 @@ for (var value of range(0, 3)) {
     ```javascript
     let set = new Set().add('a').add('b').add('c')
 
-    let [x,y] = set
+    let [x, y] = set
     // x='a' y='b'
 
     let [first, ...rest] = set
     // first='a' rest=['b','c']
     ```
+
 2. 扩展操作符
+
     ```javascript
     // 例一
     var str = 'hello'
@@ -161,7 +163,9 @@ for (var value of range(0, 3)) {
 
     let arr = [...iterable]
     ```
-3. yield*(类似Python的`yield from`)
+
+3. `yield*`(类似Python的`yield from`)
+
     ```javascript
     let generator = function* () {
       yield 1
@@ -169,7 +173,7 @@ for (var value of range(0, 3)) {
       yield 5
     }
 
-    var iterator = generator()
+    let iterator = generator()
 
     iterator.next() // { value: 1, done: false }
     iterator.next() // { value: 2, done: false }
@@ -181,13 +185,13 @@ for (var value of range(0, 3)) {
 
 遍历器除了有`next`方法外，还可以具有`return`和`throw`方法。
 
-如果`for ... of`循环提前退出(出错或有`break`或`continue`语句)，就会调用`return`方法。如果一个对象在完成遍历前，需要清理或释放资源，就可以部署return方法。
+如果`for ... of`循环提前退出(出错或有`break`或`continue`语句)，就会调用`return`方法。如果一个对象在完成遍历前，需要清理或释放资源，就可以部署`return`方法。
 
 `throw`方法主要配合Generator函数使用。
 
 ### Generator函数
 
-Generator函数类似Python的Generator函数，可以理解为一个状态机，封装了多个内部状态，执行Generator函数会返回一个可以依次遍历Generator函数内部每一个状态的遍历器对象。
+JavaScript的Generator函数与Python的Generator函数类似，可以理解为一个状态机，封装了多个内部状态，执行Generator函数会返回一个可以依次遍历Generator函数内部每一个状态的遍历器对象。
 
 ```javascript
 function* helloWorld() {
@@ -195,19 +199,13 @@ function* helloWorld() {
   yield 'world'
   return 'ending'
 }
+
 hw = helloWorld()
 
-hw.next()
-// { value: 'hello', done: false }
-
-hw.next()
-// { value: 'world', done: false }
-
-hw.next()
-// { value: 'ending', done: true }
-
-hw.next()
-// { value: undefined, done: true }
+hw.next()  // { value: 'hello', done: false }
+hw.next()  // { value: 'world', done: false }
+hw.next()  // { value: 'ending', done: true }
+hw.next()  // { value: undefined, done: true }
 ```
 
 使用Generator函数可以简便的实现`Symbol.iterator`方法：
@@ -273,7 +271,7 @@ const asyncReadFile = async function () {
 }
 ```
 
-`await`命令后面，可以是Promise对象和原始类型的值(这时等同于同步操作)，如果不是Promise对象，会被转成一个立即`resolve`的Promise对象。
+`await`命令后面，可以是Promise对象或原始类型的值(这时等同于同步操作，如果不是Promise对象，会被转成一个立即`resolve`的Promise对象)。
 
 `async`函数的返回值是Promise对象,可以使用`then`方法添加回调函数。`async`函数内部`return`语句的返回值，会成为`then`方法回调函数的参数。`async`函数内部抛出错误，会导致返回的 Promise 对象变为`reject`状态。抛出的错误对象会被`catch`方法回调函数接收到。
 
