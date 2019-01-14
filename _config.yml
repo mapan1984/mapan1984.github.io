@@ -73,6 +73,11 @@ defaults:
       categories: ["Network"]
   -
     scope:
+      path: "_posts/note"
+    values:
+      categories: ["Note"]
+  -
+    scope:
       path: "_posts/program"
     values:
       categories: ["Program"]
