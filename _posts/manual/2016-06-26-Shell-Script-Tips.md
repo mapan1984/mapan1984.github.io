@@ -7,67 +7,72 @@ tags: [Shell]
 ### 基本类型
 
 1. 变量
-    ``` bash
-    fun() {
-        local local_var="hello, world!"  # only in function
-    }
-    export export_var="hello, world!"
-    readonly CONST_VAR="hello, world!"
-    str="hello, world!"
-    echo $str
-    echo ${str}
-    ```
+        ``` bash
+        fun() {
+            local local_var="hello, world!"  # only in function
+        }
+        export export_var="hello, world!"
+        readonly CONST_VAR="hello, world!"
+        str="hello, world!"
+        echo $str
+        echo ${str}
+        ```
 2. 数组
-    ``` bash
-    # 声明与赋值
-    array[0]=val
-    array[1]=val
+        ``` bash
+        # 声明与赋值
+        array[0]=val
+        array[1]=val
 
-    array=([1]=val, [0]=val)
+        array=([1]=val, [0]=val)
 
-    array=(val val)
+        array=(val val)
 
-    # 获取数组中元素
-    ${array[index]}
+        # 获取数组中元素
+        ${array[index]}
 
-    # 获取数组长度
-    ${#array[@]}
+        # 获取数组长度
+        ${#array[@]}
+        ${#array[*]}
 
-    for i in "${array[@]}"
-    do
-        # do some
-    done
-    ```
+        # 第 index 个元素的长度
+        ${#array[index]}
+
+        # 数组全部元素
+        for i in "${array[@]}"
+        do
+            # do some
+        done
+        ```
 3. map
-    ``` bash
-    declare -A animals
-    animals=(["moo"]="cow" ["woof"]="dog")
+        ``` bash
+        declare -A animals
+        animals=(["moo"]="cow" ["woof"]="dog")
 
-    declare -A animals=(["moo"]="cow" ["woof"]="dog")
+        declare -A animals=(["moo"]="cow" ["woof"]="dog")
 
-    ${animals[moo]}
-    ```
+        ${animals[moo]}
+        ```
 3. ternary condition
-    ``` bash
-    ${varname:-word}  # 如果varname存在且不为null，返回$varname；否则返回word
-    ${varname:=word}  # 如果varname存在且不为null，返回$varname；否则赋值varname=word，并返回word
-    ${varname:+word}  # 如果varname存在且不为null，返回word; 否则返回null
-    ${varname:offset:length}  # 将$varname看作字符串，返回${varname[offset:offset+length]}
-    ```
+        ``` bash
+        ${varname:-word}  # 如果varname存在且不为null，返回$varname；否则返回word
+        ${varname:=word}  # 如果varname存在且不为null，返回$varname；否则赋值varname=word，并返回word
+        ${varname:+word}  # 如果varname存在且不为null，返回word; 否则返回null
+        ${varname:offset:length}  # 将$varname看作字符串，返回${varname[offset:offset+length]}
+        ```
 4. string substitution
-    ``` bash
-    ${variable#pattern}         # if the pattern matches the beginning of the variable's value, delete the shortest part that matches and return the rest
-    ${variable##pattern}        # if the pattern matches the beginning of the variable's value, delete the longest part that matches and return the rest
-    ${variable%pattern}         # if the pattern matches the end of the variable's value, delete the shortest part that matches and return the rest
-    ${variable%%pattern}        # if the pattern matches the end of the variable's value, delete the longest part that matches and return the rest
-    ${variable/pattern/string}  # the longest match to pattern in variable is replaced by string. Only the first match is replaced
-    ${variable//pattern/string} # the longest match to pattern in variable is replaced by string. All matches are replaced
-    ${#varname}     # returns the length of the value of the variable as a character string
-    ```
+        ``` bash
+        ${variable#pattern}         # if the pattern matches the beginning of the variable's value, delete the shortest part that matches and return the rest
+        ${variable##pattern}        # if the pattern matches the beginning of the variable's value, delete the longest part that matches and return the rest
+        ${variable%pattern}         # if the pattern matches the end of the variable's value, delete the shortest part that matches and return the rest
+        ${variable%%pattern}        # if the pattern matches the end of the variable's value, delete the longest part that matches and return the rest
+        ${variable/pattern/string}  # the longest match to pattern in variable is replaced by string. Only the first match is replaced
+        ${variable//pattern/string} # the longest match to pattern in variable is replaced by string. All matches are replaced
+        ${#varname}     # returns the length of the value of the variable as a character string
+        ```
 
 ### 条件表达式
 
-1. 算术
+1. 数字
 
         -eq: [eq]ual to
         -ne: [n]ot [e]qual
@@ -165,9 +170,65 @@ do
     let x++;
     echo $x;
 done
+
+
+#### while read
+while read line; do
+    # do something with line
+done < $filepath;
+```
+
+### heredoc
+
+``` sh
+sshpass -p "$kpasswd1" ssh root@$khost1_ipv6 << EOF
+    mkdir -p $ZK_LOG_DIR
+    rm -rf /data/zookeeper/* >/dev/null 2>&1
+    echo "1" > /data/zookeeper/myid
+    service zookeeper-server restart >/dev/null 2>&1
+EOF
+
+$ sql=$(cat <<EOF
+SELECT foo, bar FROM db
+WHERE foo='baz'
+EOF
+)
+
+$ cat <<EOF > print.sh
+#!/bin/bash
+echo \$PWD
+echo $PWD
+EOF
+
+$ cat <<EOF | grep 'b' | tee b.txt
+foo
+bar
+baz
+EOF
+```
+
+heredoc的结尾`EOF`不能缩进，必须在行首，可以使用`<<-`代替`<<`来使用缩进，此时缩进必须使用`<tab>`
+
+``` sh
+if [ 1 ]; then
+    cat <<-EOF
+        indented
+    EOF
+fi
+echo Done
 ```
 
 ### 算术运算
+
+运算符：
+
+``` sh
+# 加、减、乘、除、取余
++ - * / %
+
+# 与、或、非、异或、
+& | ! ^
+```
 
 ``` sh
 #### let
@@ -203,6 +264,16 @@ result=$(expr $no1 + 5)
 #### bc
 
 result=`echo "$no * 1.5" | bc`
+```
+
+进制转换：
+
+``` sh
+# $((N#xxx))  N 表示进制，xxx为改进制下的数值
+
+$((2#110))
+
+$((16#2a))
 ```
 
 ### 函数与参数
@@ -304,8 +375,57 @@ export PATH=$PATH:$HOME/bin
 ### 执行方式
 
 1. `./script.sh`: 父进程会fork一个子进程，shell script在子进程中执行，对环境的改变(如设置环境变量、跳转到其他目录)只在子进程中生效，只有子进程的输出文本打印当前shell。
-2. `source`: 在原进程中执行，不会fork子进程；
-3. `sh`: 父进程会fork一个子进程，shell script在子进程中执行；
+2. `source`: 在原进程中执行，不会fork子进程，效果和直接敲里面的命令一样，处于交互模式。
+3. `sh`: 父进程会fork一个子进程，shell script在子进程中执行，非交互模式。
     * `-n`: 语法检查
     * `-x`: 语句逐条跟踪
 4. `exec`: 不启动新的shell，而是用要被执行的命令替换当前的 shell 进程
+
+### 交互模式/非交互模式
+
+交互模式(interactive mode)是指用户输入`bash`或`ssh`登录到主机后的那种模式，出现`$ `的Prompt,等待用户的输入指令。
+
+非交互模式(non-interactive mode)是指使用`bash`运行一个命令或脚本，运行完成`bash`就退出。
+
+可以通过环境变量`$-`中是否有字符`i`来测试是否为交互模式
+
+    $ [[ $- == *i* ]] && echo "Interactive" || echo "Not Interactive"
+    Interactive
+    $ bash -c '[[ $- == *i* ]] && echo "Interactive" || echo "Not Interactive"'
+    Not Interactive
+
+写一个脚本`check_interactive.sh`：
+
+``` sh
+[[ $- == *i* ]] && echo "Interactive" || echo "Not Interactive"
+```
+
+    $ source check_interactive.sh
+    Interactive
+    $ bash check_interactive.sh
+    Not Interactive
+    $ bash -c "source check_interactive.sh"
+    Not Interactive
+
+bash 配置是针对交互模式的，所以在`.bashrc`开头就有判断代码：
+
+``` sh
+[[ $- != *i* ]] && return
+```
+
+### Login/Non-Login
+
+1. Login：终端登录、ssh 连接、 `su --login <username>`
+2. Non-Login：直接运行bash、`su <username>`
+
+判断是否为Login：
+
+    $ shopt -q login_shell && echo "Login shell" || echo "Not login shell"
+    Not login shell
+    $ bash -c 'shopt -q login_shell && echo "Login shell" || echo "Not login shell"'
+    Not login shell
+    $ bash --login -c 'shopt -q login_shell && echo "Login shell" || echo "Not login shell"'
+    Login shell
+
+登录模式：只加载`~/.bash_profile`，如果`~/.bash_profile`不存在，尝试加载`~/.bashrc`
+非登录模式：只加载`~/.bashrc`

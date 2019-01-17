@@ -1,6 +1,7 @@
 # Site settings
 title: MaPan - Blog
 url: https://mapan1984.github.io
+enforce_ssl: mapan1984.github.io
 email: mapan1984@outlook.com
 github_username: mapan1984
 description: > # this means to ignore newlines until "baseurl:"
@@ -34,7 +35,7 @@ sass:
 ## paginator
 plugins: [jekyll-paginate]
 paginate: 15
-paginate_path: "page:num"
+paginate_path: "/page:num/"
 #
 ## permalink
 permalink: pretty

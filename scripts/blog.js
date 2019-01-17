@@ -45,3 +45,10 @@ $(document).ready(function (){
         }
     });
 });
+
+$(document).ready(function (){
+    let host = "mapan1984.github.io";
+    if ((host == window.location.host) && (window.location.protocol != "https:")) {
+        window.location.protocol = "https";
+    }
+});

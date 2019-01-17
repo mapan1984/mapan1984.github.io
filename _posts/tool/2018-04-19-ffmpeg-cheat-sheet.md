@@ -48,6 +48,22 @@ file ./split2.mp4
 
     $ ffmpeg -i input.mp4 -vf subtitles=subtitles.srt output.mp4
 
+字幕样式与位置：
+
+    $ ffmpeg -i input.mp4 -vf "subtitles=target.srt:force_style='FontSize=20,Alignment=6'" output.mp4
+
+Alignment 指字幕位置，可选值有：
+
+    • 1: Bottom left
+    • 2: Bottom center
+    • 3: Bottom right
+    • 5: Top left
+    • 6: Top center
+    • 7: Top right
+    • 9: Middle left
+    • 10: Middle center
+    • 11: Middle right
+
 ## 音频
 
 合并音频与视频：
@@ -59,3 +75,6 @@ file ./split2.mp4
     $ ffmpeg -i video.mp4 -vn -y -acodec copy avdio.aac
     $ ffmpeg -i video.mp4 -vn -y -acodec copy avdio.m4a
 
+## 转换
+
+    $ ffmpeg -i video.mkv -codec copy video.mp4

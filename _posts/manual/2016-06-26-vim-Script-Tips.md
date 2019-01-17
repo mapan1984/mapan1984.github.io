@@ -53,3 +53,4 @@ augroupend
 * shellescape({string})转义 {string} 以便用作外壳命令的参数。
 * silent命令在运行一个命令的同时隐藏它的正常输出。
 * 用`<c-u>`来执行"从光标所在处删除到行首的内容"，移除多余文本。
+* `==#`: case-sensitive `==?`: case-insensitive
