@@ -94,3 +94,37 @@ let times = (() => {
 })()
 ```
 
+## Iterable/iterator
+
+可作用于`for of`循环的对象都是 Iterable 类型，for 循环先调用 对象的 `Symbol.iterator` 函数获取一个迭代器（实现 `next()` 方法（返回`value`和`done`））
+
+``` javascript
+const obj = {
+    name: 'pan',
+    age: 23,
+    [Symbol.iterator]: function() {
+        let age = 23
+        const iterator = {
+            next() {
+                return {
+                    value: age,
+                    done: age++ > 24
+                }
+            }
+        }
+        return iterator
+    }
+}
+```
+
+``` javascript
+const obj = {
+    name: 'pan',
+    age: 23,
+    [Symbol.iterator]: function* () {
+        while (this.age <= 24) {
+            yield this.age++
+        }
+    }
+}
+```

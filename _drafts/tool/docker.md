@@ -16,6 +16,22 @@ Docker提供了官方的image文件仓库[Docker Hub](https://hub.docker.com/)�
 
     $ docker image rm [imageName]
 
+上传文件，You need to tag your image correctly first with your registryhost:
+
+    $ docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]
+
+Then docker push using that same tag.
+
+    $ docker push NAME[:TAG]
+
+打包本地镜像:
+
+    $ docker save -o name-tag.tar name[:tag]
+
+导入镜像：
+
+    $ docker load < name-tag.tar
+
 ## container
 
 根据Image文件可以生成运行的容器(Container)实例(container run可以自动抓取image文件)：

@@ -1,0 +1,91 @@
+    $ find <dir> <args>
+
+名字：
+
+    -name "*.txt"
+    -iname "*.txt"
+    -name "*.txt" -o -name "*.pdf"
+
+    ! -name "*.txt"
+
+路径：
+
+    -path "*local*"
+    -regex ".*\(\.txt\|\.pdf\)$"
+    -iregex ".*\(\.txt\|\.pdf\)$"
+
+类型：
+
+    -type:
+        f: 普通文件
+        l: 符号连接
+        d: 目录
+        c: 字符设备
+        b: 块设备
+        s: 套接字
+        p: Fifo
+
+路径深度：
+
+    -maxdepth 3
+    -mindepth 2
+
+时间戳：
+
+    访问时间：-atime / 天，-amin / 分钟
+    修改时间：-mtime / 天，-mmin / 分钟
+    变化时间：-ctime / 天，-cmin / 分钟
+
+    -atime -7   7天内
+    -atime 7    7天前那天
+    -atime +7   7天之前
+
+    -newer file.log   # 比 file.log 修改时间更长的所有文件
+
+文件大小：
+
+    b：块    512 byte
+    c:       1   byte
+    w: word  2   byte
+    k: 千字节
+    m: 兆字节
+    g:
+
+    -size +10k
+    -size 10k
+    -size -10k
+
+删除匹配文件：
+
+    -delete
+
+文件权限:
+
+    -perm 777
+    ! -perm 644
+
+所有权：
+
+    -user tom
+    -group sunk
+
+
+执行命令：
+
+    find . -type f -user root -exec chown tom {} \;
+
+    find . -name "*.txt" -ok rm {} \;
+
+    find . -type f -name "*.txt" -exec cat {} \; > all.txt
+
+    find . -type f -mtime +30 -name "*.log" -exec cp {} old \;
+
+    find . -type f -name "*.txt" -exec printf "File: %s\n" {} \;
+
+跳过指定的目录 'sk'：
+
+    find . -path "./sk" -prune -o -name "*.txt" -print
+
+空文件：
+
+    find . -empty

@@ -27,7 +27,7 @@ u'Hello John Doe!'
 
 ##### WSGI
 
-在过去，对于新的Pythoner来说，Web框架的选择会是一个问题，因为在过去Web框架经常被设计为只适用于CGI, FastCGI, mod_python， 或者其他一些web server的通用的API，这样Web的框架的选择会限制Web server的选择。
+在过去，对于新的Pythoner来说，Web框架的选择会是一个问题，因为在过去Web框架经常被设计为只适用于CGI, FastCGI, mod_python，或者其他一些web server的非通用的API，这样Web的框架的选择会限制Web server的选择。
 
 WSGI被创造出来作为一种位于Web Server和Web Application or Framework之间的低层次的接口。
 

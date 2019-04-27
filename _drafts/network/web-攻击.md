@@ -58,8 +58,8 @@ CSRF(Cross Site Request Forgery)，即跨站请求伪造。利用用户登录受
 
 ``` html
 <form id="test" method="POST" action="http://www.bank.com/transfer">
-    <input type="hidden" name="toid" value="{% myid %}" />
-    <input type="hidden" name="meney" value="{% 100 %}" />
+    <input type="hidden" name="toid" value="${ myid }" />
+    <input type="hidden" name="meney" value="${ 100 }" />
 </form>
 <script>
 $(function() {
@@ -78,7 +78,7 @@ $(function() {
 <form method="POST" action="http://www.bank.com/transfer">
     <input name="toid" value="" />
     <input name="meney" value="" />
-    <input type="hidden" name="_csrf" value="{% _csrf %}" />
+    <input type="hidden" name="_csrf" value="${ _csrf }" />
 </form>
 ```
 

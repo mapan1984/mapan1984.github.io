@@ -97,15 +97,20 @@ ALT+. - 使用上一条命令的最后一个单词。
 | ctrl+d |  向后删除一个字符           |
 | ctrl+h |  向前删除一个字符           |
 | ctrl+w |  向前删除一个单词           |
-| ctrl+y |  恢复上一个删除或剪切的条目 |
+| ctrl+y |  插入上一个删除或剪切的条目 |
+| ctrl+_ |  undo                       |
 | ctrl+u |  Delet to start of line     |
 | ctrl+k |  Delet to end of line       |
+| ctrl+t |  交换最后两个字符           |
+| esc+t  |  交换前两个词               |
+| alt+t  |  交换前两个词               |
+
+|  key   |          操作               |
+|:------:|:---------------------------:|
 | ctrl+l |  清屏                       |
 | ctrl+r |  向后搜索历史命令           |
 | ctrl+s |  向前搜索历史命令           |
 | ctrl+g |  退出历史搜索模式           |
-| ctrl+t |  交换最后两个字符           |
-| esc+t  |  交换最后两个单词           |
 | !!     |  重复上一个命令             |
 
 |  key   |          操作               |

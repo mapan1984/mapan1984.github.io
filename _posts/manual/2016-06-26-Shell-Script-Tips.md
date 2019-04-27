@@ -4,75 +4,82 @@ categories: [Manual]
 tags: [Shell]
 ---
 
-### 基本类型
+### 基本数据类型
 
-1. 变量
-        ``` bash
-        fun() {
-            local local_var="hello, world!"  # only in function
-        }
-        export export_var="hello, world!"
-        readonly CONST_VAR="hello, world!"
-        str="hello, world!"
-        echo $str
-        echo ${str}
-        ```
-2. 数组
-        ``` bash
-        # 声明与赋值
-        array[0]=val
-        array[1]=val
+1. 变量：
+    ``` bash
+    fun() {
+        local local_var="hello, world!"  # only in function
+    }
 
-        array=([1]=val, [0]=val)
+    export export_var="hello, world!"
 
-        array=(val val)
+    readonly CONST_VAR="hello, world!"
 
-        # 获取数组中元素
-        ${array[index]}
+    str="hello, world!"
+    echo $str
+    echo ${str}
+    ```
 
-        # 获取数组长度
-        ${#array[@]}
-        ${#array[*]}
+2. 数组：
+    ``` bash
+    # 声明与赋值
+    array[0]=val
+    array[1]=val
 
-        # 第 index 个元素的长度
-        ${#array[index]}
+    array=([1]=val, [0]=val)
 
-        # 数组全部元素
-        for i in "${array[@]}"
-        do
-            # do some
-        done
-        ```
-3. map
-        ``` bash
-        declare -A animals
-        animals=(["moo"]="cow" ["woof"]="dog")
+    array=(val val)
 
-        declare -A animals=(["moo"]="cow" ["woof"]="dog")
+    # 获取数组中元素
+    ${array[index]}
 
-        ${animals[moo]}
-        ```
-3. ternary condition
-        ``` bash
-        ${varname:-word}  # 如果varname存在且不为null，返回$varname；否则返回word
-        ${varname:=word}  # 如果varname存在且不为null，返回$varname；否则赋值varname=word，并返回word
-        ${varname:+word}  # 如果varname存在且不为null，返回word; 否则返回null
-        ${varname:offset:length}  # 将$varname看作字符串，返回${varname[offset:offset+length]}
-        ```
-4. string substitution
-        ``` bash
-        ${variable#pattern}         # if the pattern matches the beginning of the variable's value, delete the shortest part that matches and return the rest
-        ${variable##pattern}        # if the pattern matches the beginning of the variable's value, delete the longest part that matches and return the rest
-        ${variable%pattern}         # if the pattern matches the end of the variable's value, delete the shortest part that matches and return the rest
-        ${variable%%pattern}        # if the pattern matches the end of the variable's value, delete the longest part that matches and return the rest
-        ${variable/pattern/string}  # the longest match to pattern in variable is replaced by string. Only the first match is replaced
-        ${variable//pattern/string} # the longest match to pattern in variable is replaced by string. All matches are replaced
-        ${#varname}     # returns the length of the value of the variable as a character string
-        ```
+    # 获取数组长度
+    ${#array[@]}
+    ${#array[*]}
+
+    # 第 index 个元素的长度
+    ${#array[index]}
+
+    # 数组全部元素
+    for i in "${array[@]}"
+    do
+        # do some
+    done
+    ```
+
+3. map:
+    ``` bash
+    declare -A animals
+    animals=(["moo"]="cow" ["woof"]="dog")
+
+    declare -A animals=(["moo"]="cow" ["woof"]="dog")
+
+    ${animals[moo]}
+    ```
+
+3. ternary condition:
+    ``` bash
+    ${varname:-word}  # 如果varname存在且不为null，返回$varname；否则返回word
+    ${varname:=word}  # 如果varname存在且不为null，返回$varname；否则赋值varname=word，并返回word
+    ${varname:+word}  # 如果varname存在且不为null，返回word; 否则返回null
+    ${varname:offset:length}  # 将$varname看作字符串，返回${varname[offset:offset+length]}
+    ```
+
+4. string substitution:
+    ``` bash
+    ${variable#pattern}         # if the pattern matches the beginning of the variable's value, delete the shortest part that matches and return the rest
+    ${variable##pattern}        # if the pattern matches the beginning of the variable's value, delete the longest part that matches and return the rest
+    ${variable%pattern}         # if the pattern matches the end of the variable's value, delete the shortest part that matches and return the rest
+    ${variable%%pattern}        # if the pattern matches the end of the variable's value, delete the longest part that matches and return the rest
+    ${variable/pattern/string}  # the longest match to pattern in variable is replaced by string. Only the first match is replaced
+    ${variable//pattern/string} # the longest match to pattern in variable is replaced by string. All matches are replaced
+    ${#varname}     # returns the length of the value of the variable as a character string
+    ```
 
 ### 条件表达式
 
-1. 数字
+1. 数字比较：
 
         -eq: [eq]ual to
         -ne: [n]ot [e]qual
@@ -81,7 +88,7 @@ tags: [Shell]
         -ge: [g]reater or [e]qual to
         -le: [l]ess or[e]qual to
 
-2. 字符串
+2. 字符串比较：
 
         [[ $str1 == $str2 ]] 或 [[ $str1 = $str2 ]]
         [[ $str1 =~ pattern ]] : pattern是正则表达式
@@ -91,12 +98,12 @@ tags: [Shell]
         [[ -z $str ]]: str是空字符
         [[ -n $str ]]: str不是空字符
 
-3. 逻辑
+3. 逻辑运算：
 
         [[ statement1 && statement2 ]]
         [[ statement1 || statement2 ]]
 
-4. 文件系统
+4. 文件系统：
 
         [ -f $file_var ]: 正常文件路径或文件名
         [ -d $var ]: 目录
@@ -115,68 +122,74 @@ tags: [Shell]
 
 ### 控制语句
 
-请将`; do`、`; then`和`while`、`for`、`if` 放在同一行。
+> 请将`; do`、`; then`和`while`、`for`、`if` 放在同一行
 
-``` sh
-#### if
+1. 条件判断：
 
-if condition; then
-    commands;
-elif condition; then
-    commands;
-else
-    commands;
-fi
+    ``` bash
+    #### if
+    if condition; then
+        commands;
+    elif condition; then
+        commands;
+    else
+        commands;
+    fi
 
-#### case
+    #### case
+    case expression in
+        pattern1 )
+            statements ;;
+        pattern2 )
+            statements ;;
+        ...
+    esac
+    ```
 
-case expression in
-    pattern1 )
-        statements ;;
-    pattern2 )
-        statements ;;
-    ...
-esac
+2. 循环：
 
-#### for
+    ``` bash
+    #### for
+    # list can be a string, or a sequence. string使用IFS作为定界符。
+    # 生成sequence：`{1..50}`、`{a..z}`
+    for var in list; do
+        commands;  # 使用$var
+    done
 
-# list can be a string, or a sequence. string使用IFS作为定界符。
-# 生成sequence：`{1..50}`、`{a..z}`
+    for var in list; do actions; done;
 
-for var in list; do
-    commands;  # 使用$var
-done
-
-for var in list; do actions; done;
-
-# c语言格式风格
-
-for ((i=0; i<10; i++)) {
-    commands;  # 使用变量$i
-}
-
-
-#### while
-
-while condition; do
-    commands;
-done
-
-#### until
-
-x=0;
-until [ $x -eq 9 ];
-do
-    let x++;
-    echo $x;
-done
+    # c语言格式风格
+    for ((i=0; i<10; i++)) {
+        commands;  # 使用变量$i
+    }
 
 
-#### while read
-while read line; do
-    # do something with line
-done < $filepath;
-```
+    #### while
+    while condition; do
+        commands;
+    done
+
+    #### until
+    x=0;
+    until [ $x -eq 9 ];
+    do
+        let x++;
+        echo $x;
+    done
+
+
+    #### while read
+    while read line; do
+        # do something with line
+    done < $filepath;
+
+    #### Infinite while Loop
+    while :
+    do
+      echo "Press <CTRL+C> to exit."
+      sleep 1
+    done
+    ```
 
 ### heredoc
 
@@ -187,19 +200,26 @@ sshpass -p "$kpasswd1" ssh root@$khost1_ipv6 << EOF
     echo "1" > /data/zookeeper/myid
     service zookeeper-server restart >/dev/null 2>&1
 EOF
+```
 
+
+``` sh
 $ sql=$(cat <<EOF
 SELECT foo, bar FROM db
 WHERE foo='baz'
 EOF
 )
+```
 
+``` sh
 $ cat <<EOF > print.sh
 #!/bin/bash
 echo \$PWD
 echo $PWD
 EOF
+```
 
+``` sh
 $ cat <<EOF | grep 'b' | tee b.txt
 foo
 bar
@@ -220,95 +240,82 @@ echo Done
 
 ### 算术运算
 
-运算符：
+1. 运算符:
+    * 加、减、乘、除、取余：`+ - * / %`
+    * 与、或、非、异或： `& | ! ^`
 
-``` sh
-# 加、减、乘、除、取余
-+ - * / %
+2. 运算操作:
+    ``` bash
+    no1=4; #字符串
+    no2=5; #字符串
 
-# 与、或、非、异或、
-& | ! ^
-```
+    #### let
+    # 使用let时，变量名之前不需在加$
+    let result=no1+no2; #让字符串做算术运算
+    echo $result
 
-``` sh
-#### let
+    # 其他方式
+    let no1++
+    let no1--
+    let no+=6
+    let no-=6
 
-#!/bin/bash
-no1=4; #字符串
-no2=5; #字符串
+    #### []
+    result=$[ no1 + no2 ]
+    result=$[ $no1 + 5 ]
 
-# 使用let时，变量名之前不需在加$
-let result=no1+no2; #让字符串做算术运算
-echo $result
+    #### (())
+    result=$(( no1 + 50 ))
 
-# 其他方式
-let no1++
-let no1--
-let no+=6
-let no-=6
+    #### expr
+    result=`expr 3+4`
+    result=$(expr $no1 + 5)
 
-#### []
+    #### bc
+    result=`echo "$no * 1.5" | bc`
+    ```
 
-result=$[ no1 + no2 ]
-result=$[ $no1 + 5 ]
+3. 进制转换：
+    ``` bash
+    # $((N#xxx))  N 表示进制，xxx为改进制下的数值
 
-#### (())
+    $((2#110))
 
-result=$(( no1 + 50 ))
-
-#### expr
-
-result=`expr 3+4`
-result=$(expr $no1 + 5)
-
-#### bc
-
-result=`echo "$no * 1.5" | bc`
-```
-
-进制转换：
-
-``` sh
-# $((N#xxx))  N 表示进制，xxx为改进制下的数值
-
-$((2#110))
-
-$((16#2a))
-```
+    $((16#2a))
+    ```
 
 ### 函数与参数
 
-``` sh
-# 函数定义为
+1. 函数定义：
+    ``` bash
+    function fname() {
+        statements;
+    }
 
-function fname() {
-    statements;
-}
+    fname() {
+        statements;
+    }
+    ```
 
-# 或者
+2. 执行函数：
+    ``` bash
+    # 无参数
+    fname;
 
-fname() {
-    statements;
-}
+    # 执行函数并传递参数
+    fname arg1 arg2;
+    ```
 
-# 执行函数
-
-fname;
-
-# 执行函数并传递参数
-
-fname arg1 arg2;
-```
-
-``` bash
-$#  # 为参数个数
-$0  # 表示当前脚本的名字
-$1 $2 ... $n   # 分别为第1个、第2个...第n个参数
-$@  # 表示所有参数分别被双引号包含，"$1","$2"....; 如果参数中有被双引号包裹起来并含有空格时，使用"$@"
-$*  # 表示所有参数被一对双引号包含, "$1c$2c$3"，其中c为IFS的第一个字符
-$$  # 表示当前的进程号
-$?  # 表示上一条命令的返回值(通常用0表示正常执行)
-```
+3. 参数表示：
+    ``` bash
+    $#  # 为参数个数
+    $0  # 表示当前脚本的名字
+    $1 $2 ... $n   # 分别为第1个、第2个...第n个参数
+    $@  # 表示所有参数分别被双引号包含，"$1","$2"....; 如果参数中有被双引号包裹起来并含有空格时，使用"$@"
+    $*  # 表示所有参数被一对双引号包含, "$1c$2c$3"，其中c为IFS的第一个字符
+    $$  # 表示当前的进程号
+    $?  # 表示上一条命令的返回值(通常用0表示正常执行)
+    ```
 
 ### 引号
 
@@ -323,23 +330,40 @@ $?  # 表示上一条命令的返回值(通常用0表示正常执行)
 
 ### 重定向
 
-``` sh
-# 默认重定向stdout
-# 重定向stderr
-2 >
-# 将stderr转换为stdout
-2 > &1
-```
+1. 重定向 stdout:
+    ``` sh
+    # 默认重定向 stdout
+    ls > list.txt
+    ls 1> list.txt
+    ```
+2. 重定向 stderr:
+    ``` sh
+    ls 2> error.log
+    ```
+    ``` sh
+    # 重定向无关信息到/dev/null
+    mkdir newdir 2> /dev/null
+    ```
+3. 合并 stdout 与 stderr:
+    > `&` 发信号通知 Bash `1` 是目标文件描述符
 
-``` sh
-# 重定向无关信息到/dev/null
-$ some_command 2 > /dev/null
-```
+    ``` sh
+    # 将stderr转换为stdout
+    2 > &1
+    ```
 
-``` sh
-# 将文件重定向到命令
-$ cmd < file
-```
+    ``` sh
+    find /etc -iname "*.service" 1> services.txt 2>&1
+    find /etc -iname "*.service" &> services.txt
+    ```
+4. 标准输入：
+    ``` sh
+    # 标准输入
+    0<
+
+    # 将文件重定向到命令
+    $ cmd < file
+    ```
 
 ### IFS
 
@@ -361,7 +385,7 @@ IFS=$oldIFS
 
 IFS的默认值为空白字符（换行符、制表符或者空格）
 
-### ~
+### `~` 符号
 
 POSIX shell中，`~`必须出现在复合表达式的最前面，否则它只是不同字符，不能代表家目录。
 
