@@ -5,23 +5,22 @@
 - /consumers
     - /[group name]
         - /ids
-            - /[consumer id]
+            - /[consumer id] - {"version":1, "subscription":{"bar":1}, "patten":"white_list", "timestamp":""}
         - /owners
             - /[topic name]
-                - /[partitions id]
+                - /[partitions id] - consumer id
                 - /[partitions id]
             - /[topic name]
                 - /[partitions id]
                 - /[partitions id]
         - /offsets
             - /[topic name]
-                - /[partitions id]
+                - /[partitions id] - offset
                 - /[partitions id]
             - /[topic name]
                 - /[partitions id]
                 - /[partitions id]
 ```
-
 
 ```
 /brokers

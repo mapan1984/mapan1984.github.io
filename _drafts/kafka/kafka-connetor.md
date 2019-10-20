@@ -22,3 +22,11 @@ consumer group
 
 Under the covers, connect workers are using consumer groups to coordinate and rebalance.
 
+
+## 启动
+
+``` bash
+nohup ${KAFKA_HOME}/bin/connect-distributed.sh config/connect-distributed.properties &
+
+${KAFKA_HOME}/bin/connect-distributed.sh -daemon config/connect-distributed.properties
+```

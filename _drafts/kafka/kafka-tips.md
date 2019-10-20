@@ -54,37 +54,10 @@ done < kf.data
 {
     "topics": [
         {
-            "topic": "ecarx-datacontent-sync-xianxia"
+            "topic": "dq1_var_log"
         },
         {
-            "topic": "logclickrate-test"
-        },
-        {
-            "topic": "logtrient"
-        },
-        {
-            "topic": "ecarx-datacontent-sync-idc"
-        },
-        {
-            "topic": "ecarx-datacontent-v1"
-        },
-        {
-            "topic": "logclickrate"
-        },
-        {
-            "topic": "ecarx_log_analysis"
-        },
-        {
-            "topic": "ecarx-datacontent-sync-v0"
-        },
-        {
-            "topic": "ecarx-datacontent-sync-v1"
-        },
-        {
-            "topic": "ecarx-datacontent-sync"
-        },
-        {
-           "topic": "ecarx-loganalysis-es"
+            "topic": "dq1_act_log"
         }
     ],
     "version": 1
@@ -129,3 +102,20 @@ partition 的 replica 列表被称为 AR(Assigned Replicas)，AR 中的第一个
 ### controller
 
 broker 通过抢夺注册 zk 的 `/controller` 路径成为 controller
+
+### 指定位置消费
+
+    $ bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list $(hostname):9092 --topic logs
+
+    $ bin/kafka-console-consumer.sh --bootstrap-server $(hostname):9092 --topic logs --offset 3418783 --partition 0
+
+
+### __consumer_offsets
+
+    $KAFKA_HOME/bin/kafka-console-consumer.sh --formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter" --bootstrap-server $(hostname):9092 --topic __consumer_offsets
+
+    $KAFKA_HOME/bin/kafka-console-consumer.sh --formatter "kafka.coordinator.GroupMetadataManager\$OffsetsMessageFormatter" --zookeeper $(hostname):2181 --topic __consumer_offsets
+
+格式：
+
+    [Group, Topic, Partition]::[OffsetMetadata[Offset, Metadata], CommitTime, ExpirationTime]

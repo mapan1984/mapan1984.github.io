@@ -136,6 +136,9 @@ tags: [Shell]
         commands;
     fi
 
+    #### ?:
+    [[ condition ]] && echo "true" || echo "false"
+
     #### case
     case expression in
         pattern1 )
@@ -181,7 +184,25 @@ tags: [Shell]
     #### while read
     while read line; do
         # do something with line
+
     done < $filepath;
+
+    #### while read
+    cur_dir=$(cd `dirname $0`; pwd)
+
+    while read line
+    do
+        if [[ ${line} == \#* || -z ${line} ]]; then
+          echo skip comment line: $line
+          continue
+        fi
+
+        # echo $line
+        # host_ip=$line
+        # scp -C $cur_dir/down.sh root@${host_ip}:/data/
+        # ssh -n root@${host_ip} "cd /data; sh down.sh"
+    done < hosts.data
+
 
     #### Infinite while Loop
     while :
@@ -453,3 +474,24 @@ bash 配置是针对交互模式的，所以在`.bashrc`开头就有判断代码
 
 登录模式：只加载`~/.bash_profile`，如果`~/.bash_profile`不存在，尝试加载`~/.bashrc`
 非登录模式：只加载`~/.bashrc`
+
+### extglob
+
+`shopt`(shell option) 设置 shell 的可选参数
+
+    $ shopt [-psu] [optname...]
+
+    -s  开启选项
+    -u  关闭选项
+    -p  列出所有可设置选项
+
+`extglob`：shell 启用模式匹配
+
+    $ shopt extglob
+    $ shopt -s extglob
+    $ shopt -u extglob
+
+删除除了 logs 意外的目录：
+
+    $ echo rm -rf ./!(logs)
+

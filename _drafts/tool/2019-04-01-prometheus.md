@@ -190,7 +190,13 @@ rules:
 ``` sh
 # ...
 
-JMX_EXPORTER=-javaagent:/usr/local/jmx_prometheus_javaagent-0.11.0.jar=8089:/etc/jmx_exporter/config.yaml
+# JMX_EXPORTER=-javaagent:/usr/local/jmx_prometheus_javaagent-0.11.0.jar=8089:/etc/jmx_exporter/config.yaml
+
+if [[ $JMX_PORT && -f /usr/local/jmx_prometheus_javaagent-0.12.0.jar && -f /etc/default/jmx_prometheus_javaagent.yaml ]]; then
+  JMX_EXPORTER=-javaagent:/usr/local/jmx_prometheus_javaagent-0.12.0.jar=8089:/etc/default/jmx_prometheus_javaagent.yaml
+else
+  JMX_EXPORTER=""
+fi
 
 # ...
 
@@ -279,6 +285,8 @@ example:
 开机自启：
 
     $ /sbin/chkconfig --add grafana-server
+
+端口：3000
 
 ### 服务发现
 
@@ -390,9 +398,9 @@ prometheus 周期性读取文件中的内容，当文件中定义的内容发生
           - node_exporter
 ```
 
-### AlertManager
+### 配置告警
 
-告警规则
+使用 PromQL 定义告警规则：
 
 ``` yaml
 groups:
@@ -409,12 +417,6 @@ groups:
 ```
 
 指定告警规则文件的访问路径：
-
-``` yaml
-rule_files:
-  [ - <filepath_glob> ... ]
-```
-
 
 ``` yaml
 rule_files:
@@ -446,3 +448,38 @@ groups:
 通过 http://127.0.0.1:9090/rules 查看规则文件
 
     $ wget https://github.com/prometheus/alertmanager/releases/download/v0.16.1/alertmanager-0.16.1.linux-amd64.tar.gz
+
+对于 pending 或者 firing 的告警，可以在时间序列 
+
+    ALERTS{alertname="<alert name>", alertstate="pending|firing", <additional alert labels>}
+
+中查找
+
+
+### AlertManager
+
+    $ wget https://github.com/prometheus/alertmanager/releases/download/v0.16.2/alertmanager-0.16.2.linux-amd64.tar.gz
+    $ tar zxvf alertmanager-0.16.2.linux-amd64.tar.gz
+    $ ln -sf alertmanager-0.16.2.linux-amd64 alertmanager
+    $ cd alertmanager
+
+配置文件 `alertmanager.yml`
+
+启动 alertmanager：
+
+    $ ./alertmanager --config.file=./alertmanager.yml --storage.path=/data/alertmanager
+
+查看：
+
+    $ curl http://localhost:9093
+
+
+在 prometheus 的配置中增加:
+
+``` yaml
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - localhost:9093
+```

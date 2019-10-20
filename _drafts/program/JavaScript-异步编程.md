@@ -45,9 +45,7 @@ promise.then(function(value) {
 })
 ```
 
-虽然与`then(x).catch(x)`看起来类似，但却有所不同，不同点在于是否可捕获`then`中发生的错误。
-
-下面例子很好地说了这个问题：
+虽然与`then(x).catch(x)`看起来类似，但却有所不同，不同点在于是否可捕获`then`中发生的错误：
 
 ```javascript
 .then(function() {
@@ -64,9 +62,9 @@ promise.then(function(value) {
 });
 ```
 
-JavaScript 提供了`Promise.resolve`API，是产生`Promise`对象的一种快捷方式，这个promise对象是被resolve的。
+JavaScript 提供了`Promise.resolve`API，是产生 resolve 状态的 `Promise`对象的一种快捷方式：
 
-```JavaScript
+``` javascript
 let similarProm = new Promise(res => res(5))
 // 相当于
 let prom = Promise.resolve(5)
@@ -236,6 +234,34 @@ for (let x of obj) {
 // "world"
 ```
 
+``` javascript
+function printStr(str){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(str)
+            resolve()
+        }, 1000)
+    })
+}
+
+// Generator
+function*  printAll() {
+    yield printStr('a')
+    yield printStr('b')
+}
+const gen = printAll() // 调用后该函数并不执行, 返回指向内部状态的指针对象
+gen.next() // [yield暂停执行 / next恢复执行]
+
+
+// async/await
+async function printAll() {
+    await printStr('a')
+    await printStr('b')
+    await printStr('c')   
+}
+printAll()
+```
+
 ### async函数
 
 async函数是Generator函数的语法糖
@@ -277,3 +303,67 @@ const asyncReadFile = async function () {
 
 当函数执行的时候，一旦遇到`await`就会先返回，等到异步操作完成，再接着执行函数体内后面的语句。
 
+### 循环
+
+
+``` javascript
+function asyncFun(number) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(number)
+            resolve()
+        }, 1000)
+    })
+}
+```
+
+#### 异步循环
+
+map、forEach 等这些高阶循环方法，循环体里面都是异步的。需要等后续操作完成，才执行循环体中的方法。
+
+``` javascript
+async function test() {
+    console.log('start')
+    const arr = [1, 2, 3]
+    arr.map(async(number) => {
+        await asyncFun(number)
+    })
+    console.log('end')
+}
+// start end 1 2 3
+// [total: 1000ms+]
+```
+
+#### 同步循环
+
+``` javascript
+async function test() {
+    console.log('start')
+    const arr = [1, 2, 3]
+    for (let i = 0, len = arr.length; i < len; i++ ) {
+        await asyncFun(arr[i])
+    }
+    console.log('end')
+}
+
+test()
+
+// start 1 2 3 end
+// [total: 3000ms]
+```
+
+#### 并行循环
+
+``` javascript
+async function test() {
+    console.log('start')
+    const arr = [1, 2, 3]
+    const promises = arr.map((number) => {
+        return asyncFun(number)
+    })
+    await Promise.all(promises)
+    console.log('end')
+}
+// start 1 2 3 end
+// [total: 1000ms +]
+```
