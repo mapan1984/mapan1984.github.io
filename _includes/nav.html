@@ -9,15 +9,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">
+      <a class="navbar-brand" href="{{ "/" | relative_url }}">
         <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
       </a>
     </div><!-- navbar-header -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav main-nav">
-        <li><a href="/">Home</a></li>
-        <li><a href="/category">Category</a></li>
-        <li><a href="/tag">Tag</a></li>
+        <li><a href="{{ "/" | relative_url }}">Home</a></li>
+        <li><a href="{{ "/category" | relative_url }}">Category</a></li>
+        <li><a href="{{ "/tag" | relative_url }}">Tag</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -26,9 +26,9 @@
           More<span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="/allposts">All Posts</a></li>
+          <li><a href="{{ "/allposts" | relative_url }}">All Posts</a></li>
           <li role="separator" class="divider"></li>
-          <li><a href="/aboutblog">About Blog</a></li>
+          <li><a href="{{ "/aboutblog" | relative_url }}">About Blog</a></li>
         </ul>
         </li>
       </ul>

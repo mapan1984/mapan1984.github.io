@@ -1,0 +1,25 @@
+{
+    "name": "Hidden Island",
+    "short_name": "Hidden Island",
+    "display": "standalone",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "/assets/images/mapan96.jpg",
+            "sizes": "96x96",
+            "type": "image/jepg"
+        },
+        {
+            "src": "/assets/images/mapan144.jpg",
+            "sizes": "144x144",
+            "type": "image/jepg"
+        },
+        {
+            "src": "/assets/images/mapan192.jpg",
+            "sizes": "192x192",
+            "type": "image/jepg"
+        }
+    ],
+    "background_color": "#1976d2",
+    "theme_color": "#2f3ba2"
+}

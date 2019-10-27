@@ -189,9 +189,9 @@ SELECT select_expr [, ...]
 
 WINDOW(时间窗口支持以下三种):
 1. HOPPING: 比如 (SIZE 20 SECONDS,ADVANCE BY 5 SECONDS) 表示每 5 秒钟统计之前 20 秒的内容
-    ![hopping-time-window]({{site.url}}/images/kafka/hopping-time-window.gif)
+    ![hopping-time-window]({{site.url}}/resources/images/kafka/hopping-time-window.gif)
 2. TUMBLING: 特殊的 HOPPING(SIZE 20 SECONDS) SIZE 与 ADVANCE 的值一样
-    ![tumbling-time-window]({{site.url}}/images/kafka/tumbling-time-window.gif)
+    ![tumbling-time-window]({{site.url}}/resources/images/kafka/tumbling-time-window.gif)
 3. SESSION: 比如 (20 SECONDS) 表示某个 key 20 秒不活动则完成一个 session, 之后的记录都计算在下一个 session 中
 
 ## 一些常用操作

@@ -29,7 +29,7 @@ kramdown:
 #
 ## sass
 sass:
-  sass_dir: _sass
+  sass_dir: assets/styles/_sass
   style: compressed
 #
 ## paginator

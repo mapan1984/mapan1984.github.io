@@ -7,7 +7,7 @@
 </p>
 {% endif %}
 <p class="rss-subscribe">
-  <a href="{{ "/feed.xml" | prepend: site.baseurl }}">
+  <a href="{{ "/feed.xml" | relative_url | prepend: site.baseurl }}">
     <span class="icon">{% include icon-rss.svg %}</span>
     subscribe via rss
   </a>

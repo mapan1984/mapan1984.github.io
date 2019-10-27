@@ -72,7 +72,7 @@ tags: [SRE]
 
 ##### 单主干 (Trunk-based development)
 
-![Trunk-based development]({{site.url}}/images/note/tbd-flow.jpg)
+![Trunk-based development]({{site.url}}/resources/images/note/tbd-flow.jpg)
 
 1. 所有团队成员在主分支进行开发
 2. 发布时基于主分支创建发布分支
@@ -84,7 +84,7 @@ tags: [SRE]
 
 ##### GitHub flow
 
-![GitHub-flow]({{site.url}}/images/note/github-flow.png)
+![GitHub-flow]({{site.url}}/resources/images/note/github-flow.png)
 
 1. master 分支中包含稳定的代码，该分支已经或即将被部署到生产环境
 2. 对代码的任何修改，包括 bug 修复，hotfix，新功能开发等都在单独的分支进行，当需要进行修改时，从 master 分支创建一个新的分支，分支的名称应该简单清晰的描述该分支的作用
@@ -96,7 +96,7 @@ tags: [SRE]
 
 git-flow 围绕的核心概念是版本发布 (release)， 适用于有较长版本发布周期的项目
 
-![git-flow]({{site.url}}/images/note/git-flow.png)
+![git-flow]({{site.url}}/resources/images/note/git-flow.png)
 
 1. master: 可部署到生产环境的代码
 2. develop: 下一个版本需要发布的内容（是一个进行代码集成的分支，当 develop 分支集成了足够的新功能和 bug 修复代码后，通过一个发布流程来完成新版本的发布，发布完成之后，将 develop 分支合并到 master 分支中）
@@ -159,7 +159,7 @@ git-flow 围绕的核心概念是版本发布 (release)， 适用于有较长版
 
 > No code is the best way to write secure and reliable applications. Write nothing; deploy nowhere.
 
-![NoCode]({{site.url}}/images/note/nocode.PNG)
+![NoCode]({{site.url}}/resources/images/note/nocode.PNG)
 
 [kelseyhightower/nocode](https://github.com/kelseyhightower/nocode)
 

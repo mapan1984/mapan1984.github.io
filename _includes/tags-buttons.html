@@ -26,7 +26,7 @@
   {% else %}
     {% assign color = 8 | minus: base %}
   {% endif %}
-  <a href="/allposts/#{{ tag[0] }}" 
+  <a href="{{ site.baseurl }}/allposts/#{{ tag[0] }}"
      style="font-size: {{ size }}pt; color: #{{ color }}{{ color }}{{ color }};"
      class="btn btn-default btn-xs active" role="button">
     {{ tag[0] }} <span class="badge">{{tag[1].size}}</span>
