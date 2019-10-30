@@ -29,6 +29,10 @@
     http_requests_total{environment=~"staging|testing|development",method!="GET"}
     http_requests_total{environment!~"staging|testing|development",method!="GET"}
 
+不含某个标签（以不含 `topic` 标签为例）：
+
+    kafka_server_BrokerTopicMetrics_OneMinuteRate{name="BytesOutPerSec",zone="zone-9001",instanceId="ukafka-ghz0cc",topic=""}
+
 时间范围：
 
     http_request_total{}[5m]

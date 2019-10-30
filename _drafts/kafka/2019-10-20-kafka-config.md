@@ -1,3 +1,8 @@
+---
+title: kafka 常用配置参数
+tags: [kafka]
+---
+
 ## JVM
 
 ### 使用 G1 垃圾回收器
@@ -83,6 +88,17 @@ socket server可接受数据大小(防止OOM异常)，根据自己业务数据�
     replica.lag.time.max.ms=10000
     replica.lag.max.messages=4000
 
+### auto rebalance
+
+    auto.leader.rebalance.enable=true
+    leader.imbalance.check.interval.seconds=300
+    leader.imbalance.per.broker.percentage=10
+
+### offset retention
+
+    offsets.retention.check.interval.ms = 600000
+    offsets.retention.minutes = 1440
+
 ## 生产者参数配置
 
     # 内存缓冲大小
@@ -117,6 +133,28 @@ producer 合并的消息的大小未达到 `batch.size`，但如果存在时间�
 
 这个配置可以设定发送消息后是否需要Broker端返回确认，设置时需要权衡数据可靠性和吞吐量。
 
+### 生产者不丢失数据保证
+
+    block.on.buffer.full = true
+
+生产者消息在实际发送之前是保留在 buffer 中，buffer 满之后生产等待，而不是抛出异常
+
+    acks=all
+
+所有 follower 都响应后才认为消息提交成功（需要注意 broker 的 `min.insync.replicas` 参数）
+
+    retries=Integer.MAX_VALUE
+
+发送失败后持续重试（单独设置这个可能会造成消息重复发送）
+
+    max.in.flight.requests.per.connection=1
+
+单个客户端在单个连接上能够发送的未响应请求个数，这个参数设置为 1 可以避免消息乱序，同时可以保证在 retry 是不会重复发送消息
+
+    unclean.leader.election.enable=false
+
+关闭 unclean leader 选举，即不允许非 ISR 中的副本被选举为 leader
+
 ## 消费者参数配置
 
     num.consumer.fetchers=1
@@ -130,3 +168,4 @@ producer 合并的消息的大小未达到 `batch.size`，但如果存在时间�
     fetch.wait.max.ms=100
 
 在Fetch Request获取的数据至少达到 `fetch.min.bytes` 之前，允许等待的最大时长。
+

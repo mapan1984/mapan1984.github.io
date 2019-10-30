@@ -12,9 +12,16 @@ tags: [Shell]
         local local_var="hello, world!"  # only in function
     }
 
+    # 导出函数
+    export -f fun
+
     export export_var="hello, world!"
 
+    # 常量
     readonly CONST_VAR="hello, world!"
+
+    # 常量并且导出为环境变量
+    declare -xr CONST_ENV_VAR='hello, world'
 
     str="hello, world!"
     echo $str
@@ -27,7 +34,7 @@ tags: [Shell]
     array[0]=val
     array[1]=val
 
-    array=([1]=val, [0]=val)
+    array=([1]=val [0]=val)
 
     array=(val val)
 
@@ -91,7 +98,7 @@ tags: [Shell]
 2. 字符串比较：
 
         [[ $str1 == $str2 ]] 或 [[ $str1 = $str2 ]]
-        [[ $str1 =~ pattern ]] : pattern是正则表达式
+        [[ $str1 =~ pattern ]] : pattern是正则表达式(不要加双引号)
         [[ $str1 != $str2 ]]
         [[ $str1 < $str2 ]]
         [[ $str1 > $str2 ]]
@@ -102,23 +109,28 @@ tags: [Shell]
 
         [[ statement1 && statement2 ]]
         [[ statement1 || statement2 ]]
+        [[ ! statement ]]
 
 4. 文件系统：
 
-        [ -f $file_var ]: 正常文件路径或文件名
-        [ -d $var ]: 目录
+        [ -f $var ]: 文件存在，并且是regular file
+        [ -d $var ]: 文件存在，并且是目录
         [ -e $var ]: 文件存在
-        [ -a $var ]: 文件存在，与-e相同
+        [ -a $var ]: 与 -e 相同
         [ -s $var ]: 文件存在，并且不是空白文件
         [ -c $var ]: 字符设备
         [ -b $var ]: 块设备文件
         [ -L $var ]: 符号链接
+        [ -h $var ]: 与 -L 相同
         [ -r $var ]: 可读文件
         [ -w $var ]: 可写文件
         [ -x $var ]: 可执行文件
         [ -N $var ]: 文件已经被修改自从它最后被读
         [ -O $var ]: 你自己的文件
         [ -G $var ]: 你所属组的文件
+
+
+        [ ! -f $var ]: 文件不存在
 
 ### 控制语句
 
@@ -142,10 +154,16 @@ tags: [Shell]
     #### case
     case expression in
         pattern1 )
-            statements ;;
+            command1
+            ...
+            commandN
+            ;;
         pattern2 )
             statements ;;
         ...
+        *)
+            echo "not found"
+            ;;
     esac
     ```
 
@@ -187,7 +205,7 @@ tags: [Shell]
 
     done < $filepath;
 
-    #### while read
+    #### while read (comment)
     cur_dir=$(cd `dirname $0`; pwd)
 
     while read line
@@ -495,3 +513,107 @@ bash 配置是针对交互模式的，所以在`.bashrc`开头就有判断代码
 
     $ echo rm -rf ./!(logs)
 
+### 自动输入
+
+``` sh
+echo y | command
+
+yes | command
+
+printf '%s\n' y n n y y n | command
+
+command << 'EOF'
+y
+n
+n
+y
+y
+n
+EOF
+```
+
+### string
+
+1. 拼接
+
+```  sh
+#!/bin/bash
+
+message=$@
+
+echo '{"subject": "udw warn", "content": "'"${message}"'", "message_type": 1}' \
+  | curl -X POST -d @- http://172.18.176.244:22003/message/inner/245 --header "Content-Type:application/json"
+
+```
+
+### 从路径获取目录名与文件名
+
+``` sh
+$ VAR=/home/me/mydir/file.c
+
+$ DIR=$(dirname "${VAR}")
+
+$ echo "${DIR}"
+/home/me/mydir
+
+$ basename "${VAR}"
+file.c
+```
+
+### 获取函数名
+
+``` sh
+#!/bin/bash
+
+function test_func()
+{
+    echo "Current $FUNCNAME, \$FUNCNAME => (${FUNCNAME[@]})"
+    another_func
+    echo "Current $FUNCNAME, \$FUNCNAME => (${FUNCNAME[@]})"
+}
+
+function another_func()
+{
+    echo "Current $FUNCNAME, \$FUNCNAME => (${FUNCNAME[@]})"
+}
+
+echo "Out of function, \$FUNCNAME => (${FUNCNAME[@]})"
+test_func
+echo "Out of function, \$FUNCNAME => (${FUNCNAME[@]})"
+```
+
+### 获取当前目录
+
+``` sh
+cur_dir=$(cd `dirname $0`; pwd)
+
+cur_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+```
+
+### 获取数字序列
+
+```
+seq LAST
+seq FIRST LAST
+seq FIRST INCREMENT LAST
+```
+
+``` bash
+for i in $(seq 5)
+do
+  echo "Welcome $i times"
+done
+```
+
+``` bash
+#!/bin/bash
+for ((a=1; a <= 5 ; a++))
+do
+   echo "Welcome $a times."
+done
+
+
+for i in {1..10}; do
+  echo $i
+done
+```
