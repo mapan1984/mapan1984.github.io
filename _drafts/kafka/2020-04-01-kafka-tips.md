@@ -47,53 +47,61 @@ done < kf.data
 
 ### 重分区
 
-
-`topics.json`
+创建 `topics.json` 文件，文件内容为需要重分区的 topic：
 
 ``` json
 {
     "topics": [
         {
-            "topic": "dq1_var_log"
-        },
-        {
-            "topic": "dq1_act_log"
+            "topic": "statistics"
         }
     ],
     "version": 1
 }
 ```
 
-kafka-reassign-partitions.sh --zookeeper $(hostname):2181 --generate --topics-to-move-json-file topics.json --broker-list 1,2,3
+执行 `kafka-reassign-partitions.sh`，指定 `--generate` 参数和刚才创建的 `topics.json` 文件，生成描述 partition 分布的内存：
 
-`reassign.json`
+    $ kafka-reassign-partitions.sh --zookeeper $(hostname):2181 --generate --topics-to-move-json-file topics.json --broker-list 1,2,3
+    Current partition replica assignment
+    {"version":1,"partitions":[{"topic":"statistics","partition":0,"replicas":[3],"log_dirs":["any"]}]}
+    
+    Proposed partition reassignment configuration
+    {"version":1,"partitions":[{"topic":"statistics","partition":0,"replicas":[1],"log_dirs":["any"]}]}
+
+*低版本没有 `log_dirs` 字段，可以忽略*
+
+命令会给出现在的 partition 分布和目的 partition 分布，将生成的内容分别保存到 `current.json`(用于恢复) `reassign.json`(之后的计划)
+
+调整 `replicas.json` 的内容，`replicas` 字段的含义是该 partition 分布的 broker id：
+1. 通过增加/减少 `replicas` 中的 broker id 可以增加/减少副本（`log_dirs` 包含的项要与 `replicas` 包含的项数目一致）
+2. 调整 `replicas` 字段的第一个 broker id 可以指定这个 partition 的优先 leader
 
 ``` json
 {
-    "version": 1,
-    "partitions": [{
-        "topic": "login",
-        "partition": 0,
-        "replicas": [1, 3]
-    }, {
-        "topic": "shopdata",
-        "partition": 0,
-        "replicas": [3, 2]
-    }, {
-        "topic": "progress",
-        "partition": 0,
-        "replicas": [2, 3, 1]
-    }, {
-        "topic": "test",
-        "partition": 0,
-        "replicas": [1, 2]
-    }]
+    "partitions": [
+        {
+            "log_dirs": [
+                "any", "any", "any"
+            ],
+            "partition": 0,
+            "replicas": [
+                1, 2, 3
+            ],
+            "topic": "statistics"
+        }
+    ],
+    "version": 1
 }
 ```
 
-kafka-reassign-partitions.sh --zookeeper $(hostname):2181 --execute --reassignment-json-file reassign.json
+执行 `kafka-reassign-partitions.sh`，指定 `--execute` 参数和 `reassign.json` 文件，执行 partition 重分布：
 
-kafka-reassign-partitions.sh --zookeeper $(hostname):2181 --verify --reassignment-json-file reassign.json
+    $ kafka-reassign-partitions.sh --zookeeper $(hostname):2181 --execute --reassignment-json-file reassign.json
+
+执行 `kafka-reassign-partitions.sh`，指定 `--verify` 参数和 `reassign.json` 文件，确认 partition 重分布进度：
+
+    $ kafka-reassign-partitions.sh --zookeeper $(hostname):2181 --verify --reassignment-json-file reassign.json
 
 ### replica
 
@@ -119,3 +127,14 @@ broker 通过抢夺注册 zk 的 `/controller` 路径成为 controller
 格式：
 
     [Group, Topic, Partition]::[OffsetMetadata[Offset, Metadata], CommitTime, ExpirationTime]
+
+分区规则：
+
+    Math.abs(groupID.hashCode()) % numPartitions
+
+### listeners
+
+* `listeners`
+* `advertised.listeners`
+* `listener.security.protocol.map`
+* `inter.broker.listener.name`

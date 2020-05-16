@@ -87,8 +87,9 @@ class MyBool(x: Boolean) {
 1 + 2 + 3
 (1).+(2).+(3)
 
-// call-by-value/call-by-name(lazy parameters)
+// call-by-value
 def f(x: R)
+// call-by-name(lazy parameters)
 def f(x: => R)
 
 // lambda 表达式
@@ -148,6 +149,18 @@ def add(x: Int, y: Int, z: Int) = x + y + z
 var addBySeven = Partial(Add, 7)
 
 addBySeven(5, 10) // return 22
+
+
+
+///
+def log(a: Int)(b: String) = {
+  println(a + b)
+}
+// Int => String => Unit
+var l = log _
+// String => Unit
+var log1 = l(1)
+log1("a")
 ```
 
 ## package

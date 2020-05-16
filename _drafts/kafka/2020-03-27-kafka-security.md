@@ -1,7 +1,7 @@
 ### 控制方式
 
 * 信道加密Encryption(SSL)
-* 认证Authentication(SSL or SASL)：对 client 与 broker 的连接进行控制
+* 认证Authentication(SSL or SASL)：控制 client/broker 之间的连接
   * SSL
   * SASL
     * SASL/GSSAPI (Kerberos) - 从0.9.0.0版本开始
@@ -20,22 +20,20 @@
 
 修改 `config/server.properties`
 
-```
+``` jproperties
 # 认证配置
+## 不同协议端口可以配置多个
 listeners=SASL_PLAINTEXT://ip:port
+## brokers 之间通信使用的协议，默认为 PLAINTEXT，可用 PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL
 security.inter.broker.protocol=SASL_PLAINTEXT
 sasl.mechanism.inter.broker.protocol=PLAIN
 sasl.enabled.mechanisms=PLAIN
 
 # ACL 配置
-allow.everyone.if.no.acl.found=false
 authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
-super.users=User:admin
-```
-
-`super.users` 可以配置多个：
-
-```
+## 默认为 true，表示如果资源没有配置 acls 规则，则只有 super user 可以访问该资源，这里改成 false
+allow.everyone.if.no.acl.found=false
+## 可以配置多个，以 `;` 分割
 super.users=User:admin;User:alice
 ```
 
@@ -80,6 +78,7 @@ KafkaClient {
 
 ``` java
 // 添加环境变量，需要指定配置文件的路径
+// 或者添加启动 JVM 参数 `-Djava.security.auth.login.config=/etc/kafka/conf/kafka_client_jaas.conf`
 System.setProperty("java.security.auth.login.config", "/etc/kafka/conf/kafka_client_jaas.conf");
 
 props.put("security.protocol", "SASL_PLAINTEXT");
@@ -106,22 +105,39 @@ sasl.mechanism=PLAIN
 
     $ kafka-console-consumer.sh --formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter" --bootstrap-server $(hostname):9092 --topic foo --from-beginning --consumer.config /etc/kafka/conf/consumer.properies
 
+kafka-console-consumer.sh --bootstrap-server $(hostname):9093 --topic __ucloud_test --from-beginning --consumer.config /etc/kafka/conf/consumer.properies
+
 ### SASL/SCRAM Authentication
 
 ### 权限控制(Authorisation)
 
 kafka 的权限控制可以通过 `kafka-acls.sh` 脚本添加，内存存储在 zookeeper 的 `/kafka-acl` 路径上
 
+`Principal P is [Allowed/Denied] Operation O From Host H on any Resource R matching ResourcePattern RP`
+
 进行上述配置后，还需要给 topic 增加权限：
 
-    $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer --authorizer-properties zookeeper.connect=localhost:2181 --add --allow-principal User:alice --operation Write --topic foo
+    $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer \
+                    --authorizer-properties \
+                    zookeeper.connect=localhost:2181 \
+                    --add --allow-principal User:alice --operation Write --topic foo
 
-    $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer --authorizer-properties zookeeper.connect=localhost:2181 --add --allow-principal User:godman --operation Read --topic __consumer_offsets --group __test
+    $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer \
+                    --authorizer-properties \
+                    zookeeper.connect=localhost:2181 \
+                    --add --allow-principal User:godman --operation Read --topic __ucloud_test --group __ucloud_test
+
+    $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer \
+                    --authorizer-properties \
+                    zookeeper.connect=localhost:2181 \
+                    --add --allow-principal User:root --producer --topic __ucloud_test
 
 列出权限：
 
-    $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer  --authorizer-properties zookeeper.connect=localhost:2181 --list
+    $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer \
+                    --authorizer-properties zookeeper.connect=localhost:2181 --list
 
 移除权限：
 
-    $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer  --authorizer-properties zookeeper.connect=localhost:2181 --remove --topic foo
+    $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer  \
+                    --authorizer-properties zookeeper.connect=localhost:2181 --remove --topic foo

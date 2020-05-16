@@ -12,7 +12,6 @@ tags: [prometheus]
 
     $ curl http://localhost:9090
 
-
 配置文件默认采集 prometheus 服务自身信息：
 
 ``` yaml
@@ -72,8 +71,7 @@ scrape_configs:
 
 #### jmx
 
-    $ wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.11.0/jmx_prometheus_javaagent-0.11.0.jar<Paste>jk:w
-
+    $ wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.11.0/jmx_prometheus_javaagent-0.11.0.jar
 
 jmx_export 的配置文件：
 
@@ -253,7 +251,6 @@ example:
 
 ### 数据存储
 
-
 用户可以通过命令行启动参数的方式修改本地存储的配置。
 
     $ ./prometheus --config.file=./prometheus.yml --storage.tsdb.path=/data/prometheus
@@ -287,6 +284,8 @@ example:
     $ /sbin/chkconfig --add grafana-server
 
 端口：3000
+default user: admin
+default password: admin
 
 ### 服务发现
 
@@ -449,7 +448,7 @@ groups:
 
     $ wget https://github.com/prometheus/alertmanager/releases/download/v0.16.1/alertmanager-0.16.1.linux-amd64.tar.gz
 
-对于 pending 或者 firing 的告警，可以在时间序列 
+对于 pending 或者 firing 的告警，可以在时间序列
 
     ALERTS{alertname="<alert name>", alertstate="pending|firing", <additional alert labels>}
 

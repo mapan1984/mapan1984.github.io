@@ -101,14 +101,15 @@ socket server可接受数据大小(防止OOM异常)，根据自己业务数据�
 
 ## 生产者参数配置
 
-    # 内存缓冲大小
+    # 内存缓冲大小，单位 byte
     buffer.memory=33554432
 
 在 Producer 端用来存放尚未发送出去的 Message 的缓冲区大小，默认 32MB。内存缓冲区内的消息以一个个 batch 的形式组织，每个 batch 内包含多条消息，Producer 会把多个 batch 打包成一个 request 发送到 kafka 服务器上。内存缓冲区满了之后可以选择阻塞发送或抛出异常，由 `block.on.buffer.full` 的配置来决定。
+    * 如果选择阻塞，在消息持续发送过程中，当缓冲区被填满后，producer立即进入阻塞状态直到空闲内存被释放出来，这段时间不能超过 `max.blocks.ms` 设置的值，一旦超过，producer则会抛出 `TimeoutException` 异常，因为Producer是线程安全的，若一直报TimeoutException，需要考虑调高buffer.memory 了。
 
     batch.size=16384
 
-Producer会尝试去把发往同一个Partition的多个Requests进行合并，`batch.size` 指明了一次Batch合并后Requests总大小的上限。如果这个值设置的太小，可能会导致所有的Request都不进行Batch。
+Producer会尝试去把发往同一个Partition的多个消息进行合并，`batch.size` 指明了合并后 batch 大小的上限。如果这个值设置的太小，可能会导致所有的Request都不进行Batch。
 
     linger.ms=0
 
@@ -133,6 +134,11 @@ producer 合并的消息的大小未达到 `batch.size`，但如果存在时间�
 
 这个配置可以设定发送消息后是否需要Broker端返回确认，设置时需要权衡数据可靠性和吞吐量。
 
+`acks`:
+    * 0：表示 producer 请求立即返回，不需要等待 leader 的任何确认
+    * -1：表示分区 leader 必须等待消息被成功写入到所有的 ISR 副本中才认为 producer 成功
+    * 1：表示 leader 副本必须应答此 producer 请求并写入消息到本地日志，之后 producer 请求被认为成功
+
 ### 生产者不丢失数据保证
 
     block.on.buffer.full = true
@@ -149,7 +155,11 @@ producer 合并的消息的大小未达到 `batch.size`，但如果存在时间�
 
     max.in.flight.requests.per.connection=1
 
-单个客户端在单个连接上能够发送的未响应请求个数，这个参数设置为 1 可以避免消息乱序，同时可以保证在 retry 是不会重复发送消息
+单个线程在单个连接上能够发送的未响应请求个数，这个参数设置为 1 可以避免消息乱序，同时可以保证在 retry 是不会重复发送消息，但是会降低 producer io 线程的吞吐量
+
+    enable.idempotence
+
+单个 partition exactly once
 
     unclean.leader.election.enable=false
 
@@ -169,3 +179,14 @@ producer 合并的消息的大小未达到 `batch.size`，但如果存在时间�
 
 在Fetch Request获取的数据至少达到 `fetch.min.bytes` 之前，允许等待的最大时长。
 
+
+## 支持的消息大小
+
+```
+# producer
+max.request.size
+
+# broker
+message.max.bytes
+replica.fetch.max.bytes
+```
