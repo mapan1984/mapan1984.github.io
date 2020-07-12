@@ -132,6 +132,8 @@ tags: [Shell]
 
         [ ! -f $var ]: 文件不存在
 
+> `[` 是 linux 命令，等同 `test` 命令；`[[  ]]` 是 shell 语法
+
 ### 控制语句
 
 > 请将`; do`、`; then`和`while`、`for`、`if` 放在同一行
@@ -544,6 +546,23 @@ message=$@
 echo '{"subject": "udw warn", "content": "'"${message}"'", "message_type": 1}' \
   | curl -X POST -d @- http://172.18.176.244:22003/message/inner/245 --header "Content-Type:application/json"
 
+```
+
+2. 切割
+
+``` sh
+line="host1,name1"
+
+# 通过 cut 切割
+host=$(echo $line | cut -d',' -f1)
+name=$(echo $line | cut -d',' -f2)
+echo $host
+echo $name
+
+# 通过数组切割
+declare -a info="(${line/,/ })"
+echo ${info[0]}
+echo ${info[1]}
 ```
 
 ### 从路径获取目录名与文件名

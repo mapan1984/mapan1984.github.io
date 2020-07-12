@@ -45,7 +45,7 @@ do
 done < kf.data
 ```
 
-### 重分区
+### 重分区/修改副本数
 
 创建 `topics.json` 文件，文件内容为需要重分区的 topic：
 

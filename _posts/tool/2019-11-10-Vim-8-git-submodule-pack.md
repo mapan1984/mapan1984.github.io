@@ -5,9 +5,9 @@ tags: [vim, git, submodule]
 
 ## runtimepath
 
-vim 有很多做插件管理的扩展，本质都是下载远程插件，并且将下载插件的路径添加到 `runtimepath` 变量。
+vim 有很多做插件管理的扩展，本质都是下载插件代码，并且将下载插件的路径添加到 `runtimepath` 变量。
 
-可以在 vim 总执行 `:set runtimepath` 查看，`runtimepath` 的值是一个 `,` 分隔的路径列表，vim 运行时会载入这个路径下的 viml 文件。
+可以在 vim 中执行 `:set runtimepath` 查看 `runtimepath` 的值是一个 `,` 分隔的路径列表，vim 运行时会载入这个路径下的 viml 文件。
 
 例如，我们可以简单的下载插件：
 
@@ -38,14 +38,16 @@ set rtp+=~/tabnine-vim
 
 ### git submodule
 
-1. 下载：
+可以使用 git 管理 `~/.vim` 目录中的 vim 配置代码，利用 git submodul 将插件代码添加到 vim 配置的 git 仓库中，并利用 vim package 管理插件：
+
+1. 下载插件：
 
         $ mkdir -p pack/foo/start
         $ git submodule add git://github.com/yianwillis/vimcdoc.git pack/foo/start/vimcdoc
 
 2. 升级：
 
-        $ cd pack/foo/vim-markdow
+        $ cd pack/foo/start/vimcdoc
         $ git pull origin master
 
 3. 升级所有
@@ -53,6 +55,8 @@ set rtp+=~/tabnine-vim
         $ git submodule foreach git pull origin master
 
         $ git submodule update --recursive --remote
+
+        $ git submodule update --init --recursive
 
 4. 删除
 
@@ -69,3 +73,4 @@ set rtp+=~/tabnine-vim
 
         # 或者
         $ git clone --recursive http://github.com/mapan1984/.vim.git ~/.vim
+

@@ -30,3 +30,7 @@ nohup ${KAFKA_HOME}/bin/connect-distributed.sh config/connect-distributed.proper
 
 ${KAFKA_HOME}/bin/connect-distributed.sh -daemon config/connect-distributed.properties
 ```
+
+## http api
+
+[connector http api]({{ site.url }}/resources/code/kafka/connector/connect.sh)

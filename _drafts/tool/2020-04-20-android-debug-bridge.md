@@ -53,3 +53,49 @@ ADB(Android Debug Bridge)是Android SDK里的一个工具，它的主要功能�
 ## 刷机
 
 https://wiki.lineageos.org/devices/capricorn/install
+
+## 禁用/启用应用
+
+进入 adb shell:
+
+    adb shell
+
+显示包名列表：
+
+    pm list packages
+
+可选参数：
+
+* -f  显示每个包的文件位置
+* -d  使用过滤器，只显示禁用的应用的包名
+* -e  使用过滤器，只显示可用的应用的包名
+* -s  使用过滤器，只显示系统应用的包名
+* -3  使用过滤器，只显示第三方应用的包名
+* -i  查看应用的安装者
+
+
+在没有 root 权限的情况下，使用 `disable-user` 禁用应用：
+
+    pm disable-user com.android.browser
+    pm disable-user com.xiaomi.vipaccount
+    pm disable-user com.xiaomi.gamecenter
+    pm disable-user com.mi.health
+    pm disable-user com.miui.newhome
+    pm disable-user com.miui.systemAdSolution
+
+有 root 权限，使用 `hide` 隐藏/冻结应用：
+
+    pm hide com.meizu.feedback
+    pm hide com.meizu.gamecenter.service
+    pm hide com.meizu.media.life
+    pm hide meizu.flyme.gamecenter
+    pm hide com.meizu.flyme.walleto
+
+卸载：
+
+    pm uninstall -k --user 0 com.miui.voiceassist
+
+重启启用：
+
+    adb shell pm enable 应用包名
+

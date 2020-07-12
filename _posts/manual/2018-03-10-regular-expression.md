@@ -1,3 +1,8 @@
+---
+title: regular expression
+tags: [regex]
+---
+
 ### 元字符
 
     . ^ $ * + ? { [ ] } \ | ( )

@@ -141,7 +141,7 @@ def run():
             print('Task')
 ```
 
-#### 
+###  selectors
 
 ``` python
 #!/usr/bin/env python3
@@ -221,5 +221,39 @@ if __name__ == '__main__':
     # 耗时: 0.5629799365997314
 ```
 
+### async/await
+
+```
+In [5]: class Awaitble:
+   ...:     def __await__(self):
+   ...:         yield None
+   ...:
+
+
+In [7]: def switch():
+   ...:     return Awaitble()
+   ...:
+
+In [8]: async def up(n):
+   ...:     while n < 10:
+   ...:         print(n)
+   ...:         await switch()
+   ...:         n += 1
+   ...:
+
+In [9]: up(1)
+Out[9]: <coroutine object up at 0x000001CB145A9EC8>
+
+In [10]: a = up(1)
+
+In [11]: a
+Out[11]: <coroutine object up at 0x000001CB1468A9C8>
+
+In [12]: a.send(None)
+1
+
+```
+
+[Build Your Own Async](https://www.youtube.com/watch?v=Y4Gt3Xjd7G8)
 ["How Do Python Coroutines Work?" - A. Jesse Jiryu Davis](https://www.youtube.com/watch?v=7sCu4gEjH5I)
 [David Beazley - Python Concurrency From the Ground Up: LIVE! - PyCon 2015](https://www.youtube.com/watch?v=MCs5OvhV9S4)

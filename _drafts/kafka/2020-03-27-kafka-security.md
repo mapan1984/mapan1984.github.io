@@ -13,7 +13,7 @@
 ### 解决的问题
 
 * Currently, any client can access your Kafka cluster (authentication)
-* The clients can publish / consumer and topic data (authorisation)
+* The clients can publish / consumer any topic data (authorisation)
 * All the data being sent is fully visible on the network (encryption)
 
 ### SASL/PLAIN Authentication
@@ -31,8 +31,8 @@ sasl.enabled.mechanisms=PLAIN
 
 # ACL 配置
 authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
-## 默认为 true，表示如果资源没有配置 acls 规则，则只有 super user 可以访问该资源，这里改成 false
-allow.everyone.if.no.acl.found=false
+## 默认情况下，如果资源没有配置 acls 规则，只有 super user 可以访问该资源；这里改成 true，表示所有人都可访问
+allow.everyone.if.no.acl.found=true
 ## 可以配置多个，以 `;` 分割
 super.users=User:admin;User:alice
 ```
@@ -54,13 +54,23 @@ KafkaServer {
 需要在 jvm 启动参数中指定 jaas 配置文件，修改 `bin/kafka-run-class.sh`:
 
 ``` bash
-KAFKA_SASL_OPTS='-Djava.security.auth.login.config=/usr/local/kafka/config/kafka_server_jaas.conf'
+if [[ -f /usr/local/kafka/config/kafka_server_jaas.conf ]]; then
+  KAFKA_SASL_OPTS='-Djava.security.auth.login.config=/usr/local/kafka/config/kafka_server_jaas.conf'
+else
+  KAFKA_SASL_OPTS=''
+fi
 
 # Launch mode
 if [ "x$DAEMON_MODE" = "xtrue" ]; then
   nohup $JAVA $KAFKA_HEAP_OPTS $KAFKA_JVM_PERFORMANCE_OPTS $KAFKA_GC_LOG_OPTS $KAFKA_SASL_OPTS $KAFKA_JMX_OPTS $KAFKA_LOG4J_OPTS -cp $CLASSPATH $KAFKA_OPTS "$@" > "$CONSOLE_OUTPUT_FILE" 2>&1 < /dev/null &
 else
   exec $JAVA $KAFKA_HEAP_OPTS $KAFKA_JVM_PERFORMANCE_OPTS $KAFKA_GC_LOG_OPTS $KAFKA_SASL_OPTS $KAFKA_JMX_OPTS $KAFKA_LOG4J_OPTS -cp $CLASSPATH $KAFKA_OPTS "$@"
+fi
+```
+
+``` sh
+if [[ -f /usr/local/kafka/config/kafka_server_jaas.conf ]]; then
+  export KAFKA_OPTS='-Djava.security.auth.login.config=/usr/local/kafka/config/kafka_server_jaas.conf'
 fi
 ```
 

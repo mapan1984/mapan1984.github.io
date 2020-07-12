@@ -76,4 +76,6 @@ complete -F _fizzbuzz fizzbuzz
 
     complete -F _longopt tar
 
-[](https://tuzz.tech/blog/how-bash-completion-works)
+## 参考
+
+* [how-bash-completion-works](https://tuzz.tech/blog/how-bash-completion-works)

@@ -1,8 +1,13 @@
+---
+title: 代理 kafka 服务
+tags: [kafka, proxy]
+---
+
 # kafka 外网 nignx 代理访问集群
 
 kafka 的客户端是会主动获取集群地址的，无论是生产还是消费，客户端都需要获取集群的元信息，包含所有 broker id 与 broker 地址之间的对应关系，以及 topic 的 partition, replica, leader 信息。当具体读/写某个 topic 的 某个 partition，客户端必须根据元信息找到该 partition 的 leader，在根据 leader 找到 leader 所在 broker 的地址。
 
-配置 kafka 转发常见的错误就是忽略了客户端会主动获取集群地址的特性，仅仅用外网 IP 代理内外下的 Kafka broker IP，这样客户端在连接时没有问题，但是第一次连接成功后，客户端主动获取的集群 broker 地址可能还是 kafka listeners 配置的内外地址，因此之后的任何请求都会发向内网地址而不是代理地址。
+配置 kafka 转发常见的错误就是忽略了客户端会主动获取集群地址的特性，仅仅用外网 IP 代理内网下的 Kafka broker IP，这样客户端在连接时没有问题，但是第一次连接成功后，客户端主动获取的集群 broker 地址可能还是 kafka listeners 配置的内外地址，因此之后的任何请求都会发向内网地址而不是代理地址。
 
 解决这个问题的关键是让客户端连接成功后，主动获取的集群 broker 地址还是指向代理 IP，有 2 种配置方法：
 1. 修改 kafka listeners 的地址为 kafka broker 节点的 hostname，然后在客户端所在的主机配置 `/etc/hosts` 文件，添加 kafka listeners 配置的 hostname，并将对应的 IP 配置为代理 IP

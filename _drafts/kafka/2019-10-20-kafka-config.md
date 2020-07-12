@@ -105,7 +105,7 @@ socket server可接受数据大小(防止OOM异常)，根据自己业务数据�
     buffer.memory=33554432
 
 在 Producer 端用来存放尚未发送出去的 Message 的缓冲区大小，默认 32MB。内存缓冲区内的消息以一个个 batch 的形式组织，每个 batch 内包含多条消息，Producer 会把多个 batch 打包成一个 request 发送到 kafka 服务器上。内存缓冲区满了之后可以选择阻塞发送或抛出异常，由 `block.on.buffer.full` 的配置来决定。
-    * 如果选择阻塞，在消息持续发送过程中，当缓冲区被填满后，producer立即进入阻塞状态直到空闲内存被释放出来，这段时间不能超过 `max.blocks.ms` 设置的值，一旦超过，producer则会抛出 `TimeoutException` 异常，因为Producer是线程安全的，若一直报TimeoutException，需要考虑调高buffer.memory 了。
+    * 如果选择阻塞，在消息持续发送过程中，当缓冲区被填满后，producer立即进入阻塞状态直到空闲内存被释放出来，这段时间不能超过 `max.block.ms` 设置的值，一旦超过，producer则会抛出 `TimeoutException` 异常，因为Producer是线程安全的，若一直报TimeoutException，需要考虑调高buffer.memory 了。
 
     batch.size=16384
 
@@ -165,6 +165,8 @@ producer 合并的消息的大小未达到 `batch.size`，但如果存在时间�
 
 关闭 unclean leader 选举，即不允许非 ISR 中的副本被选举为 leader
 
+### 请求
+
 ## 消费者参数配置
 
     num.consumer.fetchers=1
@@ -179,6 +181,29 @@ producer 合并的消息的大小未达到 `batch.size`，但如果存在时间�
 
 在Fetch Request获取的数据至少达到 `fetch.min.bytes` 之前，允许等待的最大时长。
 
+    session.timeout.ms=10000
+
+会话超时时间，如果发送心跳时间超过这个时间，broker 就会认为消费者掉线
+
+    heartbeat.interval.ms=3000
+
+发送心跳间隔时间，推荐不要高于 `session.timeout.ms` 的1/3
+
+    enable.auto.commit
+
+是否启用自动提交。
+
+    auto.commit.interval.ms
+
+自动提交间隔
+
+    max.poll.interval.ms=300000
+
+`poll()` 调用的最大时间间隔，如果距离上一次 `poll()` 调用的时间超过 `max.poll.interval.ms`，消费者会被认为失败
+
+    max.poll.records=500
+
+单次 `poll()` 调用可以拉取的最多消息
 
 ## 支持的消息大小
 
@@ -189,4 +214,10 @@ max.request.size
 # broker
 message.max.bytes
 replica.fetch.max.bytes
+
+# topic
+max.message.bytes
+
+# consumer
+fetch.message.max.bytes
 ```
