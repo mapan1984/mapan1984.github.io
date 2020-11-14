@@ -14,13 +14,29 @@ const filesToCache = [
     '{{ post.url }}',
   {% endfor %}
 
-  // can be automated rather than manual entries
+  // css
+  "/assets/styles/bootstrap.min.css",
+  "/assets/styles/bootstrap.min.css.map",
+  "/assets/styles/main.css",
+  // js
+  "/assets/scripts/jquery-1.12.4.min.js", 
+  "/assets/scripts/bootstrap.min.js",
+  "/assets/scripts/blog.js",
+  "/assets/scripts/post.js",
+  // img
   "/assets/images/favicon.ico",
   "/assets/images/mapan.jpg",
   "/assets/images/mapan96.jpg",
   "/assets/images/mapan144.jpg",
   "/assets/images/mapan192.jpg",
-  "/index.html"
+  // manifest
+  "/assets/manifest.json",
+  // fonts
+  "/assets/fonts/glyphicons-halflings-regular.eot",
+  "/assets/fonts/glyphicons-halflings-regular.svg",
+  "/assets/fonts/glyphicons-halflings-regular.ttf",
+  "/assets/fonts/glyphicons-halflings-regular.woff",
+  "/assets/fonts/glyphicons-halflings-regular.woff2",
 ]
 
 self.addEventListener("install", function(e){
