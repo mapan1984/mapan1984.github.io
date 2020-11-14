@@ -1,4 +1,9 @@
-### 控制方式
+---
+title: Kafka Authentication and Authorisation
+tags: [kafka]
+---
+
+## 控制方式
 
 * 信道加密Encryption(SSL)
 * 认证Authentication(SSL or SASL)：控制 client/broker 之间的连接
@@ -10,13 +15,17 @@
     * SASL/OAUTHBEARER - 从2.0版本开始
 * 授权Authorisation(ACL)：控制 host/producer/consumer 对 topic 的读写权限
 
-### 解决的问题
+## 解决的问题
 
 * Currently, any client can access your Kafka cluster (authentication)
 * The clients can publish / consumer any topic data (authorisation)
 * All the data being sent is fully visible on the network (encryption)
 
+## Authentication
+
 ### SASL/PLAIN Authentication
+
+#### 1. 服务端
 
 修改 `config/server.properties`
 
@@ -24,6 +33,7 @@
 # 认证配置
 ## 不同协议端口可以配置多个
 listeners=SASL_PLAINTEXT://ip:port
+#listeners=PLAINTEXT://ip:port,SASL_PLAINTEXT://ip:port
 ## brokers 之间通信使用的协议，默认为 PLAINTEXT，可用 PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL
 security.inter.broker.protocol=SASL_PLAINTEXT
 sasl.mechanism.inter.broker.protocol=PLAIN
@@ -51,6 +61,7 @@ KafkaServer {
 
 配置中的 `user_admin="admin_pass"` 的规则是 `user_<username>="<password>"`，就是说配置了 2 个用户 `admin` 和 `alice`，密码分别是 `admin_pass` 和 `alice_pass`
 
+<!--
 需要在 jvm 启动参数中指定 jaas 配置文件，修改 `bin/kafka-run-class.sh`:
 
 ``` bash
@@ -67,12 +78,17 @@ else
   exec $JAVA $KAFKA_HEAP_OPTS $KAFKA_JVM_PERFORMANCE_OPTS $KAFKA_GC_LOG_OPTS $KAFKA_SASL_OPTS $KAFKA_JMX_OPTS $KAFKA_LOG4J_OPTS -cp $CLASSPATH $KAFKA_OPTS "$@"
 fi
 ```
+-->
+
+需要在 jvm 启动参数中指定 jaas 配置文件，修改 `bin/kafka-server-start.sh`，增加以下内容:
 
 ``` sh
 if [[ -f /usr/local/kafka/config/kafka_server_jaas.conf ]]; then
   export KAFKA_OPTS='-Djava.security.auth.login.config=/usr/local/kafka/config/kafka_server_jaas.conf'
 fi
 ```
+
+#### 2. 客户端
 
 客户端连接时需要配置 `kafka_client_jaas.conf` 文件
 
@@ -101,7 +117,7 @@ props.put("sasl.mechanism", "PLAIN");
 exec $(dirname $0)/kafka-run-class.sh -Djava.security.auth.login.config=/etc/kafka/conf/kafka_client_jaas.conf kafka.tools.ConsoleConsumer "$@"
 ```
 
-增加配置文件 `consumer.properies`
+增加配置文件 `consumer.properties`
 
 ```
 group.id=__test
@@ -111,21 +127,17 @@ sasl.mechanism=PLAIN
 
 运行 `kafka-console-consumer.sh`
 
-    $ kafka-console-consumer.sh --bootstrap-server $(hostname):9092 --topic foo --from-beginning --consumer.config /etc/kafka/conf/consumer.properies
-
-    $ kafka-console-consumer.sh --formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter" --bootstrap-server $(hostname):9092 --topic foo --from-beginning --consumer.config /etc/kafka/conf/consumer.properies
-
-kafka-console-consumer.sh --bootstrap-server $(hostname):9093 --topic __ucloud_test --from-beginning --consumer.config /etc/kafka/conf/consumer.properies
+    $ kafka-console-consumer.sh --bootstrap-server $(hostname):9092 --topic foo --from-beginning --consumer.config /etc/kafka/conf/consumer.properties
 
 ### SASL/SCRAM Authentication
 
-### 权限控制(Authorisation)
+## 权限控制(Authorisation)
 
-kafka 的权限控制可以通过 `kafka-acls.sh` 脚本添加，内存存储在 zookeeper 的 `/kafka-acl` 路径上
+kafka 的权限控制可以通过 `kafka-acls.sh` 脚本添加，配置存储在 zookeeper 的 `/kafka-acl` 路径上
 
 `Principal P is [Allowed/Denied] Operation O From Host H on any Resource R matching ResourcePattern RP`
 
-进行上述配置后，还需要给 topic 增加权限：
+进行上述 Authentication 配置后，还需要给 topic 增加权限：
 
     $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer \
                     --authorizer-properties \

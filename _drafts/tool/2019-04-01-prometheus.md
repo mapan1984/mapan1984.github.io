@@ -446,7 +446,6 @@ groups:
 
 通过 http://127.0.0.1:9090/rules 查看规则文件
 
-    $ wget https://github.com/prometheus/alertmanager/releases/download/v0.16.1/alertmanager-0.16.1.linux-amd64.tar.gz
 
 对于 pending 或者 firing 的告警，可以在时间序列
 

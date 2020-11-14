@@ -53,6 +53,10 @@ tags: [Shell]
     do
         # do some
     done
+
+    # 随机选择数据元素
+    declare -a server_ips=('10.66.170.71' '10.66.170.72')
+    server_ip=${server_ips[$RANDOM % ${#server_ips[@]}]}
     ```
 
 3. map:
@@ -560,7 +564,8 @@ echo $host
 echo $name
 
 # 通过数组切割
-declare -a info="(${line/,/ })"
+# declare -a info="(${line/,/ })"
+declare -a info="(${line//,/ })"
 echo ${info[0]}
 echo ${info[1]}
 ```
@@ -636,3 +641,18 @@ for i in {1..10}; do
   echo $i
 done
 ```
+
+### set
+
+修改 shell 环境的运行参数
+
+* `set -u` / `set -o nounset`：脚本遇到不存在的变量报错，并停止执行
+* `set -x` / `set -o xtrace`：在运行结果之前，先输出执行的那一行命令
+* `set -e` / `set -o errexit`：脚本只要发生错误(返回非 0)，就终止执行
+    * 使用 `set +e` 关闭 `-e` 选项
+    * 使用 `command || true` 使得这一语句总是执行成功
+* `set -o pipefail`：只要一个子命令失败，整个管道命令就失败
+
+http://www.ruanyifeng.com/blog/2017/11/bash-set.html
+
+[启动类型](https://cjting.me/2020/08/16/shell-init-type/)

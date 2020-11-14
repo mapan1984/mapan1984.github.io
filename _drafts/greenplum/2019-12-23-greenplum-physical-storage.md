@@ -48,9 +48,27 @@ select oid, datname from pg_database;
 
 table 对应的数据文件在各节点的 `/data/[primary|mirror]/udwseg<id>/base/<db.oid>` 中，文件名是该 table 的 relfilenode
 
+每个文件默认大小 1G，当 table 对应的内容超过 1G 时，对对文件进行切分，对应的文件列表为：
+
+`
+/data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>
+/data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>.1
+/data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>.2
+/data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>.3
+...
+`
+
+不同 segment 上查询相同的表，relfilenode 不一致，可以在对应的节点上指定 segment 端口登录：
+
+    PGOPTIONS='-c gp_session_role=utility' psql -p 40001
+
+切换到对应的 database; 执行查询
+
 ``` sql
+\c dev
 select oid, relname, relfilenode from pg_class where relname='test';
 ```
+
 
 ### 查看表数据在各个节点上的大小
 

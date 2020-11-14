@@ -82,6 +82,16 @@ https://wiki.lineageos.org/devices/capricorn/install
     pm disable-user com.mi.health
     pm disable-user com.miui.newhome
     pm disable-user com.miui.systemAdSolution
+    pm disable-user com.miui.virtualsim
+    pm disable-user com.android.email
+    pm disable-user com.miui.bugreport
+    pm disable-user com.miui.userguide
+    pm disable-user com.miui.yellowpage
+    pm disable-user com.xiaomi.drivemode
+    pm disable-user com.android.thememanager
+    pm disable-user com.duokan.reader
+    pm disable-user com.miui.miservice
+    pm disable-user com.miui.virtualsim
 
 有 root 权限，使用 `hide` 隐藏/冻结应用：
 
@@ -94,8 +104,16 @@ https://wiki.lineageos.org/devices/capricorn/install
 卸载：
 
     pm uninstall -k --user 0 com.miui.voiceassist
+    pm uninstall -k --user 0 com.miui.newhome
+    pm uninstall -k --user 0 com.xiaomi.vipaccount
+    pm uninstall -k --user 0 com.miui.systemAdSolution
+    pm uninstall -k --user 0 com.xiaomi.gamecenter.sdk.service
+    pm uninstall --user 0 com.miui.analytics
+    pm uninstall --user 0 com.miui.virtualsim
 
 重启启用：
 
     adb shell pm enable 应用包名
+
+
 

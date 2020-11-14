@@ -20,9 +20,6 @@ location / {
 ## koa 中获取用户信息
 
 ``` javascript
-const fs = require("fs");
-const path = require("path");
-
 const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
 
@@ -63,18 +60,52 @@ app.use(async ctx => {
 app.listen(5000, () => {
     console.log("Server start at 5000...");
 });
-
-// 将主进程ID写入pid文件
-const pidfile = path.join(__dirname, "app.pid");
-fs.writeFileSync(pidfile, process.pid);
-
-// 脚本停止或重启应用时删除pid文件
-process.on("SIGTERM", () => {
-    if (fs.existsSync(pidfile)) {
-        fs.unlinkSync(pidfile);
-    }
-    process.exit(0);
-});
 ```
 
+## python flask
+
+``` python
+from flask import Flask, request, jsonify
+app = Flask(__name__)
+
+
+users = {
+    'bob': 'bobpass',
+    'neo': 'neopass',
+}
+
+
+def unauthorized(message):
+    response = jsonify({'error': 'unauthorized', 'message': message})
+    response.status_code = 401
+    return response
+
+
+@app.before_request
+def authorization():
+    if request.authorization:
+        username = request.authorization.username
+        password = request.authorization.password
+        if password is not None and users.get(username) == password:
+            print(f'{username} authorization')
+            return None
+    return (
+        unauthorized('Invalid credentials'),
+        401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'}
+    )
+
+
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
+
+if __name__ == '__main__':
+    app.run()
+```
+
+## 参考
+
 [HTTP 身份验证 - HTTP | MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication)
+

@@ -1,6 +1,6 @@
 ---
 title: 利用 git submodule 和 vim pack 进行插件管理
-tags: [vim, git, submodule]
+tags: [vim, Git, submodule]
 ---
 
 ## runtimepath

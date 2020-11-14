@@ -15,11 +15,19 @@ Zookeeper提供了一个类似于Linux文件系统的树形结构（可认为是
 
 ## znode 节点类型
 
-* Persist: 一旦被创建，就不会丢失
-* Ephemeral: 在创建它的客户端和服务器之间的Session结束时自动被删除
+* 是否持久保存：
+    * Persist: 一旦被创建，就不会丢失
+    * Ephemeral: 在创建它的客户端和服务器之间的Session结束时自动被删除
+* 是否顺序：
+    * Sequence: 创建出的节点名在指定的名称后带有10位10进制序号，多个客户端创建同一名称的节点时，都可以创建成功，只是序号不同
+    * Non-sequence: 多个客户端同时创建同一名称的Non-sequence节点时，只有一个可创建成功
 
-* Sequence: 创建出的节点名在指定的名称后带有10位10进制序号，多个客户端创建同一名称的节点时，都可以创建成功，只是序号不同
-* Non-sequence: 多个客户端同时创建同一名称的Non-sequence节点时，只有一个可创建成功
+上述 2 种方式可以组合出 4 种类型：
+
+* PERSISTENT
+* PERSISTENT_SEQUENTIAL
+* EPHEMERAL
+* EPHEMERAL_SEQUENTIAL
 
 ## watch机制
 

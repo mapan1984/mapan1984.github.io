@@ -4,7 +4,7 @@ tags: [bash, complete]
 ---
 
 
-### complete
+## complete 命令
 
 bash 的 `complete` 命令可以注册补全
 
