@@ -1,5 +1,24 @@
 'use strict';
 
+$(document).ready(function (){
+    if ('serviceWorker' in navigator) {
+        // navigator.serviceWorker.register('/assets/scripts/sw.js', {scope: '/'})
+        navigator.serviceWorker.register('/sw.js', {scope: '/'})
+            .then(reg => {
+                if (reg.installing) {
+                    console.log('Service worker installing')
+                } else if (reg.waiting) {
+                    console.log('Service worker installed')
+                } else if (reg.active) {
+                    console.log('Service worker active')
+                }
+            })
+            .catch(error => {
+                console.warn('Registration failed with ', error)
+            })
+    }
+});
+
 // 保证blog-content最小高度为窗口的内在高度
 $(document).ready(function (){
     function fixHeight() {
