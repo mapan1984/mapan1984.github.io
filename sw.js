@@ -25,10 +25,10 @@ const filesToCache = [
   "/assets/scripts/post.js",
   // img
   "/assets/images/favicon.ico",
-  "/assets/images/mapan.jpg",
-  "/assets/images/mapan96.jpg",
-  "/assets/images/mapan144.jpg",
-  "/assets/images/mapan192.jpg",
+  "/assets/images/72.png",
+  "/assets/images/144.png",
+  "/assets/images/192.png",
+  "/assets/images/512.png",
   // manifest
   "/assets/manifest.json",
   // fonts
