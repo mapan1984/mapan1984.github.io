@@ -188,10 +188,8 @@ rules:
 ``` sh
 # ...
 
-# JMX_EXPORTER=-javaagent:/usr/local/jmx_prometheus_javaagent-0.11.0.jar=8089:/etc/jmx_exporter/config.yaml
-
 if [[ $JMX_PORT && -f /usr/local/jmx_prometheus_javaagent-0.12.0.jar && -f /etc/default/jmx_prometheus_javaagent.yaml ]]; then
-  JMX_EXPORTER=-javaagent:/usr/local/jmx_prometheus_javaagent-0.12.0.jar=8089:/etc/default/jmx_prometheus_javaagent.yaml
+  JMX_EXPORTER=-javaagent:/usr/local/jmx_prometheus_javaagent-0.12.0.jar=5556:/etc/default/jmx_prometheus_javaagent.yaml
 else
   JMX_EXPORTER=""
 fi
@@ -208,19 +206,19 @@ fi
 
 修改 kafka 的 kafka-server-start.sh 文件中的 kafka-run-class 为 kafka-run-class-with-agent
 
-    $ curl http://localhost:8089/metrics
+    $ curl http://localhost:5556/metrics
 
 ``` yaml
 scrape_configs:
   - job_name: 'kafka1'
     static_configs:
-    - targets: ['10.9.164.4:8089']
+    - targets: ['10.9.164.4:5556']
   - job_name: 'kafka2'
     static_configs:
-    - targets: ['10.9.140.204:8089']
+    - targets: ['10.9.140.204:5556']
   - job_name: 'kafka3'
     static_configs:
-    - targets: ['10.9.145.115:8089']
+    - targets: ['10.9.145.115:5556']
 ```
 
 
@@ -371,7 +369,7 @@ prometheus 周期性读取文件中的内容，当文件中定义的内容发生
          "node"
        ],
        "Address": "10.9.145.115",
-       "Port": 8089,
+       "Port": 5556,
        "EnableTagOverride": false,
        "Check": {
          "DeregisterCriticalServiceAfter": "90m",

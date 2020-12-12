@@ -499,6 +499,8 @@ bash 配置是针对交互模式的，所以在`.bashrc`开头就有判断代码
 登录模式：只加载`~/.bash_profile`，如果`~/.bash_profile`不存在，尝试加载`~/.bashrc`
 非登录模式：只加载`~/.bashrc`
 
+[启动类型](https://cjting.me/2020/08/16/shell-init-type/)
+
 ### extglob
 
 `shopt`(shell option) 设置 shell 的可选参数
@@ -538,37 +540,37 @@ n
 EOF
 ```
 
-### string
+### string 拼接/切割
 
 1. 拼接
 
-```  sh
-#!/bin/bash
-
-message=$@
-
-echo '{"subject": "udw warn", "content": "'"${message}"'", "message_type": 1}' \
-  | curl -X POST -d @- http://172.18.176.244:22003/message/inner/245 --header "Content-Type:application/json"
-
-```
+    ```  sh
+    #!/bin/bash
+    
+    message=$@
+    
+    echo '{"subject": "udw warn", "content": "'"${message}"'", "message_type": 1}' \
+      | curl -X POST -d @- http://172.18.176.244:22003/message/inner/245 --header "Content-Type:application/json"
+    
+    ```
 
 2. 切割
 
-``` sh
-line="host1,name1"
-
-# 通过 cut 切割
-host=$(echo $line | cut -d',' -f1)
-name=$(echo $line | cut -d',' -f2)
-echo $host
-echo $name
-
-# 通过数组切割
-# declare -a info="(${line/,/ })"
-declare -a info="(${line//,/ })"
-echo ${info[0]}
-echo ${info[1]}
-```
+    ``` sh
+    line="host1,name1"
+    
+    # 通过 cut 切割
+    host=$(echo $line | cut -d',' -f1)
+    name=$(echo $line | cut -d',' -f2)
+    echo $host
+    echo $name
+    
+    # 通过数组切割
+    # declare -a info="(${line/,/ })"
+    declare -a info="(${line//,/ })"
+    echo ${info[0]}
+    echo ${info[1]}
+    ```
 
 ### 从路径获取目录名与文件名
 
@@ -585,6 +587,10 @@ file.c
 ```
 
 ### 获取函数名
+
+* Executed script: ${FUNCNAME[0]} is main
+* Sourced script: ${FUNCNAME[0]} is source
+* Shell function: ${FUNCNAME[0]} is the function's name
 
 ``` sh
 #!/bin/bash
@@ -609,8 +615,10 @@ echo "Out of function, \$FUNCNAME => (${FUNCNAME[@]})"
 ### 获取当前目录
 
 ``` sh
+# source 执行时 $0 为 -bash，不是脚本名，因此不推荐使用
 cur_dir=$(cd `dirname $0`; pwd)
 
+# 适用于 source 和 直接执行
 cur_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ```
 
@@ -655,4 +663,23 @@ done
 
 http://www.ruanyifeng.com/blog/2017/11/bash-set.html
 
-[启动类型](https://cjting.me/2020/08/16/shell-init-type/)
+### 判断脚本是通过 source 执行还是直接执行
+
+1. 通过 `FUNCNAME` 判断
+    ``` bash
+    if [[ ${FUNCNAME[0]} == "main" ]]; then
+        # 直接执行脚本
+    fi
+    if [[ ${FUNCNAME[0]} == "source" ]]; then
+        # source 脚本
+    fi
+    ```
+2. 通过 `BASH_SOURCE` 与 `$0` 判断
+    ``` bash
+    if [[ "$BASH_SOURCE" == "$0" ]]; then
+        # 直接执行脚本，2 个变量都是脚本名
+    else
+        # source 脚本，`$BASH_SOURCE` 还是脚本名，`$0` 一般为 `-bash`
+    fi
+    ```
+

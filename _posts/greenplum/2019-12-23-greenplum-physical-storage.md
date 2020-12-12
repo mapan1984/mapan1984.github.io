@@ -3,7 +3,7 @@ title: greenplum 物理存储对应
 tags: [greenplum]
 ---
 
-### 数据目录
+## 数据目录
 
 greenplum 初始化时指定 segment 数据存储位置，查看 `gpinitsystem_config` 文件，假设内容如下：
 
@@ -24,7 +24,7 @@ declare -a MIRROR_DATA_DIRECTORY=(/data/mirror /data/mirror)
 
 具体到每个 segment，存储位置在 `/data/primary/udwseg<id>/base`
 
-### database 存储位置
+## database 存储位置
 
 在 `base` 目录中，会按照不同 database 分成不同的子目录，子目录名是 database 的 oid。运行以下 sql 可以查看不同 database 的 oid:
 
@@ -44,7 +44,7 @@ select oid, datname from pg_database;
 
 则 `dev` database 的数据存储在各个节点的 `/data/[primary|mirror]/udwseg<id>/base/16386` 中
 
-### table 存储文件
+## table 存储文件
 
 table 对应的数据文件在各节点的 `/data/[primary|mirror]/udwseg<id>/base/<db.oid>` 中，文件名是该 table 的 relfilenode
 
@@ -58,53 +58,60 @@ table 对应的数据文件在各节点的 `/data/[primary|mirror]/udwseg<id>/ba
 ...
 `
 
-不同 segment 上查询相同的表，relfilenode 不一致，可以在对应的节点上指定 segment 端口登录：
+不同 segment 上查询相同的表，relfilenode (可能)不一致，可以在对应的节点上指定 segment 端口登录：
 
     PGOPTIONS='-c gp_session_role=utility' psql -p 40001
 
-切换到对应的 database; 执行查询
+切换到对应的 database, 查询 `dev` database 下的 `products` 表的 relfilenode
 
 ``` sql
 \c dev
-select oid, relname, relfilenode from pg_class where relname='test';
+select oid, relname, relfilenode from pg_class where relname='products';
 ```
 
+`
+  oid  | relname  | relfilenode
+-------+----------+-------------
+ 16387 | products |       16384
+`
 
-### 查看表数据在各个节点上的大小
+## 查看数据占用（检查数据倾斜）
+
+### 数据库数据占用
+
+根据数据库 `oid` 查看数据库占用大小：
+
+``` bash
+du -b /data/primary/udwseg*/base/<oid>
+```
+
+查看不同节点下数据库数据占用大小
+
+``` bash
+gpssh -f /usr/local/gpdb/conf/nodes -e "du -b /data/primary/udwseg*/base/16386" | grep -v "du -b"
+```
+
+进行统计：
+
+``` bash
+gpssh -f /usr/local/gpdb/conf/nodes -e \
+    "du -b /data/primary/udwseg*/base/<oid>" | \
+    grep -v "du -b" | sort | awk -F" " '{ arr[$1] = arr[$1] + $2 ; tot = tot + $2 }; END \
+    { for ( i in arr ) print "Segment node" i, arr[i], "bytes (" arr[i]/(1024**3)" GB)"; \
+    print "Total", tot, "bytes (" tot/(1024**3)" GB)" }' -
+```
+
+### 表数据占用
+
+运行以下命令，替换 `db.oid` 和 `relfilenode`，可以统计 `db.oid` 数据库下 `relfilenode` 表文件占用磁盘存储：
+
+``` bash
+find /data/primary/udwseg*/base/<db.oid> -name '<relfilenode>*'  | xargs ls -al | awk 'BEGIN {sum=0} {sum+=$5} END {print sum}'
+```
+
+在所有节点上执行：
 
     gpssh -f /usr/local/gpdb/conf/nodes
 
-    => find /data/primary -name '24272176.*'  | xargs ls -al | awk 'BEGIN {sum=0} {sum+=$5} END {print sum}'
-    [udw-ewksk0-c11] 68827032
-    [udw-ewksk0-c15] 68832600
-    [udw-ewksk0-c12] 68688520
-    [udw-ewksk0-c13] 68834144
-    [udw-ewksk0-c14] 68685544
-    [udw-ewksk0-c10] 68667560
-    [udw-ewksk0-c17] 68814416
-    [udw-ewksk0-c16] 68701360
-    [udw-ewksk0-c28] 68694192
-    [udw-ewksk0-c19] 68856752
-    [udw-ewksk0-c18] 68684608
-    [udw-ewksk0-c29] 68829880
-    [udw-ewksk0-c24] 68687392
-    [udw-ewksk0-c26] 68667760
-    [udw-ewksk0-c21] 68824808
-    [udw-ewksk0-c27] 68841752
-    [udw-ewksk0-c20] 68681536
-    [udw-ewksk0-c23] 68816680
-    [udw-ewksk0-c03] 68870304
-    [udw-ewksk0-c25] 68827176
-    [udw-ewksk0-c02] 68679568
-    [udw-ewksk0-c22] 68668504
-    [udw-ewksk0-c06] 68673736
-    [udw-ewksk0-c07] 68847288
-    [udw-ewksk0-c04] 68686856
-    [udw-ewksk0-c08] 68789016
-    [udw-ewksk0-c31] 68828648
-    [udw-ewksk0-c30] 68690832
-    [udw-ewksk0-c33] 68829840
-    [udw-ewksk0-c09] 68834344
-    [udw-ewksk0-c32] 68702008
-    [udw-ewksk0-c05] 68849536
+    => find /data/primary/udwseg*/base/16387 -name '24272176*'  | xargs ls -al | awk 'BEGIN {sum=0} {sum+=$5} END {print sum}'
 

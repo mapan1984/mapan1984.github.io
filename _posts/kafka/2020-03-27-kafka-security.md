@@ -5,15 +5,15 @@ tags: [kafka]
 
 ## 控制方式
 
-* 信道加密Encryption(SSL)
-* 认证Authentication(SSL or SASL)：控制 client/broker 之间的连接
+* 信道加密 Encryption(SSL)
+* 认证 Authentication(SSL or SASL)：控制 client/broker 之间的连接
   * SSL
   * SASL
     * SASL/GSSAPI (Kerberos) - 从0.9.0.0版本开始
     * SASL/PLAIN - 从0.10.0.0版本开始
     * SASL/SCRAM-SHA-256 和 SASL/SCRAM-SHA-512 - 从0.10.2.0版本开始
     * SASL/OAUTHBEARER - 从2.0版本开始
-* 授权Authorisation(ACL)：控制 host/producer/consumer 对 topic 的读写权限
+* 授权 Authorisation(ACL)：控制 host/producer/consumer 对 topic 的读写权限
 
 ## 解决的问题
 
