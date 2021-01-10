@@ -24,6 +24,7 @@ div.post-header {
         margin-top: -18px;
     }
 }
+
 div.post-body {
     margin: 5px;
     padding: 8px;
@@ -35,31 +36,35 @@ div.post-body {
 
     > div.post-content {
         margin-top: 55px; /*为了抵消文章标题带来的偏移（margin/padding）*/
-        line-height: 1.75;
-        font-size: 16px;
 
-        &:hover {
-            background-color: #f0f0f0;
-        }
+        // h1, h2, h3, h4, h5, h6  {
+        //   font-family: sans-serif;
+        // }
+
+        // p {
+        //     font-size: 14px;
+        //     line-height: 1.428;
+        // }
 
         .clickable-header {  /* 所有的标题 */
-            padding-top: 55px;
+            padding-top: 85px;
             margin-top: -55px;
-            color:#3776ab;
+            color: #3776ab;
         }
+
         table {
             font-size: 12px;
             line-height: 1.2;
         }
 
         img {
-            margin:0 auto;
-            display:block;
+            margin: 0 auto;
+            display: block;
 
-            width:auto;
-            height:auto;
-            max-width:100%;
-            max-height:100%;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
         }
     }
 
@@ -71,23 +76,26 @@ div.post-body {
         margin: 0 auto;
     }
 }
+
 div.post-tip {
     #toc {
         position: fixed;
         padding: 2px;
-        top: 190px;
+        top: 260px;
 
         > span {
             position: relative;
             bottom: 10px;
         }
     }
+
     #back-to-top {
         position: fixed;
-        bottom:30px;
+        bottom: 30px;
     }
 }
-// 控制post-body和post-tip的显示
+
+// 控制 post-body 和 post-tip 的显示
 @media (min-width: 768px){
     div.post-body {
         width: 70%;
@@ -100,6 +108,7 @@ div.post-tip {
         margin-left: 15px;
     }
 }
+
 @media (max-width: 768px){
     div.post-body {
         width: 100%;

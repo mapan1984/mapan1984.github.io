@@ -3,8 +3,10 @@
 /*
  * Globals variables
  */
-$base-font-family: "Microsoft YaHei", Georgia, "Times New Roman", Times, serif;
+// $base-font-family: Georgia, serif, Times, "Times New Roman", "Microsoft YaHei";
+$base-font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 $base-boder: 1px solid #e0e0e0;
+
 /*
  * Base
  */
@@ -13,20 +15,23 @@ body {
     color: #555;
     background-color: rgba(247, 247, 247, 0.4);
 }
+
 h1, .h1,
 h2, .h2,
 h3, .h3,
 h4, .h4,
 h5, .h5,
 h6, .h6 {
-    font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: $base-font-family;
     color: #333;
 }
-a {
-    &:link, visited {
-        text-decoration: none;
-    }
-}
+
+// a {
+//     &:link, visited {
+//         text-decoration: none;
+//     }
+// }
+
 /*
  * post-list
  */
@@ -38,7 +43,6 @@ ul.posts {
 
     > li.post {
         display: flex;
-        display: -webkit-flex;
         flex-direction: row;
         justify-content: space-between;
         padding: 8px;
