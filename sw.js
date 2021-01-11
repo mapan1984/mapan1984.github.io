@@ -2,7 +2,7 @@
 layout: null
 ---
 
-const staticCacheName = "mapan1984-github-io-v1";
+const staticCacheName = "mapan1984-github-io-v2";
 
 console.log("installing service worker");
 
@@ -56,7 +56,8 @@ self.addEventListener("activate", function(e){
           return cacheName.startsWith("mapan1984-github-io-")
             && cacheName != staticCacheName;
         }).map(function(cacheName){
-          return cache.delete(cacheName);
+          console.log(`current cache version: ${staticCacheName}, delete old cache ${cacheName}`);
+          return caches.delete(cacheName);
         })
       )
     })
@@ -83,7 +84,20 @@ self.addEventListener('fetch', event => {
     // Look to the cache first, then fall back to the network.
     event.respondWith(
         caches.match(request).then(response => {
-            return response || fetch(request);
+            if (response) {
+                console.log(`found response in cache: `, request.url)
+                return response
+            }
+
+            console.log(`not found response in cache: `, request.url)
+
+            return fetch(request).then(response => {
+                // console.log('response from network: ', request.url, response)
+                return response
+            }).catch(error => {
+                console.error('response fetch failed: ', request.url, error)
+                return caches.match('/404').then(res => res || fetch('/404'))
+            })
         })
     );
 });
