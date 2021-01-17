@@ -62,62 +62,62 @@ options:
 示例：
 
 ``` bash
-/usr/java/jdk1.8.0_251-amd64/bin/java
-        -Datlas.log.dir=/data/software/apache-atlas-2.1.0/logs
-        -Datlas.log.file=application.log
-        -Datlas.home=/data/software/apache-atlas-2.1.0
-        -Datlas.conf=/data/software/apache-atlas-2.1.0/conf
-        -Xmx1024m
-        -Dlog4j.configuration=atlas-log4j.xml
-        -Djava.net.preferIPv4Stack=true
-        -server
-        -classpath /data/software/apache-atlas-2.1.0/conf
-                  :/data/software/apache-atlas-2.1.0/server/webapp/atlas/WEB-INF/classes
-                  :/data/software/apache-atlas-2.1.0/server/webapp/atlas/WEB-INF/lib/*
-                  :/data/software/apache-atlas-2.1.0/libext/*
-                  :/etc/hbase/conf
-        org.apache.atlas.Atlas
-        -app /data/software/apache-atlas-2.1.0/server/webapp/atlas
+java \
+    -Xmx1024m \
+    -server \
+    -Datlas.log.dir=/var/log/myapp/logs \
+    -Datlas.log.file=application.log \
+    -classpath .:./lib/*:./classes:./conf \
+    io.myapp.Main \
+    [args...]
 ```
 
 ### jar
 
-jar 包其实是一个 zip 格式的压缩文件，目的是将一个 package 各目录下的 .class 文件和资源文件打包为一个文件，方便分发和使用。
+jar 文件(Java Archive)其实是一个 zip 格式的压缩文件，目的是将一个 package 各目录下的 .class 文件和资源文件打包为一个文件，方便分发和使用。
 
 把 jar 包添加到 classpath 中，JVM 可以在动在 jar 包中搜索使用到的类。
 
 jar 包中可以包含 `/META-INF/MANIFEST.MF` 文件，通过这个文件指定 `Main-Class` 后，JVM 会启动 `Main-Class` 指定的类。
 
-    Usage: jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
-    Options:
-        -c  create new archive
-        -t  list table of contents for archive
-        -x  extract named (or all) files from archive
-        -u  update existing archive
-        -v  generate verbose output on standard output
-        -f  specify archive file name
-        -m  include manifest information from specified manifest file
-        -n  perform Pack200 normalization after creating a new archive
-        -e  specify application entry point for stand-alone application
-            bundled into an executable jar file
-        -0  store only; use no ZIP compression
-        -P  preserve leading '/' (absolute path) and ".." (parent directory) components from file names
-        -M  do not create a manifest file for the entries
-        -i  generate index information for the specified jar files
-        -C  change to the specified directory and include the following file
+Usage:
+
+    jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
+
+Options:
+
+    -c  create new archive
+    -t  list table of contents for archive
+    -x  extract named (or all) files from archive
+    -u  update existing archive
+    -v  generate verbose output on standard output
+    -f  specify archive file name
+    -m  include manifest information from specified manifest file
+    -n  perform Pack200 normalization after creating a new archive
+    -e  specify application entry point for stand-alone application
+        bundled into an executable jar file
+    -0  store only; use no ZIP compression
+    -P  preserve leading '/' (absolute path) and ".." (parent directory) components from file names
+    -M  do not create a manifest file for the entries
+    -i  generate index information for the specified jar files
+    -C  change to the specified directory and include the following file
+
+
+示例：
+
     If any file is a directory then it is processed recursively.
     The manifest file name, the archive file name and the entry point name are
     specified in the same order as the 'm', 'f' and 'e' flags.
 
     Example 1: to archive two class files into an archive called classes.jar:
            jar cvf classes.jar Foo.class Bar.class
+
     Example 2: use an existing manifest file 'mymanifest' and archive all the
                files in the foo/ directory into 'classes.jar':
            jar cvfm classes.jar mymanifest -C foo/ .
 
-options:
-
-    jar -xf
+    解压：
+           jar -xf
 
 ## 示例
 

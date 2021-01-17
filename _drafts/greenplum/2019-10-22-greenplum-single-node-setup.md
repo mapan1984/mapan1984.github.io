@@ -1,3 +1,8 @@
+---
+title: greenplum 单节点集群启动
+tags: [greenplum]
+---
+
 查看主机名：
 
     $ hostname

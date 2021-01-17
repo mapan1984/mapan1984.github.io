@@ -236,53 +236,6 @@ tags: [Shell]
     done
     ```
 
-### heredoc
-
-``` sh
-sshpass -p "$kpasswd1" ssh root@$khost1_ipv6 << EOF
-    mkdir -p $ZK_LOG_DIR
-    rm -rf /data/zookeeper/* >/dev/null 2>&1
-    echo "1" > /data/zookeeper/myid
-    service zookeeper-server restart >/dev/null 2>&1
-EOF
-```
-
-
-``` sh
-$ sql=$(cat <<EOF
-SELECT foo, bar FROM db
-WHERE foo='baz'
-EOF
-)
-```
-
-``` sh
-$ cat <<EOF > print.sh
-#!/bin/bash
-echo \$PWD
-echo $PWD
-EOF
-```
-
-``` sh
-$ cat <<EOF | grep 'b' | tee b.txt
-foo
-bar
-baz
-EOF
-```
-
-heredoc的结尾`EOF`不能缩进，必须在行首，可以使用`<<-`代替`<<`来使用缩进，此时缩进必须使用`<tab>`
-
-``` sh
-if [ 1 ]; then
-    cat <<-EOF
-        indented
-    EOF
-fi
-echo Done
-```
-
 ### 算术运算
 
 1. 运算符:
@@ -358,9 +311,59 @@ echo Done
     $1 $2 ... $n   # 分别为第1个、第2个...第n个参数
     $@  # 表示所有参数分别被双引号包含，"$1","$2"....; 如果参数中有被双引号包裹起来并含有空格时，使用"$@"
     $*  # 表示所有参数被一对双引号包含, "$1c$2c$3"，其中c为IFS的第一个字符
-    $$  # 表示当前的进程号
+    $_  # 代表上一个命令的最后一个参数
+
+    $$  # 表示当前的进程号(PID)
+    $!  # 表示最后执行的后台命令的PID
     $?  # 表示上一条命令的返回值(通常用0表示正常执行)
     ```
+
+### heredoc
+
+``` sh
+sshpass -p "$kpasswd1" ssh root@$khost1_ipv6 << EOF
+    mkdir -p $ZK_LOG_DIR
+    rm -rf /data/zookeeper/* >/dev/null 2>&1
+    echo "1" > /data/zookeeper/myid
+    service zookeeper-server restart >/dev/null 2>&1
+EOF
+```
+
+
+``` sh
+$ sql=$(cat <<EOF
+SELECT foo, bar FROM db
+WHERE foo='baz'
+EOF
+)
+```
+
+``` sh
+$ cat <<EOF > print.sh
+#!/bin/bash
+echo \$PWD
+echo $PWD
+EOF
+```
+
+``` sh
+$ cat <<EOF | grep 'b' | tee b.txt
+foo
+bar
+baz
+EOF
+```
+
+heredoc的结尾`EOF`不能缩进，必须在行首，可以使用`<<-`代替`<<`来使用缩进，此时缩进必须使用`<tab>`
+
+``` sh
+if [ 1 ]; then
+    cat <<-EOF
+        indented
+    EOF
+fi
+echo Done
+```
 
 ### 引号
 
@@ -432,7 +435,7 @@ IFS的默认值为空白字符（换行符、制表符或者空格）
 
 ### `~` 符号
 
-POSIX shell中，`~`必须出现在复合表达式的最前面，否则它只是不同字符，不能代表家目录。
+POSIX shell中，`~`必须出现在复合表达式的最前面，否则它只是普通字符，不能代表家目录。
 
 ``` sh
 # 错误

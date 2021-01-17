@@ -10,7 +10,7 @@
 
 ### consumer 消费规则
 
-Kafka保证同一Consumer Group中只有一个Consumer会消费某条消息，实际上，Kafka保证的是稳定状态下每一个Consumer实例只会消费某一个或多个特定Partition的数据，而某个Partition的数据只会被某一个特定的Consumer实例所消费。
+Kafka 保证同一 Consumer Group 中只有一个 Consumer 会消费某条消息，实际上，Kafka 保证的是稳定状态下每一个 Consumer 实例只会消费某一个或多个特定 Partition 的数据，而某个 Partition 的数据只会被某一个特定的 Consumer实例所消费。
 
 ### 列出 topic 详情
 
@@ -65,7 +65,7 @@ done < kf.data
     $ kafka-reassign-partitions.sh --zookeeper $(hostname):2181 --generate --topics-to-move-json-file topics.json --broker-list 1,2,3
     Current partition replica assignment
     {"version":1,"partitions":[{"topic":"statistics","partition":0,"replicas":[3],"log_dirs":["any"]}]}
-    
+
     Proposed partition reassignment configuration
     {"version":1,"partitions":[{"topic":"statistics","partition":0,"replicas":[1],"log_dirs":["any"]}]}
 
@@ -135,6 +135,31 @@ broker 通过抢夺注册 zk 的 `/controller` 路径成为 controller
 ### listeners
 
 * `listeners`
+
+    key:value 的列表，key 是 listeners 的名称，value 是 listeners ip 地址与 port
+
+        listeners=EXTERNAL_LISTENER_CLIENTS://阿里云ECS外网IP:9092,INTERNAL_LISTENER_CLIENTS://阿里云ECS内网IP:9093,INTERNAL_LISTENER_BROKER://阿里云ECS内网IP:9094
+
 * `advertised.listeners`
+
+    kafka 需要把 `listeners` 配置的地址信息发布到 zookeeper 中供客户端获取，如果配置了 `advertised.listeners`，则会优先把 `advertised.listeners` 的配置的地址信息发布到 zookeeper，提供多个 listeners 的情况下，可以利用 `advertised.listeners` 配置只发布客户端使用的地址
+
+        advertised.listeners=EXTERNAL_LISTENER_CLIENTS://阿里云ECS外网IP:9092
+
 * `listener.security.protocol.map`
+
+    key:value 的列表，key 是 listeners 的名称，value 是安全协议
+
+        listener.security.protocol.map=EXTERNAL_LISTENER_CLIENTS:SSL,INTERNAL_LISTENER_CLIENTS:PLAINTEXT,INTERNAL_LISTENER_BROKER:PLAINTEXT
+
 * `inter.broker.listener.name`
+
+    指定一个 listener 名称，用于 broker 之间通信
+
+        inter.broker.listener.name=INTERNAL_LISTENER_BROKER
+
+> advertised.listeners配置项中配置的Listener名称或者说安全协议必须在listeners中存在。因为真正创建连接的是listeners中的信息。
+> inter.broker.listener.name配置项中配置的Listener名称或者说安全协议必须在advertised.listeners中存在。因为Broker之间也是要通过advertised.listeners配置项获取Internal Listener信息的。
+
+
+来源：http://www.devtalking.com/articles/kafka-practice-16/

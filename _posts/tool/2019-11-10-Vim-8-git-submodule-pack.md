@@ -40,17 +40,17 @@ set rtp+=~/tabnine-vim
 
 可以使用 git 管理 `~/.vim` 目录中的 vim 配置代码，利用 git submodul 将插件代码添加到 vim 配置的 git 仓库中，并利用 vim package 管理插件：
 
-1. 下载插件：
+1. 下载插件（将插件作为 submodule 加入）：
 
         $ mkdir -p pack/foo/start
         $ git submodule add git://github.com/yianwillis/vimcdoc.git pack/foo/start/vimcdoc
 
-2. 升级：
+2. 升级插件（更新 submodule）：
 
         $ cd pack/foo/start/vimcdoc
         $ git pull origin master
 
-3. 升级所有
+3. 升级所有插件（更新所有 submodule）
 
         $ git submodule foreach git pull origin master
 

@@ -3,13 +3,13 @@ title: JavaScript面向对象
 tags: [JavaScript]
 ---
 
-JavaScript使用原型来实现面向对象，虽然ES6中增加了`class`的经典的声明方式，但其只不过是JavaScript为原型提供的语法糖，我们永远都无法绕开prototype，因为这是JavaScript里对象的本质。
+JavaScript 使用原型来实现面向对象，虽然 ES6 中增加了 `class` 的经典的声明方式，但其只不过是 JavaScript 为原型提供的语法糖，我们永远都无法绕开 prototype，因为这是 JavaScript 里对象的本质。
 
 ### __proto__
 
-当查找一个对象`obj`的属性`p`时，会依次从`obj`, `obj.__proto__`, `obj.__proto__.__proto__`...中去找相应的属性，直到找到属性`p`或`__proto__`为`null`，这条由`__proto__`组成的链被称为原型链。
+当查找一个对象 `obj` 的属性 `p` 时，会依次从 `obj`, `obj.__proto__`, `obj.__proto__.__proto__`...中去找相应的属性，直到找到属性 `p` 或 `__proto__` 为 `null`，这条由 `__proto__` 组成的链被称为原型链。
 
-`obj.__proto__ = constructor.prototype`，即一个对象的`__proto__`是这个对象的构造函数的`prototype`的简写。
+`obj.__proto__ = constructor.prototype`，即一个对象的 `__proto__` 是这个对象的构造函数的 `prototype` 的简写。
 
 ``` javascript
 let o = {a: 1};
@@ -28,11 +28,12 @@ function f() {
 // f ---> Function.prototype ---> Object.prototype ---> null
 f.__proto__ === Function.prototype  // true
 ```
-`__proto__`是对象的属性，指向它的原型，而`prototype`是构造函数的属性。`prototype`一般被赋值为一个对象，而这个对象的属性和方法被这个构造函数所创造的对象共享。
+
+`__proto__` 是对象的属性，指向它的原型，而 `prototype` 是构造函数的属性。`prototype` 一般被赋值为一个对象，而这个对象的属性和方法被这个构造函数所创造的对象共享。
 
 ### 构造器
 
-构造器是一个普通的函数，当使用`new`操作符来作用这个函数时，它就可以被称为构造方法。
+构造器是一个普通的函数，当使用 `new` 操作符来作用这个函数时，它就可以被称为构造方法。
 
 ``` javascript
 function Graph() {
@@ -48,9 +49,9 @@ Graph.prototype = {
 };
 
 let g = new Graph();
-// g是生成的对象，他的自身属性有'vertices'和'edges'
-// 在g被实例化时，g.__proto__指向了Graph.prototype
-// 所以g可以找到addVertex方法(属性)
+// g 是生成的对象，他的自身属性有 vertices 和 edges
+// 在 g 被实例化时，g.__proto__ 指向了 Graph.prototype
+// 所以 g 可以找到 addVertex 方法(属性)
 // g ---> Graph.prototype ---> Object.prototype ---> null
 g.__proto__ === Graph.prototype  // true
 
@@ -63,9 +64,9 @@ Graph.__proto__ === Function.prototype  // true
 Graph.prototype.__proto__ === Object.prototype  // true
 ```
 
-`Graph`相当于Python中的`__init__`函数，用来初始化对象；而`Graph.prototype`中的内容，相当与Python类中定义类方法以及属性，用于所有对象共享。
+`Graph` 相当于 Python 中的 `__init__` 函数，用来初始化对象；而 `Graph.prototype` 中的内容，相当于 Python 类中定义类方法以及属性，用于所有对象共享。
 
-`new`操作相当于:
+`new` 操作相当于:
 
 ``` javascript
 // let g = new Graph()
@@ -75,11 +76,11 @@ g.__proto__ = Graph.prototype;
 Graph.call(g)
 ```
 
-`Graph.call`将`Graph`中的`this`设置为`g`，然后执行`Graph`。
+`Graph.call` 将 `Graph` 中的 `this` 设置为 `g`，然后执行 `Graph`。
 
 ### Object.create
 
-调用`Object.create()`创建一个新对象，新对象的原型就是调用`create`方法是传入的第一个参数
+调用 `Object.create()` 创建一个新对象，新对象的原型就是调用 `create` 方法是传入的第一个参数
 
 ``` javascript
 let o1 = {a: 1};
@@ -89,17 +90,17 @@ let o2 = Object.create(o1);
 // o2 ---> o1 ---> Object.prototype ---> null
 console.log(o2.a); // 1 (继承而来)
 
-let o3 = Object.create(o3);
+let o3 = Object.create(o2);
 // o3 ---> o2 ---> o1 ---> Object.prototype ---> null
 
 let o4 = Object.create(null);
 // o4 ---> null
-console.log(o4.hasOwnProperty); // undefined, 因为d没有继承Object.prototype
+console.log(o4.hasOwnProperty); // undefined, 因为 o4 没有继承 Object.prototype
 ```
 
-### this关键字
+### this 关键字
 
-JavaScript的函数，都有一个默认的隐含参数，这个参数就是`this`。
+JavaScript 的函数，都有一个默认的隐含参数，这个参数就是 `this`。
 
 ``` javascript
 let obj = {
@@ -113,24 +114,28 @@ obj.show()  // obj
 oth()  // window
 ```
 
+函数调用有以下方式：
+
 ``` javascript
 func(p1, p2)
 obj.child.method(p1, p2)
 func.call(context, p1, p2)
 ```
 
-其实`call`才是函数的正常调用形式，
-1. 当`context`是`null/undefined`时，`windows`就是默认的`context`(strict模式下`context`是`undefined`)
+这 3 种方式中，`call` 是函数的基本调用形式，
+1. 当 `context` 是 `null/undefined` 时，`window` 就是默认的 `context`(strict 模式下 `context` 是 `undefined`)
     ```javascript
     func(...args)
+    // 相当于
     func.call(undefined, ...args)
     ```
-2. 对象调用函数时，`context`是对象本身。
+2. 对象调用函数时，`context` 是对象本身。
     ```javascript
     obj.func(...args)
+    // 相当于
     func.call(obj, ...args)
     ```
-3. 函数数组的`this`
+3. 函数数组的 `this`
     ```javascript
     let arr = [func1, func2]
 
@@ -138,7 +143,7 @@ func.call(context, p1, p2)
     arr.0(...args)
     arr.0.call(arr, ...args)
     ```
-4. 事件绑定，`this`的值是触发事件的元素的引用，与传递给回调函数的`event`参数的`currentTarget`属性的值一样
+4. 事件绑定，`this` 的值是触发事件的元素的引用，与传递给回调函数的 `event` 参数的 `currentTarget` 属性的值一样
     ```javascript
     btn.addEventListerner('click', function handler(event) {
         console.log(this)

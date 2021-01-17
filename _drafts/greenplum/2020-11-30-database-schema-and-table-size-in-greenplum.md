@@ -1,3 +1,11 @@
+---
+title: greenplum 查看数据占用
+tags: [greenplum]
+---
+
+
+### database
+
 ``` sql
 SELECT sodddatname, sodddatasize FROM gp_toolkit.gp_size_database;
 ```
@@ -14,6 +22,8 @@ FROM gp_toolkit.gp_size_of_database;
 SELECT sodddatname, (sodddatsize/1073741824)/1024 AS sizeinTB
 FROM gp_toolkit.gp_size_of_database;
 ```
+
+### schema
 
 For schema sizes, connect to your database and run:
 
@@ -42,6 +52,8 @@ WHERE sotdschemaname = 'yourschema' AND (sotdsize/1048576) > 0
 ORDER BY sotdtablename;
 ```
 
+### table
+
 For an individual table you can get the size of the table as:
 
 ``` sql
@@ -53,6 +65,8 @@ You can get table and index size(total) with:
 ``` sql
 SELECT pg_size_pretty(pg_total_relation_size('schema.table_name'));
 ```
+
+### index
 
 For just index size use:
 

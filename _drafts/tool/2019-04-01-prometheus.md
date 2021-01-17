@@ -48,7 +48,7 @@ scrape_configs:
 
 ### exporter
 
-#### node
+#### node_exporter
 
 使用 node_exporter 为 prometheus 提供信息
 
@@ -69,11 +69,11 @@ scrape_configs:
     - targets: ['localhost:9100']
 ```
 
-#### jmx
+#### jmx_exporter
 
     $ wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.11.0/jmx_prometheus_javaagent-0.11.0.jar
 
-jmx_export 的配置文件：
+jmx_exporter 的配置文件：
 
 ``` yaml
 # config.yaml
@@ -183,7 +183,7 @@ rules:
       quantile: "0.$4"
 ```
 
-复制 kafka 的 kafka-run-class.sh 文件，增加 `javaagent` 配置，另存为 kafka-run-class-with-agent.sh：
+修改 kafka 的 `kafka-run-class.sh` 文件，增加 `javaagent` 配置：
 
 ``` sh
 # ...
@@ -204,9 +204,11 @@ else
 fi
 ```
 
-修改 kafka 的 kafka-server-start.sh 文件中的 kafka-run-class 为 kafka-run-class-with-agent
+增加 `javaagent` 配置后可以从 5556 端口获取 jmx metrics：
 
     $ curl http://localhost:5556/metrics
+
+修改 `prometheus.yml`，增加 job：
 
 ``` yaml
 scrape_configs:
@@ -220,7 +222,6 @@ scrape_configs:
     static_configs:
     - targets: ['10.9.145.115:5556']
 ```
-
 
 ### data model
 

@@ -1,3 +1,5 @@
+## 数据类型与操作
+
 ### Counter
 
     rate(http_requests_total[5m])

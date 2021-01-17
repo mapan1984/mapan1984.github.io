@@ -4,7 +4,42 @@ categories: [Manual]
 tags: [vim]
 ---
 
-### 自动命令组:
+### 按键映射
+
+| 递归  | 非递归    | 模式                             |
+|-------|-----------|----------------------------------|
+| :map  | :noremap  | normal, visual, operator-pending |
+| :nmap | :nnoremap | normal                           |
+| :xmap | :xnoremap | visual                           |
+| :cmap | :cnoremap | command-line                     |
+| :omap | :onoremap | operator-pending                 |
+| :imap | :inoremap | insert                           |
+
+取消映射：
+
+    :unmap
+
+通过`<nop>`禁用映射：
+
+    :noremap <left> <nop>
+
+### 局部化
+
+| 全局      | 局部                | 作用域       | 帮助文档            |
+|-----------|---------------------|--------------|---------------------|
+| :set      | :setlocal           | 缓冲区或窗口 | :h local-options    |
+| :map      | :map <buffer>       | 缓冲区       | :h :map-local       |
+| :autocmd  | :autocmd * <buffer> | 缓冲区       | :h autocmd-buflocal |
+| :cd       | :lcd                | 窗口         | :h :lcd             |
+| :<leader> | :<localleader>      | 缓冲区       | :h maploacalleader  |
+
+### 自动命令
+
+`:au` 查看所有的自动命令。
+
+`:h {event}` 查看Vim中所有事件的列表。
+
+`:help autocommand`
 
 自动命令组可以防止多次source一个文件时创建多个相同的自动命令：
 
@@ -30,17 +65,17 @@ augroupend
 
 ### execute normal
 
-* execute命令用来把一个字符串当作Vimscript命令执行。
-* normal命令简单地接受一串键值并当作是在normal模式下输入的。
-* normal!可以避免执行映射，在写Vim脚本时，你应该总是使用normal!，永不使用normal。不要信任用户在~/.vimrc中的映射。
-* normal!不会解析像`<cr>`那样的特殊字符序列。
-* 结合execute和normal可以解决特殊字符序列的问题，如: `:execute "normal! gg/foo\<cr>dd"`
+* `execute` 命令用来把一个字符串当作 Vimscript 命令执行。
+* `normal` 命令简单地接受一串键值并当作是在 normal 模式下输入的。
+* `normal!` 可以避免执行按键定义的映射，在写 Vim 脚本时，你应该总是使用 `normal!`，永不使用 normal，防止防止接受的键值已经被用户自定义映射。
+* `normal!` 不会解析像 `<cr>` 那样的特殊字符序列。
+* 结合 `execute` 和 `normal` 可以解决特殊字符序列的问题，如: `:execute "normal! gg/foo\<cr>dd"`
 
 ### 其他
 
-* /和?命令能接受正在表达式
-* Vim允许你使用单引号来定义可以直接传递字符的字面量字符串。 比如，字符串`'a\nb'`有四个字符长。
-* 用\v来引导模式。 这将告诉Vim使用它的"very magic"正则解析模式，而该模式就跟其他语言的非常相似
+* `/` 和 `?` 搜索命令能接受正则表达式
+* Vim 允许你使用单引号来定义可以直接传递字符的字面量字符串。 比如，字符串 `'a\nb'` 有四个字符长。
+* 用 `\v` 来引导模式。 这将告诉Vim使用它的"very magic"正则解析模式，而该模式就跟其他语言的非常相似
 
         :/for .\+ in .\+:
         :execute "normal! gg/for .\\+ in .\\+:\<cr>"

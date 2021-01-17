@@ -1,6 +1,10 @@
-## nice 命令
+## nice 优先级
 
-运行程序并指定优先级，值从 `-20`（最有利于程序）到 `19`（最不利于程序）
+    nice [OPTION] [COMMAND [ARG]...]
+
+`nice` 命令可以运行程序并指定优先级，值从 `-20`（最有利于程序）到 `19`（最不利于程序）
+
+OPTION:
 
     -n, --adjustment=N
            add integer N to the niceness (default 10)

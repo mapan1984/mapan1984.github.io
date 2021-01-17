@@ -88,3 +88,43 @@ export JVMFLAGS="-Xms3G -Xmx3G -Xmn1G -XX:+AlwaysPreTouch -XX:CMSInitiatingOccup
 # export JVMFLAGS="-Xms3G -Xmx3G -Xmn1G -XX:+AlwaysPreTouch -XX:CMSInitiatingOccupancyFraction=70 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails -XX:-PrintGCTimeStamps -Xloggc:/home/zookeeper/logs/zookeeper_`date '+%Y%m%d%H%M%S'`.gc -XX:-UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=64M"
 # 需要注意的是，如果不希望 zkCli 等命令创建 gc 日志文件，需要把 JVMFLAGS 改成 SERVER_JVMFLAGS
 ```
+
+
+## 日志
+
+### 事务日志
+
+事务日志记录更新操作，zookeeper 在收到客户端请求后，会在返回成功响应之前将请求更新操作的事务日志写到磁盘上，
+
+事务日志的文件名规则为 `log.<transaction_id>`，`transaction_id` 为写入该日志的第一个事务ID，十六进制表示。
+
+可以使用 `org.apache.zookeeper.server.LogFormatter` 查看事务日志内容，复制并修改 `zkCli.sh` 脚本：
+
+``` sh
+#!/bin/sh
+
+# use POSTIX interface, symlink is followed automatically
+ZOOBIN="${BASH_SOURCE-$0}"
+ZOOBIN=`dirname ${ZOOBIN}`
+ZOOBINDIR=`cd ${ZOOBIN}; pwd`
+
+if [ -e "$ZOOBIN/../libexec/zkEnv.sh" ]; then
+  . "$ZOOBINDIR"/../libexec/zkEnv.sh
+else
+  . "$ZOOBINDIR"/zkEnv.sh
+fi
+
+# JAVA "-Dzookeeper.log.dir=${ZOO_LOG_DIR}" "-Dzookeeper.root.logger=${ZOO_LOG4J_PROP}" \
+#     -cp "$CLASSPATH" $CLIENT_JVMFLAGS $JVMFLAGS \
+#     org.apache.zookeeper.ZooKeeperMain "$@"
+
+$JAVA -cp "$CLASSPATH" org.apache.zookeeper.server.LogFormatter "$@"
+```
+
+### 快照日志
+
+快照会把 zookeeper 保存的全部数据序列化后存储在磁盘，生成快照文件
+
+事务日志的文件名规则为 `snapshot.<transaction_id>`，`transaction_id` 表示触发快照的瞬间，提交的最后一个事务的ID。
+
+生成 snapshot 之前，会判断 `logCount > (snapCount / 2 + randRoll)` 来决定是否启动 snapshot 线程。

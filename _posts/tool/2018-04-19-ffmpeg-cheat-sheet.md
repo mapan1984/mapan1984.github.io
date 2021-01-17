@@ -70,6 +70,8 @@ Alignment 指字幕位置，可选值有：
 
     $ ffmpeg -i video.mp4 -i avdio.mp4 output.mp4
 
+    $ ffmpeg -i video.mp4 -i audio.m4a -acodec copy -vcodec copy output.mp4
+
 抽取音频：
 
     $ ffmpeg -i video.mp4 -vn -y -acodec copy avdio.aac

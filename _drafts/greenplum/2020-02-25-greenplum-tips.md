@@ -1,3 +1,12 @@
+## 架构
+
+1. Master 节点：入口，接受客户端连接及提交 SQL 语句，将工作负载分发给其他数据库实例(Segment实例)，由它们存储和处理数据
+    * SQL 的解析并形成分布式的执行计划
+    * 将生成好的执行计划分布到每个 Segment 上执行
+    * 收集 Segment 的执行结果
+2. Segment 节点：独立的 PostgreSQL 数据库，每个 Segment 存储一部分数据，大部分查询处理都由 Segment 完成
+3. Interconnect：负责不同 PostgreSQL 实例之间通信
+
 ## 编码
 
 psql 编码：
