@@ -157,13 +157,50 @@ producer 合并的消息的大小未达到 `batch.size`，但如果存在时间�
 
 单个线程在单个连接上能够发送的未响应请求个数，这个参数设置为 1 可以避免消息乱序，同时可以保证在 retry 是不会重复发送消息，但是会降低 producer io 线程的吞吐量
 
-    enable.idempotence
-
-单个 partition exactly once
 
     unclean.leader.election.enable=false
 
 关闭 unclean leader 选举，即不允许非 ISR 中的副本被选举为 leader
+
+### 幂等性
+
+    enable.idempotence
+
+单个会话，单个 partition 幂等性，重复发送数据时 exactly once
+
+### 事务性
+
+    transactional.id
+
+生产者事务 id
+
+``` java
+Properties props = new Properties();
+props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+props.put("client.id", "ProducerTranscationnalExample");
+props.put("bootstrap.servers", "localhost:9092");
+props.put("transactional.id", "test-transactional");
+props.put("acks", "all");
+KafkaProducer producer = new KafkaProducer(props);
+producer.initTransactions();
+
+try {
+    String msg = "matt test";
+    producer.beginTransaction();
+    producer.send(new ProducerRecord(topic, "0", msg.toString()));
+    producer.send(new ProducerRecord(topic, "1", msg.toString()));
+    producer.send(new ProducerRecord(topic, "2", msg.toString()));
+    producer.commitTransaction();
+} catch (ProducerFencedException e1) {
+    e1.printStackTrace();
+    producer.close();
+} catch (KafkaException e2) {
+    e2.printStackTrace();
+    producer.abortTransaction();
+}
+producer.close();
+```
 
 ### 请求
 
