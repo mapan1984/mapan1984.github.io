@@ -1,25 +1,56 @@
-## a few concepts to note
+---
+title: Kubernetes
+tags: [Kubernetes, k8s]
+---
 
-* Kubernetes "deployments" are the high-level construct that define an application
+# 是什么
+
+自动化的容器编排平台：
+* 按规则部署容器
+* 分配宿主机资源，弹性部署
+* 管理容器
+* 服务发现与负载均衡
+
+> 您可以将Kubernetes视为调度程序。
+> Kubernetes检查您的基础设施（物理机或云，公共或私有）并检测每台机器的CPU和内存。
+> 当您请求部署一个容器时，Kubernetes会识别容器的内存要求，并找到满足您请求的最佳服务器。
+> 您无法决定部署应用程序的具体位置。
+> 数据中心已经把这个步骤抽象出来。
+> 换句话说，Kubernetes将使用您的基础设施像玩俄罗斯方块一样玩转容器。
+> Docker容器就是方块；服务器是板，Kubernetes就是玩家。
+
+# 架构
+
+* Master: decide where to run you application
+    * 负责管理集群，集群的资源数据访问入口
+    * 运行 API Server, Controller Manager 以及 Scheduler 服务
+    * Etcd 高可用键值存储服务
+* Node:
+    * 集群操作的单元，是 Pod 运行的宿主机
+    * kubelet：agent 进程，维护和管理该 Node 上所有容器的创建，启停等
+    * kube-proxy：服务发现，反向代理和负载均衡
+    * docker engine
+* Pod...
+    * 运行于 Node 节点上，若干相关容器的组合
+    * 创建、调度和管理的最小单位
+
+# 核心概念
+
+* Replication Controller(RC)：管理 Pod 的副本，保证集群中存在指定数量的 Pod 副本
+    * Deployment：Kubernetes "deployments" are the high-level construct that define an application
+        * "deployments" are the central metaphor for what we'd consider "apps" or "services"
+        * "deployments" are descrived as a collection of resources and references
+        * "deployments" take many forms based on the type of services being deployed
+    * Job
+* Service：提供一个统一的服务访问入口以及服务代理和发现机制
+* Persistent Volume(PV), Persistent Volume Claim(PVC)：数据卷
+
 * "Pods" are instances of a container in a deployment
 * "Services" are endpoints that export port to the outside world
-* You can create, delete, modify, and retrieve information about any of these using the `kubectl` command
 
-## minikube & kubectl
+# kubectl
 
-    $ minikube start
-
-    $ kubectl run hello-minikube --image-gcr.io/google_containers/echoserver:1.4 --port=8080
-
-    $ kubectl expose deployment hello-minikube --type=NodePort
-
-    $ kubectl get pod
-
-    $ curl $(minikube service hello-minikube --url)
-
-    $ minikube stop
-
-### kubectl
+You can create, delete, modify, and retrieve information about any of these using the `kubectl` command
 
 * kubectl provides access to nearly every Kubernetes
 * Primary command line access tool
@@ -60,19 +91,11 @@ Run a particular image on the cluster
 
     $ kubectl run <name> --image=image
 
-
-## deployments
-
-* "deployments" are the central metaphor for what we'd consider "apps" or "services"
-* "deployments" are descrived as a collection of resources and references
-* "deployments" take many forms based on the type of services being deployed
-* Typicall described in YAML format
-
-### practical: a tomcat deployment
+## practical: a tomcat deployment
 
 we'll deploy the Tomcat App Server using the official docker image
 
-#### Define the deployment
+### Define the deployment
 
 最简单的deployment 是一个 single pod，一个 pod 是一个 instance of a container，Deployment 可以有任意数量的pod。
 
@@ -101,7 +124,7 @@ spec:
 
     $ kubectl apply -f ./deployment.yaml
 
-#### Expose its services
+### Expose its services
 
     $ kubectl expose deployment tomcat-deployment --type=NodePort
 
@@ -109,27 +132,7 @@ spec:
 
     $ minikube service tomcat-deployment --url
 
-#### Deploy it to our cluster
-
-
-* Master: decide where to run you application
-* Node:
-    * kubelet
-    * kube-proxy
-    * pod...
-    * docker
-
-#### 是什么
-
-> 您可以将Kubernetes视为调度程序。
-> Kubernetes检查您的基础设施（物理机或云，公共或私有）并检测每台机器的CPU和内存。
-> 当您请求部署一个容器时，Kubernetes会识别容器的内存要求，并找到满足您请求的最佳服务器。
-> 您无法决定部署应用程序的具体位置。
-> 数据中心已经把这个步骤抽象出来。
-> 换句话说，Kubernetes将使用您的基础设施像玩俄罗斯方块一样玩转容器。
-> Docker容器就是方块；服务器是板，Kubernetes就是玩家。
-
-#### API
+# API
 
 > Kubernetes作为数据中心的API层
 > 你在Kubernetes所做的一切都是你的一个API调用。
@@ -137,19 +140,4 @@ spec:
 > 也许你想配置负载均衡器？不是问题。只需调用此API即可。
 > 你想配置存储吗？请发送POST请求到此URL。
 > 你在Kubernetes所做的一切都是调用API。
-
-
-# 什么是 Kubernetes
-
-自动化的容器编排平台：
-* 部署
-* 弹性
-* 管理
-
-核心功能：
-* 服务发现与负载均衡
-
-# Kubernetes 的架构
-
-# Kubernetes 的核心概念与 API
 

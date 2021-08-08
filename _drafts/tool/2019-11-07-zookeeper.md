@@ -11,7 +11,15 @@ Zookeeper提供了一个类似于Linux文件系统的树形结构（可认为是
 
 * leader
 * follower
-* observer
+* observer: 可以处理读请求，写请求转发给 leader，不参与投票
+
+### 读写
+
+1. 任何类型的节点都可以直接返回读请求的数据
+2. 对于写请求：
+    1. 当写请求发送到 leader 节点时，leader 将数据写入到本节点，并将数据发送到所有 follower 节点，当有超过一半以上节点(leader 和 follower, 不包括 observer)返回写成功之后，向 client 返回写成功响应
+    2. 当写请求发送到 follower 节点时，followed 节点将请求转发给 leader 节点
+    3. observer
 
 ## znode 节点类型
 

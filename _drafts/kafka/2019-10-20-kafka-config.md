@@ -107,9 +107,10 @@ socket server可接受数据大小(防止OOM异常)，根据自己业务数据�
 在 Producer 端用来存放尚未发送出去的 Message 的缓冲区大小，默认 32MB。内存缓冲区内的消息以一个个 batch 的形式组织，每个 batch 内包含多条消息，Producer 会把多个 batch 打包成一个 request 发送到 kafka 服务器上。内存缓冲区满了之后可以选择阻塞发送或抛出异常，由 `block.on.buffer.full` 的配置来决定。
     * 如果选择阻塞，在消息持续发送过程中，当缓冲区被填满后，producer立即进入阻塞状态直到空闲内存被释放出来，这段时间不能超过 `max.block.ms` 设置的值，一旦超过，producer则会抛出 `TimeoutException` 异常，因为Producer是线程安全的，若一直报TimeoutException，需要考虑调高buffer.memory 了。
 
+ 
     batch.size=16384
 
-Producer会尝试去把发往同一个Partition的多个消息进行合并，`batch.size` 指明了合并后 batch 大小的上限。如果这个值设置的太小，可能会导致所有的Request都不进行Batch。
+Producer会把发往同一个 topic partition 的多个消息进行合并，`batch.size` 指明了合并后 batch 大小的上限。如果这个值设置的太小，可能会导致所有的Request都不进行Batch。
 
     linger.ms=0
 
@@ -157,7 +158,6 @@ producer 合并的消息的大小未达到 `batch.size`，但如果存在时间�
 
 单个线程在单个连接上能够发送的未响应请求个数，这个参数设置为 1 可以避免消息乱序，同时可以保证在 retry 是不会重复发送消息，但是会降低 producer io 线程的吞吐量
 
-
     unclean.leader.election.enable=false
 
 关闭 unclean leader 选举，即不允许非 ISR 中的副本被选举为 leader
@@ -167,6 +167,10 @@ producer 合并的消息的大小未达到 `batch.size`，但如果存在时间�
     enable.idempotence
 
 单个会话，单个 partition 幂等性，重复发送数据时 exactly once
+
+producer id, sequence number
+
+producer id, topic, partition, sequence number
 
 ### 事务性
 
@@ -250,6 +254,8 @@ max.request.size
 
 # broker
 message.max.bytes
+# replica fetcher
+# 不是绝对的最大值，如果消息超过这个设定，最大值仍由 message.max.bytes, max.message.bytes 决定 (?)
 replica.fetch.max.bytes
 
 # topic

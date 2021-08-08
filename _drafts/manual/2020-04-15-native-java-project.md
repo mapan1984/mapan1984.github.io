@@ -3,11 +3,11 @@ title: 构建 Java 项目（不使用构建工具/IDE）
 tags: [Java]
 ---
 
-## JDK 与 JRE
+## JVM, JRE 与 JDK
 
 JRE (Java Runtime Environment) 是运行 Java 字节码的虚拟机(JVM + Runtime Library)，JDK (Java Development Kit) 包含了 JRE 与编译器，调试器等开发工具。
 
-在安装 Java 之后，在 `JAVA_HOME` 的 `bin` 目录下可以找到 Java 开发相关的工具：
+在安装 Java JDK 之后，在 `JAVA_HOME` 的 `bin` 目录下可以找到 Java 开发相关的工具：
 * `java`(JVM)：启动 JVM，并让 JVM 执行指定的字节码
 * `javac`(compiler)：将 Java 源码文件(`.java`)编译为 Java 字节码文件(`.class`)
 * `jar`：把一组 `.class` 文件打包成一个 `.jar` 文件

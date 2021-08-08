@@ -7,13 +7,48 @@ tags: [kafka]
 
 * 信道加密 Encryption(SSL)
 * 认证 Authentication(SSL or SASL)：控制 client/broker 之间的连接
-  * SSL
-  * SASL
-    * SASL/GSSAPI (Kerberos) - 从0.9.0.0版本开始
-    * SASL/PLAIN - 从0.10.0.0版本开始
-    * SASL/SCRAM-SHA-256 和 SASL/SCRAM-SHA-512 - 从0.10.2.0版本开始
-    * SASL/OAUTHBEARER - 从2.0版本开始
+  * SSL: clients authenticate to Kafka using SSL certificates
+  * SASL(SASL_PLAINTEXT or SASL_SSL): kafka 支持一些 SASL 机制：
+    * GSSAPI (Kerberos) - 从0.9.0.0版本开始
+    * PLAIN - 从0.10.0.0版本开始: clients authenticate using username/pssword
+    * SCRAM-SHA-256 和 SCRAM-SHA-512 - 从0.10.2.0版本开始
+    * OAUTHBEARER - 从2.0版本开始
 * 授权 Authorisation(ACL)：控制 host/producer/consumer 对 topic 的读写权限
+
+
+kafka 提供以下 4 种 `security.protocol`:
+* PLAINTEXT
+* SSL
+* SASL_PLAINTEXT
+* SASL_SSL
+
+### PLAINTEXT
+
+### SSL
+
+setup per-node certificate truststore/keystore for brokers & clients
+
+| Broker-side                      | Client-side             |
+|----------------------------------|-------------------------|
+| `listeners=SSL://127.0.0.1:6667` |                         |
+| `inter.broker.protocol=SSL`      | `security.protocol=SSL` |
+
+### SASL_PLAINTEXT
+
+| Broker-side                                 | Client-side                        |
+|---------------------------------------------|------------------------------------|
+| `listeners=SASL_PLAINTEXT://127.0.0.1:6667` |                                    |
+| `inter.broker.protocol=SASL_PLAINTEXT`      | `security.protocol=SASL_PLAINTEXT` |
+| `sasl.mechanism=PLAIN | GSSAPI | SCRAM`      | `sasl.mechanism=PLAIN | GSSAPI | SCRAM-SHA-256 | SCRAM-SHA-512` |
+
+### SASL_SSL
+
+| Broker-side                                 | Client-side                                                     |
+|---------------------------------------------|-----------------------------------------------------------------|
+| `listeners=SASL_PLAINTEXT://127.0.0.1:6667` |                                                                 |
+| `inter.broker.protocol=SASL_PLAINTEXT`      | `security.protocol=SASL_PLAINTEXT`                              |
+| `sasl.mechanism=PLAIN / GSSAPI / SCRAM`     | `sasl.mechanism=PLAIN / GSSAPI / SCRAM-SHA-256 / SCRAM-SHA-512` |
+
 
 ## 解决的问题
 
@@ -59,7 +94,9 @@ KafkaServer {
 };
 ```
 
-配置中的 `user_admin="admin_pass"` 的规则是 `user_<username>="<password>"`，就是说配置了 2 个用户 `admin` 和 `alice`，密码分别是 `admin_pass` 和 `alice_pass`
+* `username` 和 `password` 是 broker 与其他 broker 建立连接所使用的使用的用户名和密码
+* 配置中的 `user_admin="admin_pass"` 的规则是 `user_<username>="<password>"`，就是说配置了 2 个用户 `admin` 和 `alice`，密码分别是 `admin_pass` 和 `alice_pass`，broker 用这些信息来验证客户端的连接，包括来自其他 broker 的连接
+
 
 <!--
 需要在 jvm 启动参数中指定 jaas 配置文件，修改 `bin/kafka-run-class.sh`:
@@ -80,7 +117,11 @@ fi
 ```
 -->
 
-需要在 jvm 启动参数中指定 jaas 配置文件，修改 `bin/kafka-server-start.sh`，增加以下内容:
+运行 kafka 服务时，需要将 JAAS 配置文件位置作为 JVM 参数：
+
+    -Djava.security.auth.login.config=/usr/local/kafka/config/kafka_server_jaas.conf
+
+可以修改 `bin/kafka-server-start.sh`，增加以下内容:
 
 ``` sh
 if [[ -f /usr/local/kafka/config/kafka_server_jaas.conf ]]; then
@@ -163,3 +204,4 @@ kafka 的权限控制可以通过 `kafka-acls.sh` 脚本添加，配置存储在
 
     $ kafka-acls.sh --authorizer kafka.security.auth.SimpleAclAuthorizer  \
                     --authorizer-properties zookeeper.connect=localhost:2181 --remove --topic foo
+

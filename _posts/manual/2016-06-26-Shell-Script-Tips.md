@@ -198,8 +198,7 @@ tags: [Shell]
 
     #### until
     x=0;
-    until [ $x -eq 9 ];
-    do
+    until [ $x -eq 9 ]; do
         let x++;
         echo $x;
     done
@@ -214,8 +213,7 @@ tags: [Shell]
     #### while read (comment)
     cur_dir=$(cd `dirname $0`; pwd)
 
-    while read line
-    do
+    while read line; do
         if [[ ${line} == \#* || -z ${line} ]]; then
           echo skip comment line: $line
           continue
@@ -231,6 +229,12 @@ tags: [Shell]
     #### Infinite while Loop
     while :
     do
+      echo "Press <CTRL+C> to exit."
+      sleep 1
+    done
+
+    #### Infinite while Loop
+    while true; do
       echo "Press <CTRL+C> to exit."
       sleep 1
     done
@@ -549,25 +553,25 @@ EOF
 
     ```  sh
     #!/bin/bash
-    
+
     message=$@
-    
+
     echo '{"subject": "udw warn", "content": "'"${message}"'", "message_type": 1}' \
       | curl -X POST -d @- http://172.18.176.244:22003/message/inner/245 --header "Content-Type:application/json"
-    
+
     ```
 
 2. 切割
 
     ``` sh
     line="host1,name1"
-    
+
     # 通过 cut 切割
     host=$(echo $line | cut -d',' -f1)
     name=$(echo $line | cut -d',' -f2)
     echo $host
     echo $name
-    
+
     # 通过数组切割
     # declare -a info="(${line/,/ })"
     declare -a info="(${line//,/ })"
@@ -685,4 +689,50 @@ http://www.ruanyifeng.com/blog/2017/11/bash-set.html
         # source 脚本，`$BASH_SOURCE` 还是脚本名，`$0` 一般为 `-bash`
     fi
     ```
+
+### shift 的作用（处理参数列表）
+
+`shift` is a bash built-in which kind of removes arguments from the beginning of the argument list. Given that the 3 arguments provided to the script are available in `$1`, `$2`, `$3`, then a call to shift will make `$2` the new `$1`. A shift 2  will shift by two making new `$1` the old `$3`. For more information, see here:
+
+* http://ss64.com/bash/shift.html
+* http://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_09_07.html
+
+``` sh
+#  -t=aaa -f fff -b=bbb -l lll
+for arg in "$@"; do
+    case $arg in
+        -t=*|--topic=*)
+            TOPIC="${arg#*=}"
+            shift
+            ;;
+        -b=*|--batch=*)
+            BATCH="${arg#*=}"
+            shift
+            ;;
+        -f|--file)
+            FILE=$2
+            shift
+            shift
+            ;;
+        -l|--log)
+            LOG=$2
+            shift
+            shift
+            ;;
+        --default)
+            DEFAULT=YES
+            shift
+            ;;
+        *)
+            # echo "unknown option: $arg"
+            ;;
+    esac
+done
+
+echo $TOPIC
+echo $BATCH
+echo $FILE
+echo $LOG
+echo $DEFAULT
+```
 

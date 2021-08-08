@@ -1,20 +1,23 @@
-### 概述
+## 概述
 
 HTTPS是HTTP协议与SSL/TLS协议的组合，SSL(Secure Sockets Layer)是网景公司发明协议，用于解决HTTP协议明文传输造成的安全泄露问题，而后，因为SSL应用广泛，成为互联网的一个标准，并改名为TLS(Transport Layer Security)。
 
 SSL作为一种安全协议，它在传输层提供对网络连接加密的功能。对于应用层而言，它是透明的，数据在传递到应用层之前就已经完成了加密和解密的过程。
 
-### TLS/SSL
+
+## TLS/SSL 实践
 
 利用openssl分别生成服务器和客户端的私钥和公钥：
 
+    # 生成 rsa 私钥
     $ openssl genrsa -out server.key 1024
     $ openssl genrsa -out client.key 1024
 
+    # 生成私钥对应的 rsa 公钥
     $ openssl rsa -in server.key -pubout -out server.pem
     $ openssl rsa -in client.key -pubout -out client.pem
 
-为了避免第三方攻击，需要第三方CA(Certificate Authority)为站点颁发数字证书，这个证书具有CA通过自己的公钥和私钥实现的签名。
+为了避免第三方攻击，需要第三方 CA(Certificate Authority) 为站点颁发数字证书，这个证书具有CA通过自己的公钥和私钥实现的签名。
 
 为了得到签名，服务器需要通过自己的私钥生成CSR(Certificate Signing Request)文件。CA将通过这个文件颁发属于该服务器的签名证书，只要通过CA机构就能验证证书是否合法。
 
@@ -23,7 +26,7 @@ SSL作为一种安全协议，它在传输层提供对网络连接加密的功�
 
     // 生成私钥
     $ openssl genrsa -out ca.key 1024
-    // 生成CSR文件
+    // 生成 CSR(Certificate sign request) 文件
     $ openssl req -new -key ca.key -out ca.csr
     // 通过私钥子签名生成证书
     $ openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt
@@ -35,7 +38,20 @@ SSL作为一种安全协议，它在传输层提供对网络连接加密的功�
     // 生成服务器证书
     $ openssl x509 -req -CA ca.crt -CAkey ca.key -CAcreateserial -in server.csr -out server.crt
 
-### 原理
+## 认证流程
+
+### ssl 单向认证
+
+单向认证是指仅验证服务端的身份。
+
+SSL协议的思路如下：
+1. 服务端生成自己的 私钥 和 公钥
+2. 客户端连接服务端，获取服务端 公钥，并与服务协商对称加密算法与会话密钥
+3. 客户端将会话密钥用服务端的 公钥 加密后，发送给服务端，服务端用自己的 私钥 解密，之后客户端与服务端之间使用利用这个 会话密钥 进行消息的加密
+
+在这个过程中，为了避免中间人冒充服务端，提供虚假的公钥，服务端需要用自己的信息向 CA 申请 SSL 证书，客户端不之间获取公钥，而是获取 CA 颁发的证书，之后利用证书验证服务端，并获取公钥。
+
+具体流程如下：
 
 1. 客户端首先会将自己支持的加密算法，打个包告诉服务器端。
 2. 服务器端从客户端发来的加密算法中，选出一组加密算法和HASH算法，并将自己的身份信息以**电子证书**(而证书中包含了服务器的名称和地址，服务器加密用的公钥，签名颁发机构名称，来自签名颁发机构的签名等，在建立连接前，会通过证书中的签名确认收到的公钥是来自目标服务器的，从而产生信任关系，避免中间人攻击)的形式发回给客户端。
@@ -53,3 +69,27 @@ SSL作为一种安全协议，它在传输层提供对网络连接加密的功�
 6. 握手结束后，客户端和服务器端使用握手阶段产生的随机数以及挑选出来的加密算法进行对称加解密的传输。
 
 服务器的电子证书是为了防止**中间人**在传递信息是冒充自己而出现的认证方式，网站运营商会提前向CA(数字证书认证机构，Certificate Authority)申请一个电子证书，CA会通过自己的私钥将网站的公钥和网站的各种相关信息，比如域名等等进行加密，加密后形成电子证书，颁发给申请者。
+
+### ssl 双向认证
+
+双向认证相比于单向认证，客户端需要向服务端提供证书，服务端需要用客户端的证书验证客户端身份，并且服务端返回的加密算法是用客户端的公钥加密后发送给客户端的
+
+## 名词解释
+
+SSL 比较复杂，各种名词，文件后缀，很凌乱，在这里整理下
+
+* CA: certificate authority，颁发证书的机构
+* .cer: 证书文件的后缀
+* .crt: 证书文件的后缀
+* .key: 公钥、私钥 文件后缀
+* .pem：它是由RFC1421至1424定义的一种数据格式。其实前面的.cert和.key文件都是PEM格式的，只不过在有些系统中（比如Windows）会根据扩展名不同而做不同的事。所以当你看到.pem文件时，它里面的内容可能是certificate也可能是key，也可能两个都有，要看具体情况。可以通过openssl查看。
+* .der: 类似 .pem，.pem 是 base64 编码，.der 是二进制编码
+* .jks: java keytool 实现的证书格式
+* .csr: 证书请求
+* keystore: 密钥仓库存储证书文件。密钥仓库文件包含证书的私钥（保证私钥的安全）
+* truststore: 保存可信任证书
+
+
+查看证书内容：
+
+    keytool -list -v -keystore client.keystore.jkskeytool -list -v -keystore client.keystore.jks

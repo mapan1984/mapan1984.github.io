@@ -1,45 +1,98 @@
-### 基本概念
+### 预设环境变量
 
-1. producer：向kafka broker发消息的客户端
-2. consumer：从kafka broker取消息的客户端
-1. topic：可在逻辑上视为消息队列，生产者和消费者需指定topic进行消息的push与pull
-2. partition：一个topic在物理上被分为多个partition，每个partition都对应物理上的一个文件，通过将partition分配到不同的broker实现消息读取的负载均衡，producer发送消息时除了指定topic，还可指定key，由key来决定发送到那个partition。partition中的每条消息都会分配一个有序id(offset)，Kafka只保证按一个partition中的顺序将消息发给consumer，不保证一个topic的整体的顺序。
-3. raplic：一个partition可以有多个备份，存放在不同broker上，raplic中只有一个leader负责和生产者以及消费者的读写，其余为follower，当leader宕机后重新进行选举。
-4. consumer group：同一个group内只有一个consumer会消费某条消息，不同group内的consumer可以消费同一条消息。Kafka借此实现广播与单播，要实现广播，只要每个consumer都有一个独立的consumer group,要实现单播，则所有的consumer都在一个consumer group中。
-5. broker：一台Kafka服务就是一个broker，一个集群由多个broker组成。
-
-### consumer 消费规则
-
-Kafka 保证同一 Consumer Group 中只有一个 Consumer 会消费某条消息，实际上，Kafka 保证的是稳定状态下每一个 Consumer 实例只会消费某一个或多个特定 Partition 的数据，而某个 Partition 的数据只会被某一个特定的 Consumer实例所消费。
-
-### 列出 topic 详情
+预设置环境变量，方便操作，注意修改 zk 的连接地址：
 
 ``` sh
-${KAFKA_HOME}/bin/kafka-topics.sh --list --zookeeper $(hostname):2181 > topics.data
+export KAFKA_HOME=/usr/local/kafka
+export PATH="$PATH:${KAFKA_HOME}/bin"
+export KAFKA_OPTS="-Djava.security.auth.login.config=${KAFKA_HOME}/config/kafka_server_jaas.conf"
+export ZK_CONNECT="$(hostname):2181"
+export BOOTSTRAP_SERVER="$(hostname):9092"
+export JMX_PORT=9991
+```
+
+### 基本操作
+
+创建 topic
+
+    $ kafka-topics.sh --create --zookeeper ${ZK_CONNECT} --replication-factor 3 --partitions 3 --topic __test
+
+删除 topic
+
+    $ kafka-topics.sh --zookeeper ${ZK_CONNECT} --delete --topic __test
+
+列出 topic
+
+    $ kafka-topics.sh --list --zookeeper ${ZK_CONNECT}
+
+生产 消息
+
+    $ kafka-console-producer.sh --broker-list ${BOOTSTRAP_SERVER} --topic __test
+
+消费 消息
+
+    $ kafka-console-consumer.sh --bootstrap-server ${BOOTSTRAP_SERVER} --topic __test --from-beginning
+
+描述 topic
+
+    $ kafka-topics.sh --describe --zookeeper ${ZK_CONNECT} --topic test
+
+修改 topic 分区数
+
+    $ kafka-topics.sh  --zookeeper ${ZK_CONNECT} --alter  --partitions 5 --topic bar
+
+### 消费者选项
+
+    $ kafka-console-consumer.sh --property print.timestamp=true --property print.key=true --bootstrap-server ${BOOTSTRAP_SERVER} --topic __test --from-beginning
+
+    $ kafka-console-consumer.sh --property print.timestamp=true --property print.key=true --property group.id=__test --bootstrap-server ${BOOTSTRAP_SERVER} --zookeeper ${ZK_CONNECT} --topic logs --from-beginning
+
+### 列出所有 topic 详情
+
+``` sh
+kafka-topics.sh --list --zookeeper ${ZK_CONNECT} > topics.data
 while read topic
 do
-    ${KAFKA_HOME}/bin/kafka-topics.sh --describe --zookeeper $(hostname):2181 --topic $topic
+    kafka-topics.sh --describe --zookeeper ${ZK_CONNECT} --topic $topic
 done < topics.data
 ```
 
-### 列出 consumer 详情
+### 列出所有 consumer 详情
+
+ZK
 
 ``` sh
-/usr/local/kafka/bin/kafka-consumer-groups.sh --zookeeper $(hostname):2181 --list > zk.data
+kafka-consumer-groups.sh --zookeeper ${ZK_CONNECT} --list > zk.data
 while read group
 do
     echo ==================== zk group name: $group ===============================
-    /usr/local/kafka/bin/kafka-consumer-groups.sh --zookeeper $(hostname):2181 --describe --group $group
+    kafka-consumer-groups.sh --zookeeper ${ZK_CONNECT} --describe --group $group
     echo
     echo
 done < zk.data
+```
 
+KF `>` 0.9.x.x
 
-/usr/local/kafka/bin/kafka-consumer-groups.sh --bootstrap-server $(hostname):9092 --list > kf.data
+``` sh
+kafka-consumer-groups.sh --bootstrap-server ${BOOTSTRAP_SERVER} --list > kf.data
 while read group
 do
     echo ==================== kf group name: $group ===============================
-    /usr/local/kafka/bin/kafka-consumer-groups.sh --bootstrap-server $(hostname):9092  --describe --group $group
+    kafka-consumer-groups.sh --bootstrap-server ${BOOTSTRAP_SERVER} --describe --group $group
+    echo
+    echo
+done < kf.data
+```
+
+KF `<=` 0.9.x.x
+
+``` sh
+kafka-consumer-groups.sh --bootstrap-server ${BOOTSTRAP_SERVER} --list --new-consumer > kf.data
+while read group
+do
+    echo ==================== kf group name: $group ===============================
+    kafka-consumer-groups.sh --bootstrap-server ${BOOTSTRAP_SERVER}  --new-consumer --describe --group $group
     echo
     echo
 done < kf.data
@@ -47,7 +100,11 @@ done < kf.data
 
 ### 重分区/修改副本数
 
-创建 `topics.json` 文件，文件内容为需要重分区的 topic：
+获取当前 broker id：
+
+    $ zookeeper-shell.sh ${ZK_CONNECT} ls /brokers/ids | sed 's/ //g'
+
+创建 `topics.json` 文件，文件内容为需要重分区的 topic，例如：
 
 ``` json
 {
@@ -60,20 +117,23 @@ done < kf.data
 }
 ```
 
-执行 `kafka-reassign-partitions.sh`，指定 `--generate` 参数和刚才创建的 `topics.json` 文件，生成描述 partition 分布的内存：
+执行 `kafka-reassign-partitions.sh`，指定 `--generate` 参数和刚才创建的 `topics.json` 文件，通过 `--broker-list` 指定分布的 broker id，生成描述 partition 分布的内容：
 
-    $ kafka-reassign-partitions.sh --zookeeper $(hostname):2181 --generate --topics-to-move-json-file topics.json --broker-list 1,2,3
+    $ kafka-reassign-partitions.sh --zookeeper ${ZK_CONNECT}:2181 --generate --topics-to-move-json-file topics.json --broker-list 1,2,3 | tee plan
     Current partition replica assignment
     {"version":1,"partitions":[{"topic":"statistics","partition":0,"replicas":[3],"log_dirs":["any"]}]}
 
     Proposed partition reassignment configuration
     {"version":1,"partitions":[{"topic":"statistics","partition":0,"replicas":[1],"log_dirs":["any"]}]}
 
-*低版本没有 `log_dirs` 字段，可以忽略*
 
 命令会给出现在的 partition 分布和目的 partition 分布，将生成的内容分别保存到 `current.json`(用于恢复) `reassign.json`(之后的计划)
 
-调整 `replicas.json` 的内容，`replicas` 字段的含义是该 partition 分布的 broker id：
+    $ sed -n '2p' plan > current.json
+
+    $ sed -n '5p' plan > reassign.json
+
+可以调整 `replicas.json` 的内容，`replicas` 字段的含义是该 partition 分布的 broker id：
 1. 通过增加/减少 `replicas` 中的 broker id 可以增加/减少副本（`log_dirs` 包含的项要与 `replicas` 包含的项数目一致）
 2. 调整 `replicas` 字段的第一个 broker id 可以指定这个 partition 的优先 leader
 
@@ -95,34 +155,36 @@ done < kf.data
 }
 ```
 
+*低版本没有 `log_dirs` 字段，可以忽略*
+
 执行 `kafka-reassign-partitions.sh`，指定 `--execute` 参数和 `reassign.json` 文件，执行 partition 重分布：
 
-    $ kafka-reassign-partitions.sh --zookeeper $(hostname):2181 --execute --reassignment-json-file reassign.json
+    $ kafka-reassign-partitions.sh --zookeeper ${ZK_CONNECT} --execute --reassignment-json-file reassign.json
 
 执行 `kafka-reassign-partitions.sh`，指定 `--verify` 参数和 `reassign.json` 文件，确认 partition 重分布进度：
 
-    $ kafka-reassign-partitions.sh --zookeeper $(hostname):2181 --verify --reassignment-json-file reassign.json
+    $ kafka-reassign-partitions.sh --zookeeper ${ZK_CONNECT} --verify --reassignment-json-file reassign.json
 
-### replica
+如果 topic 数据量和流量过大，重分区会对集群服务造成比较大的影响，此时可以对重分区限制流量，比如限制不超过 50MB/s：
 
-partition 的 replica 列表被称为 AR(Assigned Replicas)，AR 中的第一个 Replica 即为 Preferred Replica，kafka 需要保证 Preferred Replica 被均匀分布在集群的所有的 Broker 上
+    $ kafka-reassign-partitions.sh --zookeeper ${ZK_CONNECT} --execute --reassignment-json-file reassign.json --throttle 50000000
 
-### controller
-
-broker 通过抢夺注册 zk 的 `/controller` 路径成为 controller
+参考：
+- https://kafka.apache.org/documentation/#rep-throttle
 
 ### 指定位置消费
 
-    $ bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list $(hostname):9092 --topic logs
+    $ kafka-console-consumer.sh --bootstrap-server ${BOOTSTRAP_SERVER} --topic logs --offset 3418783 --partition 0
 
-    $ bin/kafka-console-consumer.sh --bootstrap-server $(hostname):9092 --topic logs --offset 3418783 --partition 0
+### 读取 __consumer_offsets
 
+0.11.0.0之前版本
 
-### __consumer_offsets
+    $ kafka-console-consumer.sh --formatter "kafka.coordinator.GroupMetadataManager\$OffsetsMessageFormatter" --zookeeper ${ZK_CONNECT} --topic __consumer_offsets
 
-    $KAFKA_HOME/bin/kafka-console-consumer.sh --formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter" --bootstrap-server $(hostname):9092 --topic __consumer_offsets
+0.11.0.0之后版本(含)
 
-    $KAFKA_HOME/bin/kafka-console-consumer.sh --formatter "kafka.coordinator.GroupMetadataManager\$OffsetsMessageFormatter" --zookeeper $(hostname):2181 --topic __consumer_offsets
+    $ kafka-console-consumer.sh --formatter "kafka.coordinator.group.GroupMetadataManager\$OffsetsMessageFormatter" --bootstrap-server ${BOOTSTRAP_SERVER} --topic __consumer_offsets
 
 格式：
 
@@ -132,34 +194,79 @@ broker 通过抢夺注册 zk 的 `/controller` 路径成为 controller
 
     Math.abs(groupID.hashCode()) % numPartitions
 
-### listeners
+### 修改 topic 参数
 
-* `listeners`
+保留大小
 
-    key:value 的列表，key 是 listeners 的名称，value 是 listeners ip 地址与 port
+    $ kafka-configs.sh --zookeeper ${ZK_CONNECT} --alter --entity-type topics --entity-name __test --add-config max.message.bytes=4194304
 
-        listeners=EXTERNAL_LISTENER_CLIENTS://阿里云ECS外网IP:9092,INTERNAL_LISTENER_CLIENTS://阿里云ECS内网IP:9093,INTERNAL_LISTENER_BROKER://阿里云ECS内网IP:9094
+保留时间
 
-* `advertised.listeners`
+    $ kafka-configs.sh --zookeeper ${ZK_CONNECT} --alter --entity-type topics --entity-name __test --add-config retention.ms=259200000
 
-    kafka 需要把 `listeners` 配置的地址信息发布到 zookeeper 中供客户端获取，如果配置了 `advertised.listeners`，则会优先把 `advertised.listeners` 的配置的地址信息发布到 zookeeper，提供多个 listeners 的情况下，可以利用 `advertised.listeners` 配置只发布客户端使用的地址
+修改 __consumer_offsets 保留策略
 
-        advertised.listeners=EXTERNAL_LISTENER_CLIENTS://阿里云ECS外网IP:9092
+    $ kafka-configs.sh --zookeeper ${ZK_CONNECT} --describe --entity-type topics --entity-name __consumer_offsets
 
-* `listener.security.protocol.map`
+    $ kafka-configs.sh --zookeeper ${ZK_CONNECT} --alter --entity-type topics --entity-name __consumer_offsets --delete-config cleanup.policy
 
-    key:value 的列表，key 是 listeners 的名称，value 是安全协议
+    $ kafka-configs.sh --zookeeper ${ZK_CONNECT} --alter --entity-type topics --entity-name __consumer_offsets --add-config retention.ms=2592000000
+    $ kafka-configs.sh --zookeeper ${ZK_CONNECT} --alter --entity-type topics --entity-name __consumer_offsets --add-config cleanup.policy=delete
 
-        listener.security.protocol.map=EXTERNAL_LISTENER_CLIENTS:SSL,INTERNAL_LISTENER_CLIENTS:PLAINTEXT,INTERNAL_LISTENER_BROKER:PLAINTEXT
+    $ kafka-configs.sh --zookeeper ${ZK_CONNECT} --alter --entity-type topics --entity-name __consumer_offsets --delete-config retention.ms
+    $ kafka-configs.sh --zookeeper ${ZK_CONNECT} --alter --entity-type topics --entity-name __consumer_offsets --add-config cleanup.policy=compact
 
-* `inter.broker.listener.name`
+### 查看日志/索引文件
 
-    指定一个 listener 名称，用于 broker 之间通信
+查看日志文件
 
-        inter.broker.listener.name=INTERNAL_LISTENER_BROKER
+    $ kafka-run-class.sh kafka.tools.DumpLogSegments --files ./00000000000000283198.log --print-data-log
 
-> advertised.listeners配置项中配置的Listener名称或者说安全协议必须在listeners中存在。因为真正创建连接的是listeners中的信息。
-> inter.broker.listener.name配置项中配置的Listener名称或者说安全协议必须在advertised.listeners中存在。因为Broker之间也是要通过advertised.listeners配置项获取Internal Listener信息的。
+查看索引文件
+
+    $ kafka-run-class.sh kafka.tools.DumpLogSegments --files 0000000000000045.timeindex
+
+### 重新平衡 leader
+
+    $ kafka-preferred-replica-election.sh --zookeeper ${ZK_CONNECT}
+
+### 删除消费组
+
+KF 类型
+
+    $ kafka-consumer-groups.sh --bootstrap-server ${BOOTSTRAP_SERVER} --delete --group console-consumer-97214
+
+ZK 类型
+
+    $ kafka-consumer-groups.sh --zookeeper ${ZK_CONNECT} --delete --group console-consumer-38645
+
+### 查看请求使用的 API Version
+
+    $ kafka-broker-api-versions.sh  --bootstrap-server ${BOOTSTRAP_SERVER}
+
+### 查看副本同步 lag
+
+    kafka-replica-verification.sh --broker-list ${BOOTSTRAP_SERVER}
+
+    kafka-replica-verification.sh --broker-list ${BOOTSTRAP_SERVER} --topic-white-list .*
 
 
-来源：http://www.devtalking.com/articles/kafka-practice-16/
+### 查看 topic offset
+
+最终的 offset
+
+    $ kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list ${BOOTSTRAP_SERVER} --time -1 --topic test
+
+最早的 offset
+
+    $ kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list ${BOOTSTRAP_SERVER} --time -2 --topic test
+
+### 设置 consumer current offset
+
+    $ kafka-consumer-groups.sh --bootstrap-server ${BOOTSTRAP_SERVER} --group $group --reset-offsets --to-datetime 2019-12-12T16:59:59.000 --topic $topic --execute
+
+### SCRAM 用户
+
+    kafka-configs.sh --zookeeper ${ZK_CONNECT} --alter --add-config 'SCRAM-SHA-256=[password=admin_pass],SCRAM-SHA-512=[password=admin_pass]' --entity-type users --entity-name admin
+
+    kafka-configs.sh --zookeeper ${ZK_CONNECT} --alter --delete-config 'SCRAM-SHA-512' --entity-type users --entity-name admin
