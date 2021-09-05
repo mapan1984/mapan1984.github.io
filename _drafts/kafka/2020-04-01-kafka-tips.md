@@ -1,14 +1,18 @@
 ### 预设环境变量
 
-预设置环境变量，方便操作，注意修改 zk 的连接地址：
+预设置环境变量，方便操作：
 
 ``` sh
 export KAFKA_HOME=/usr/local/kafka
 export PATH="$PATH:${KAFKA_HOME}/bin"
-export KAFKA_OPTS="-Djava.security.auth.login.config=${KAFKA_HOME}/config/kafka_server_jaas.conf"
+# zk 连接地址
 export ZK_CONNECT="$(hostname):2181"
+# kafka 连接地址
 export BOOTSTRAP_SERVER="$(hostname):9092"
-export JMX_PORT=9991
+
+# 如果有 jaas 认证
+export KAFKA_OPTS="-Djava.security.auth.login.config=${KAFKA_HOME}/config/kafka_server_jaas.conf"
+export JMX_PORT=9997
 ```
 
 ### 基本操作
@@ -43,9 +47,33 @@ export JMX_PORT=9991
 
 ### 消费者选项
 
-    $ kafka-console-consumer.sh --property print.timestamp=true --property print.key=true --bootstrap-server ${BOOTSTRAP_SERVER} --topic __test --from-beginning
+* 使用 zookeeper 保存消费组数据: `--zookeeper localhost:2181`
+* 使用 __consumer_offsets 保存消费组数据: `--bootstrap-server localhost:9092`
+* 指定 topic:
+    * `--topic foo`
+    * `--whitelist ".*"`
+* 指定 group 名:
+    * `--group group1`
+    * `--consumer-property group.id=group1`
 
-    $ kafka-console-consumer.sh --property print.timestamp=true --property print.key=true --property group.id=__test --bootstrap-server ${BOOTSTRAP_SERVER} --zookeeper ${ZK_CONNECT} --topic logs --from-beginning
+ZK Group
+
+    kafka-console-consumer.sh --zookeeper ${ZK_CONNECT} --topic test --from-beginning --group test1
+    kafka-console-consumer.sh --zookeeper ${ZK_CONNECT} --topic logs --consumer-property group.id=your_group
+
+KF Group
+
+    kafka-console-consumer.sh --bootstrap-server ${BOOTSTRAP_SERVER} --topic test
+    kafka-console-consumer.sh --bootstrap-server ${BOOTSTRAP_SERVER} --whitelist ".*"
+
+property
+
+    kafka-console-consumer.sh --property print.timestamp=true --property print.key=true --bootstrap-server ${BOOTSTRAP_SERVER} --topic __test --from-beginning
+    kafka-console-consumer.sh --property print.timestamp=true --property print.key=true --property group.id=__test --bootstrap-server ${BOOTSTRAP_SERVER} --zookeeper ${ZK_CONNECT} --topic logs --from-beginning
+
+从指定 partition, offset 开始消费
+
+    $ kafka-console-consumer.sh --bootstrap-server ${BOOTSTRAP_SERVER} --topic logs --offset 3418783 --partition 0
 
 ### 列出所有 topic 详情
 
@@ -100,7 +128,7 @@ done < kf.data
 
 ### 重分区/修改副本数
 
-获取当前 broker id：
+获取当前 broker id 列表：
 
     $ zookeeper-shell.sh ${ZK_CONNECT} ls /brokers/ids | sed 's/ //g'
 
@@ -171,10 +199,6 @@ done < kf.data
 
 参考：
 - https://kafka.apache.org/documentation/#rep-throttle
-
-### 指定位置消费
-
-    $ kafka-console-consumer.sh --bootstrap-server ${BOOTSTRAP_SERVER} --topic logs --offset 3418783 --partition 0
 
 ### 读取 __consumer_offsets
 
@@ -249,7 +273,6 @@ ZK 类型
     kafka-replica-verification.sh --broker-list ${BOOTSTRAP_SERVER}
 
     kafka-replica-verification.sh --broker-list ${BOOTSTRAP_SERVER} --topic-white-list .*
-
 
 ### 查看 topic offset
 
