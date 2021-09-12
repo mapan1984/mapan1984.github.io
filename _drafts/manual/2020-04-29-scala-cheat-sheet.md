@@ -4,9 +4,9 @@ scala 代码会通过 `scalac` 编译为 `.class`，然后通过 `scala` 加载�
 
 ``` scala
 object Hello {
-    def main(args: Array[]): Unit = {
-      println("hello, world!")
-    }
+  def main(args: Array[String]): Unit = {
+    println("hello, world!");
+  }
 }
 ```
 
@@ -134,7 +134,7 @@ res13: String = "hello, world"
 
 ### Tuples
 
-Tuple 可以容纳 1 到 22 个元素，元素类型可以不同。使用 `._1`, `._2` ... 取 Tuple 中的元素，注意下标从 1 开始。Tuple 数量应该保持在小的范围，如果元素过多容易造成混乱，这时应该考虑使用 `class`。
+Tuple 可以容纳 1 到 22 个元素，元素类型可以不同。使用 `._1`, `._2` ... 取 Tuple 中的元素(注意下标从 1 开始)。Tuple 数量应该保持在小的范围，如果元素过多容易造成混乱，这时应该考虑使用 `class`。
 
 ``` scala
 @ val t = (1, true, "hello")
@@ -216,10 +216,10 @@ res32: Int = 1
 
 ``` scala
 @ def hello(title: String, firstName: String, lastNameOpt: Option[String]) = {
-  lastNameOpt match {
-  case Some(lastName) => println(s"Hello $title. $lastName")
-  case None => println(s"Hello $firstName")
-  }
+    lastNameOpt match {
+      case Some(lastName) => println(s"Hello $title. $lastName")
+      case None => println(s"Hello $firstName")
+    }
   }
 defined function hello
 
@@ -244,7 +244,7 @@ res37: String = "<unknown>"
 
 ``` scala
 @ def hello(name: Option[String]) = {
-  for (s <- name) println(s"Hello, $s")
+    for (s <- name) println(s"Hello, $s")
   }
 defined function hello
 
@@ -257,17 +257,13 @@ Hello, mapan
 
 ``` scala
 @ def nameLength(name: Option[String]) = {
-  name.map(_.length).getOrElse(-1)
+    name.map(_.length).getOrElse(-1)
   }
 defined function nameLength
 
-@ nameL
-nameLength
 @ nameLength(Some("mapan"))
 res42: Int = 5
 
-@ nameLen
-nameLength
 @ nameLength(None)
 res43: Int = -1
 ```
@@ -293,7 +289,7 @@ res43: Int = -1
 
 ### Builders
 
-Builder 可以高效的构造未知长度的集合，非常使用于 `Array` 这类一旦创建就不能改变长度的集合。
+Builder 可以高效的构造未知长度的集合，非常适合用于 `Array` 这类一旦创建就不能改变长度的集合。
 
 ``` scala
 @ val b = Array.newBuilder[Int]
@@ -401,9 +397,9 @@ res3: Int = 120
 res4: Int = 120
 
 @ {
-  var total = 0
-  for (i <- Array(1, 2, 3, 4, 5)) total += i
-  total
+    var total = 0
+    for (i <- Array(1, 2, 3, 4, 5)) total += i
+    total
   }
 total: Int = 15
 ```
@@ -535,7 +531,7 @@ s4: Set[Int] = Set(1, 2, 3, 4)
 
 ### Immutable Maps
 
-`Set` 是一个由无序的 key-value 组成的集合，其大多操作是 O(log n) 的。
+`Map` 是一个由无序的 key-value 组成的集合，其大多操作是 O(log n) 的。
 
 ``` scala
 @ val m = Map("one" -> 1, "two" -> 2, "three" -> 3)
@@ -649,7 +645,6 @@ res1: Option[Int] = Some(2)
 
 @ m("five") = 5
 
-
 @ m
 res3: collection.mutable.Map[String, Int] = HashMap("five" -> 5, "three" -> 3, "one" -> 1)
 
@@ -679,7 +674,7 @@ res1: Range = Range(1, 2, 3, 4, 5)
 res2: Range = Range(1, 3, 5, 7, 9)
 ```
 
-### 与 Java 的集合互换
+### 与 Java 的集合互相转换
 
 ``` scala
 @ import scala.collection.JavaConverters._
@@ -817,18 +812,6 @@ b: Array[String] = Array("hello", "world")
 @ val aa = for (i <- a) yield i * i
 aa: Array[Int] = Array(1, 4, 9, 16)
 
-@ var ab = for (i <- a; j <- b) yield a + j
-ab: Array[String] = Array(
-  "[I@726986d2hello",
-  "[I@726986d2world",
-  "[I@726986d2hello",
-  "[I@726986d2world",
-  "[I@726986d2hello",
-  "[I@726986d2world",
-  "[I@726986d2hello",
-  "[I@726986d2world"
-)
-
 @ var ab = for (i <- a; j <- b) yield i + j
 ab: Array[String] = Array("1hello", "1world", "2hello", "2world", "3hello", "3world", "4hello", "4world")
 
@@ -838,16 +821,11 @@ c: Array[Int] = Array(2, 4)
 
 ## 函数
 
-1. Lambda Function
-2. Closure
-3. Partial Function
-4. Higher-order Function
-
 ### 基本使用
 
 ``` scala
-// 函数定义，`=` 后可以为「块定义」或 「表达式」
-@ def f(x: Int)  = { x * x}
+// 函数定义，`=` 后可以为「块定义」或「表达式」
+@ def f(x: Int) = { x * x }
 defined function f
 
 @ def y() = println("fun y")
@@ -1015,14 +993,9 @@ defined function log
 @ log(2, "hello " + 123 + " world")
 hello 123 world
 
-
 @ logLevel = 3
 
-
 @ log(2, "hello " + 123 + " world")
-
-
-@
 ```
 
 #### Wrapping Evaluation
@@ -1101,22 +1074,28 @@ increase(1)
 decrease(1)
 ```
 
-
 ``` scala
-def log(a: Int)(b: String) = {
+@ def log(a: Int)(b: String) = {
   println(a + b)
-}
-// Int => String => Unit
-var l = log _
-// String => Unit
-var log1 = l(1)
-log1("a")
+  }
+defined function log
+
+@ var l = log _
+l: Int => String => Unit = ammonite.$sess.cmd1$$$Lambda$1349/803893384@61884cb1
+
+@ var log1 = l(1)
+log1: String => Unit = ammonite.$sess.cmd1$$$Lambda$1369/1906947271@226f885f
+
+@ log1("a")
+1a
 ```
 
 ### 可变参数
 
 ``` scala
 def sum(args: Int*) = args.reduceLeft(_+_)
+
+sum(1, 2, 3, 4)
 ```
 
 ###  闭包
@@ -1138,26 +1117,25 @@ def fn(y: Int) = {
 
 ``` scala
 // 偏函数
-Int => Int
-def signal: PartialFunction[Int, Int] = {
+// Int => Int
+@ def signal: PartialFunction[Int, Int] = {
   case 0 => 0
   case x if x > 0 => x - 0
   case x if x < 0 => x + 1
-}
+  }
+defined function signal
 
-def add1(x: Int) = x + 1
-```
+@ signal(0)
+res1: Int = 0
 
+@ signal(1)
+res2: Int = 1
 
-``` scala
-// 偏函数
-// 固定了函数的某一个或几个参数，返回一个新的函数，
-// 接收剩下的参数
-def add(x: Int, y: Int, z: Int) = x + y + z
+@ signal(-1)
+res3: Int = 0
 
-var addBySeven = Partial(Add, 7)
-
-addBySeven(5, 10) // return 22
+@ signal(-2)
+res4: Int = -1
 ```
 
 ## 对象
@@ -1175,7 +1153,7 @@ object Duck extends Bird
 
 对象分为 2 种：
 1. 未关联到特定类的单例对象
-2. 关联到一个类上的单例对象，与该类有相同的名字，这种对象成为伴生对象(companion object)，对应类成为伴生类。伴生类和伴生对象写在同一个文件种。伴生对象有以下作用：
+2. 关联到一个类上的单例对象，与该类有相同的名字，这种对象称为伴生对象(companion object)，对应类称为伴生类。伴生类和伴生对象写在同一个文件中。伴生对象有以下作用：
     1. scala 没有静态成员，通过伴生对象完成类一级的属性和操作，伴生对象内部的属性和方法类似于 java 类中的 `Static` 属性或方法，可以直接调用
     2. 伴生对象与其伴生类可以互相访问对方的 `private` 属性和方法
         ``` scala
@@ -1222,8 +1200,8 @@ defined class Point2D
 defined class Point3D
 
 @ def hypotenuse(p: Point) = p match {
-  case Point2D(x, y) => math.sqrt(x * x + y * y)
-  case Point3D(x, y, z) => math.sqrt(x * x + y * y + z * z)
+    case Point2D(x, y) => math.sqrt(x * x + y * y)
+    case Point3D(x, y, z) => math.sqrt(x * x + y * y + z * z)
   }
 defined function hypotenuse
 
@@ -1270,7 +1248,7 @@ package pkg { ... }
 
 访问修饰符有 `private`, `protected`, `public`
 
-没有指定访问修饰符，默认情况下下访问级别是 `public`
+没有指定访问修饰符，默认情况下访问级别是 `public`
 
 可以通过限定词强调：
 
@@ -1338,7 +1316,7 @@ new
 
 true, false, null
 ```
-## apply,unapply
+## apply, unapply
 
 将对象以函数的方式进行调用时，scala 会隐式地将调用改为在对象上调用 `apply` 方法
 
@@ -1387,3 +1365,5 @@ class IndexedString(val str: String) {
 val indexed = new IndexedString("Hello world")
 indexed(0) //结果为H, 等价于indexed.apply(0)
 ```
+
+- https://www.handsonscala.com/table-of-contents.html

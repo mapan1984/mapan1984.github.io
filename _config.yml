@@ -64,11 +64,6 @@ defaults:
       categories: ["Algorithm"]
   -
     scope:
-      path: "_posts/kafka"
-    values:
-      categories: ["Kafka"]
-  -
-    scope:
       path: "_posts/manual"
     values:
       categories: ["Manual"]
@@ -92,6 +87,11 @@ defaults:
       path: "_posts/system"
     values:
       categories: ["System"]
+  -
+    scope:
+      path: "_posts/service"
+    values:
+      categories: ["Service"]
   -
     scope:
       path: "_posts/tool"
