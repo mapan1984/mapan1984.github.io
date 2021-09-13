@@ -1,10 +1,11 @@
 ---
-title: Win10 hotkeys
-categories: [Tool]
-tags: [Win10]
+title: Windows cheat sheet
+tags: [Windows]
 ---
 
-## 窗口操作
+## Shortcut key
+
+### 窗口操作
 
     Win+Tab：显示所有已打开的应用和桌面；
     Alt+Tab：切换窗口
@@ -17,49 +18,13 @@ tags: [Win10]
     Win+Shift+M用于取消最小化所有窗口；
     Win+Home 最小化除当前窗口的所有窗口
 
-## 桌面操作
+### 桌面操作
 
     Win+D 显示桌面
     Win+Ctrl+D：新建桌面；
     Win+Ctrl+F4：关闭正在使用的桌面；
     Win+Ctrl+左/右：在已打开的桌面之间进行切换；
     Win+Shift+左/右：将应用窗口移动到左边或右边的显示器中；
-
-## 手势(触控板)操作
-
-常见：
-
-    一根手指点击表示鼠标左键单击
-    两根手指点击表示鼠标右键单击
-    点击两次并拖动以进行多重选择
-    两个手指滑动，滚轮
-
-多指操作：
-
-    (1). 三指下滑：最小化所有窗口
-    (2). 三指上滑：如果在(1)之后，则为恢复所有窗口；否则为任务视图(等同Win+Tab)
-    (3). 三指左/右滑：滑动时切换应用，松开手指以确定选择(等同Alt+Tab)
-    (4). 三指点击：唤醒小娜
-
-    (1). 四指下滑：最小化所有窗口
-    (2). 四指上滑：如果在(1)之后，则为恢复所有窗口；否则为任务视图(等同Win+Tab)
-    (3). 四指左/右滑：滑动时切换窗口，松开手指以确定选择(等同Win+Ctrl+左/右)
-    (4). 四指点击：打开操作中心
-
-## 其他
-
-### 搜索
-
-    Win+S：打开Cortana(最开始是Search的意思)
-    Win+Q：打开Cortana
-
-### XBOX(录屏)
-
-    Win+G：打开游戏录制工具；
-    Win+Alt+R：开始录制游戏；
-    Win+Alt+G：录制游戏最近30秒；
-    Win+Alt+PrintScreen：对游戏进行截屏；
-    Win+Alt+T：显示或隐藏录制时间计时器；
 
 ### 日常操作
 
@@ -94,6 +59,42 @@ tags: [Win10]
     Ctrl+Z 复原
 
     Win++++ 放大
+
+### 搜索
+
+    Win+S：打开Cortana(最开始是Search的意思)
+    Win+Q：打开Cortana
+
+### XBOX(录屏)
+
+    Win+G：打开游戏录制工具；
+    Win+Alt+R：开始录制游戏；
+    Win+Alt+G：录制游戏最近30秒；
+    Win+Alt+PrintScreen：对游戏进行截屏；
+    Win+Alt+T：显示或隐藏录制时间计时器；
+
+## 手势(触控板)操作
+
+常见：
+
+    一根手指点击表示鼠标左键单击
+    两根手指点击表示鼠标右键单击
+    点击两次并拖动以进行多重选择
+    两个手指滑动，滚轮
+
+多指操作：
+
+    (1). 三指下滑：最小化所有窗口
+    (2). 三指上滑：如果在(1)之后，则为恢复所有窗口；否则为任务视图(等同Win+Tab)
+    (3). 三指左/右滑：滑动时切换应用，松开手指以确定选择(等同Alt+Tab)
+    (4). 三指点击：唤醒小娜
+
+    (1). 四指下滑：最小化所有窗口
+    (2). 四指上滑：如果在(1)之后，则为恢复所有窗口；否则为任务视图(等同Win+Tab)
+    (3). 四指左/右滑：滑动时切换窗口，松开手指以确定选择(等同Win+Ctrl+左/右)
+    (4). 四指点击：打开操作中心
+
+## 其他
 
 ### attrib命令用来显示或更改文件属性。
 
@@ -138,9 +139,24 @@ tags: [Win10]
     C:\WINDOWS\system32>mklink /J C:\Users\mapan\OneDrive\_posts C:\Users\mapan\Code\mapan1984\_posts
     为 C:\Users\mapan\OneDrive\_posts <<===>> C:\Users\mapan\Code\mapan1984\_posts 创建的联接
 
-### 其他
+### 设置开机自启动
 
-#### Win+R 运行
+1. 针对所有用户：
+
+    将程序的快捷方式放到 `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp` 文件夹中
+
+2. 针对当前用户：
+    1. `win + r` 打开运行窗口
+    2. 输入 `shell:Startup` 打开开机会运行的文件窗口
+    3. 在开文件夹下创建脚本文件 start.bat
+    4. 编辑文件
+
+        ``` bash
+        # python 后面填写脚本地址
+        python D:\project\GitHub\win-lockfetch\win-lockfetch.py
+        ```
+
+### Win+R 命令
 
 * 清理系统: Win+R，输入“cleanmgr”回车
 * 优化启动项: Win+R，输入“msconfig”回车
@@ -150,12 +166,10 @@ tags: [Win10]
 * 特殊字符: Win+R, 输入“charmap”
 * 步骤记录: Win+R, 输入“PSR”
 
-
-#### 多线程复制
+### 多线程复制
 
     robocopy 原文件路径 目标路径 /MT:利用的线程数
 
-#### 批量修改文件名
+### 批量修改文件名
 
     选择所有文件，按F2，输入修改名
-

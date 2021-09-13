@@ -1,3 +1,8 @@
+---
+title: greenplum 访问通过外部表访问外部数据
+tags: [greenplum]
+---
+
 ## gphdfs
 
     echo "1,tom" | hadoop fs -put - /data/gp.dat

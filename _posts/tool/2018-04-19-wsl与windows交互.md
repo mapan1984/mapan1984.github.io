@@ -1,6 +1,6 @@
 ---
-title: Win10与wsl交互
-tags: [Win10, wsl]
+title: Windows 与 wsl 交互
+tags: [Windows, wsl]
 ---
 
 ## 在Windows命令行中唤醒wsl
