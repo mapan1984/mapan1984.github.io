@@ -3,7 +3,7 @@ title: 代理 kafka 服务
 tags: [kafka, proxy]
 ---
 
-# kafka 外网 nignx 代理访问集群
+# kafka 外网 nginx 代理访问集群
 
 进行生产或者消费活动时，kafka 客户端会主动获取集群的元信息，元信息包含 broker id 与 broker 地址之间的对应关系，以及 topic 的 partition, replica, leader 信息。当具体读/写某个 topic 的某个 partition 时，客户端必须根据元信息找到代表该 partition leader 的 broker id，再根据 broker id 找到 broker 的地址。
 
@@ -39,7 +39,7 @@ kafka broker 注册的地址可以在 zookeeper 的 `/brokers/ids/<broker_id>` �
 
 让每个 broker 注册到 zookeeper 的监听地址为当前节点的 hostname，并修改端口，让每个 broker 使用不同端口（之后会用同一个主机的 nginx 代理所有 kafka broker，所以需要使用端口进行区分，如果可以做到 nginx 代理机器和 kafka broker 数量一致，则不需要修改默认端口）
 
-### 配置 nignx 代理
+### 配置 nginx 代理
 
 编辑 `/etc/nginx/nginx.conf`，增加 stream 配置
 
@@ -111,7 +111,7 @@ server {
 
     $ nginx -s reload
 
-这里 nignx 代理会将本地 9092，9093，9094 端口的请求转发到对应的 kafka broker 上
+这里 nginx 代理会将本地 9092，9093，9094 端口的请求转发到对应的 kafka broker 上
 
 ### 配置客户端机器
 
