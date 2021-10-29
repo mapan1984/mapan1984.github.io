@@ -211,7 +211,7 @@ tags: [Shell]
     done < $filepath;
 
     #### while read (comment)
-    cur_dir=$(cd `dirname $0`; pwd)
+    cur_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
     while read line; do
         if [[ ${line} == \#* || -z ${line} ]]; then
@@ -221,8 +221,8 @@ tags: [Shell]
 
         # echo $line
         # host_ip=$line
-        # scp -C $cur_dir/down.sh root@${host_ip}:/data/
-        # ssh -n root@${host_ip} "cd /data; sh down.sh"
+        # scp -o StrictHostKeyChecking=no -C $cur_dir/down.sh root@${host_ip}:/data/
+        # ssh -o StrictHostKeyChecking=no -n root@${host_ip} "cd /data; sh down.sh"
     done < hosts.data
 
 
@@ -450,12 +450,14 @@ export PATH=$PATH:$HOME/bin
 
 ### 执行方式
 
-1. `./script.sh`: 父进程会fork一个子进程，shell script在子进程中执行，对环境的改变(如设置环境变量、跳转到其他目录)只在子进程中生效，只有子进程的输出文本打印当前shell。
-2. `source`: 在原进程中执行，不会fork子进程，效果和直接敲里面的命令一样，处于交互模式。
-3. `sh`: 父进程会fork一个子进程，shell script在子进程中执行，非交互模式。
-    * `-n`: 语法检查
-    * `-x`: 语句逐条跟踪
-4. `exec`: 不启动新的shell，而是用要被执行的命令替换当前的 shell 进程
+1.  `sh script.sh` / `./script.sh`: 父进程会 fork 一个子进程，shell script 在子进程中执行，非交互模式。
+    * 子进程的虚拟地址空间是父进程的一份拷贝，意味着子进程的环境变量继承自父进程，但是子进程自身对环境的修改(如设置环境变量、跳转到其他目录)只在子进程中生效
+    * 子进程文件描述符表是父进程的一份拷贝，意味着子进程与父进程共享文件，子进程的输出会在当前 shell 打印。
+    * `sh` 有以下参数：
+        * `-n`: 语法检查
+        * `-x`: 语句逐条跟踪
+2. `source script.sh` / `. script.sh`: 在原进程中执行，不会 fork 子进程，效果和直接敲里面的命令一样，处于交互模式。
+3. `exec`: 不启动新的进程，而是用要被执行的命令替换当前的 shell 进程
 
 ### 交互模式/非交互模式
 
@@ -623,7 +625,7 @@ echo "Out of function, \$FUNCNAME => (${FUNCNAME[@]})"
 
 ``` sh
 # source 执行时 $0 为 -bash，不是脚本名，因此不推荐使用
-cur_dir=$(cd `dirname $0`; pwd)
+# cur_dir=$(cd `dirname $0`; pwd)
 
 # 适用于 source 和 直接执行
 cur_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

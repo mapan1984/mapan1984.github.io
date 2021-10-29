@@ -2,7 +2,7 @@
 layout: null
 ---
 
-const staticCacheName = "mapan1984-github-io-v4";
+const staticCacheName = "mapan1984-github-io-v5";
 
 console.log("installing service worker");
 
@@ -19,7 +19,7 @@ const filesToCache = [
   "/assets/styles/bootstrap.min.css.map",
   "/assets/styles/main.css",
   // js
-  "/assets/scripts/jquery-1.12.4.min.js", 
+  "/assets/scripts/jquery-1.12.4.min.js",
   "/assets/scripts/bootstrap.min.js",
   "/assets/scripts/blog.js",
   "/assets/scripts/post.js",

@@ -216,11 +216,11 @@ $ tree .
 
 javac 编译：
 
-    $ javac -cp lib/* -d target $(find src -name "*.java")
+    $ javac -cp ".:lib/*" -d target $(find src -name "*.java")
 
 java 运行：
 
-    $ java -cp lib/*:target io.github.mapan1984.Hello
+    $ java -cp ".:lib/*:target" io.github.mapan1984.Hello
     Hello, World!
 
 makefile：

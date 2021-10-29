@@ -1,9 +1,11 @@
 ---
-title: prometheus 使用
+title: prometheus 使用记录
 tags: [prometheus]
 ---
 
-### 下载运行
+# prometheus 使用记录
+
+## 下载运行
 
     $ wget https://github.com/prometheus/prometheus/releases/download/v2.8.1/prometheus-2.8.1.linux-amd64.tar.gz
     $ tar zxvf prometheus-2.8.1.linux-amd64.tar.gz
@@ -46,11 +48,55 @@ scrape_configs:
     - targets: ['localhost:9090']
 ```
 
-### exporter
+### 运行参数
 
-#### node_exporter
+可以通过命令行启动参数修改数据存储位置，服务端口等
 
-使用 node_exporter 为 prometheus 提供信息
+    $ ./prometheus --config.file=./prometheus.yml --storage.tsdb.path=/data/prometheus --web.listen-address=:8080
+
+| 启动参数                                     | 默认值 | 含义                        |
+|----------------------------------------------|--------|-----------------------------|
+| --storage.tsdb.path                          | data/  | tsdb 数据存储位置           |
+| --storage.tsdb.retention.time                | 15d    | tsdb 数据保留时间(过期时间) |
+| --storage.tsdb.retention.size (EXPERIMENTAL) | 0      | tsdb 数据保留大小           |
+
+| 启动参数             | 默认值 | 含义     |
+|----------------------|--------|----------|
+| --web.listen-address |        | 监听地址 |
+
+| 启动参数                          | 默认值 | 含义                                                                                              |
+|-----------------------------------|--------|---------------------------------------------------------------------------------------------------|
+| --storage.tsdb.min-block-duration | 2h     | The timestamp range of head blocks after which they get persisted                                 |
+| --storage.tsdb.max-block-duration | 36h    | The maximum timestamp range of compacted blocks,It's the minimum duration of any persisted block. |
+| --storage.tsdb.no-lockfile        | false  | Do not create lockfile in data directory                                                          |
+
+## exporter
+
+prometheus 配置的 `scrape_configs` 中的 `targets` 的每一项都是由 exporter 暴露的地址，prometheus 会通过这个地址从 exporter 拉取监控数据
+
+### 监控数据模型
+
+prometheus 的监控数据被组织为时间序列数据，没一项由 metric name 和 labels (key-value pairs) 标识，格式为：
+
+    <metric name>{<label name>=<label value>, ...} <value>
+
+example:
+
+    api_http_requests_total{method="POST", handler="/messages"}
+
+    <--------------- metric ---------------------><-timestamp -><-value->
+    http_request_total{status="200", method="GET"}@1434417560938 => 94355
+    http_request_total{status="200", method="GET"}@1434417561287 => 94334
+
+    http_request_total{status="404", method="GET"}@1434417560938 => 38473
+    http_request_total{status="404", method="GET"}@1434417561287 => 38544
+
+    http_request_total{status="200", method="POST"}@1434417560938 => 4748
+    http_request_total{status="200", method="POST"}@1434417561287 => 4785
+
+### node_exporter
+
+node_exporter 可以采集机器的基础监控，如 cpu，内存等信息。
 
     $ wget https://github.com/prometheus/node_exporter/releases/download/v0.17.0/node_exporter-0.17.0.linux-amd64.tar.gz
     $ tar zxvf node_exporter-0.17.0.linux-amd64.tar.gz
@@ -69,7 +115,11 @@ scrape_configs:
     - targets: ['localhost:9100']
 ```
 
-#### jmx_exporter
+### jmx_exporter
+
+jmx_exporter 可以采集 java 程序通过 jmx 暴露的数据。
+
+#### javaagent
 
     $ wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.11.0/jmx_prometheus_javaagent-0.11.0.jar
 
@@ -223,51 +273,18 @@ scrape_configs:
     - targets: ['10.9.145.115:5556']
 ```
 
-### data model
+#### httpserver
 
-时间序列数据被 metric name 和 labels (key-value pairs) 唯一标识
+    $ git clone https://github.com/prometheus/jmx_exporter.git
+    $ cd jmx_exporter/jmx_prometheus_httpserver
+    $ mvn package
 
-metric name：
-label:
+得到 target/jmx_prometheus_httpserver-0.16.2-SNAPSHOT-jar-with-dependencies.jar
 
-Natation:
 
-    <metric name>{<label name>=<label value>, ...}
+## grafana
 
-example:
-
-    api_http_requests_total{method="POST", handler="/messages"}
-
-    <--------------- metric ---------------------><-timestamp -><-value->
-    http_request_total{status="200", method="GET"}@1434417560938 => 94355
-    http_request_total{status="200", method="GET"}@1434417561287 => 94334
-
-    http_request_total{status="404", method="GET"}@1434417560938 => 38473
-    http_request_total{status="404", method="GET"}@1434417561287 => 38544
-
-    http_request_total{status="200", method="POST"}@1434417560938 => 4748
-    http_request_total{status="200", method="POST"}@1434417561287 => 4785
-
-### 数据存储
-
-用户可以通过命令行启动参数的方式修改本地存储的配置。
-
-    $ ./prometheus --config.file=./prometheus.yml --storage.tsdb.path=/data/prometheus
-
-| 启动参数                          | 默认值 | 含义                                                                                              |
-|-----------------------------------|--------|---------------------------------------------------------------------------------------------------|
-| --storage.tsdb.path               | data/  | Base path for metrics storage                                                                     |
-| --storage.tsdb.retention          | 15d    | How long to retain samples in the storage                                                         |
-| --storage.tsdb.min-block-duration | 2h     | The timestamp range of head blocks after which they get persisted                                 |
-| --storage.tsdb.max-block-duration | 36h    | The maximum timestamp range of compacted blocks,It's the minimum duration of any persisted block. |
-| --storage.tsdb.no-lockfile        | false  | Do not create lockfile in data directory                                                          |
-
-- storage.tsdb.path: This determines where Prometheus writes its database. Defaults to data/.
-- storage.tsdb.retention.time: This determines when to remove old data. Defaults to 15d. Overrides storage.tsdb.retention if this flag is set to anything other than default.
-- storage.tsdb.retention.size: [EXPERIMENTAL] This determines the maximum number of bytes that storage blocks can use (note that this does not include the WAL size, which can be substantial). The oldest data will be removed first. Defaults to 0 or disabled. This flag is experimental and can be changed in future releases. Units supported: KB, MB, GB, PB. Ex: "512MB"
-- storage.tsdb.retention: This flag has been deprecated in favour of storage.tsdb.retention.time.
-
-### grafana
+grafana 可以继承 prometheus 数据，提供监控图表。
 
 下载安装：
 
@@ -282,13 +299,13 @@ example:
 
     $ /sbin/chkconfig --add grafana-server
 
-端口：3000
-default user: admin
-default password: admin
+- 默认端口：3000
+- default user: admin
+- default password: admin
 
-### 服务发现
+## 服务发现
 
-#### 基于文件
+### 基于文件
 
 通过 `targets.json` 文件定义所有的监控目标：
 
@@ -335,7 +352,7 @@ scrape_configs:
 
 prometheus 周期性读取文件中的内容，当文件中定义的内容发生变化时，不需要对 prometheus 进行重启
 
-#### Consul
+### Consul
 
 下载(https://www.consul.io/downloads.html)
 
@@ -396,7 +413,7 @@ prometheus 周期性读取文件中的内容，当文件中定义的内容发生
           - node_exporter
 ```
 
-### 配置告警
+## 配置告警
 
 使用 PromQL 定义告警规则：
 
@@ -453,7 +470,7 @@ groups:
 中查找
 
 
-### AlertManager
+## AlertManager
 
     $ wget https://github.com/prometheus/alertmanager/releases/download/v0.16.2/alertmanager-0.16.2.linux-amd64.tar.gz
     $ tar zxvf alertmanager-0.16.2.linux-amd64.tar.gz
@@ -469,7 +486,6 @@ groups:
 查看：
 
     $ curl http://localhost:9093
-
 
 在 prometheus 的配置中增加:
 
