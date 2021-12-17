@@ -10,7 +10,7 @@ Zookeeper提供了一个类似于Linux文件系统的树形结构（可认为是
 ## 节点类型
 
 * leader
-* follower
+* follower: 可以处理读请求，写请求转发给 leader，参与投票
 * observer: 可以处理读请求，写请求转发给 leader，不参与投票
 
 ### 读写
@@ -82,7 +82,9 @@ Follower收到通知之后，进行新一轮选举，选举过程与之前相同
 
 如果Leader之后的节点在Leader之前就以宕机，后续节点会收到通知并向Leader创建的节点注册Watch
 
-## 配置
+## 运维
+
+### 配置
 
 ### JVM
 
@@ -97,6 +99,26 @@ export JVMFLAGS="-Xms3G -Xmx3G -Xmn1G -XX:+AlwaysPreTouch -XX:CMSInitiatingOccup
 # 需要注意的是，如果不希望 zkCli 等命令创建 gc 日志文件，需要把 JVMFLAGS 改成 SERVER_JVMFLAGS
 ```
 
+### AdminServer
+
+3.5.0 版本之后，增加 AdminServer 提供 http 接口用于管理监控集群
+
+``` conf
+admin.enableServer
+(Java system property: zookeeper.admin.enableServer)
+
+Set to "false" to disable the AdminServer. By default the AdminServer is enabled.
+
+admin.serverPort
+(Java system property: zookeeper.admin.serverPort)
+
+The port the embedded Jetty server listens on. Defaults to 8080.
+
+admin.commandURL
+(Java system property: zookeeper.admin.commandURL)
+
+The URL for listing and issuing commands relative to the root URL. Defaults to "/commands".
+```
 
 ## 日志
 

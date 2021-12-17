@@ -16,7 +16,7 @@
 
 - ZKFC(ZooKeeperFailoverController): 作为一个ZK集群的客户端，用来监控NN的状态信息。每个运行NN的节点必须要运行一个zkfc。
 
-## Yarn:
+## Yarn
 
 - ResourceManager(RM)
   - Scheduler：本质上是一种策略，根据节点的容量、队列情况，为 Application 分配资源
@@ -36,25 +36,7 @@
 * YARNClient
 * ApplicationMaster
 
-## mapreduce
-
-## Hive
-
-    MetaStore
-    MySQL
-    master,        core, task
-
-## HBase
-
-    HMaster, HRegionServer
-    master,  core,           task
-
-### 依赖
-
-1. install Java, ssh, rsync
-2. 
-
-### 配置文件
+## 配置文件
 
 1. `hadoop-env.sh`：Hadoop守护进程环境变量
 2. 只读默认配置(可由hadoop-env.sh进行设置)
@@ -62,8 +44,7 @@
     1. `hdfs-default.xml`
     1. `yarn-default.xml`
     1. `mapred-default.xml`
-
-2. 定位设置：
+3. 定位设置：
     1. `core-site.xml`
 
         fs.default.name: NameNode的IP地址及端口
@@ -80,54 +61,59 @@
     5. `mapred-queues.xml`
 
     6. `slaves`
+4. `hadoop-config.sh`
 
-## YARN
+        # 日志
+        HADOOP_ROOT_LOGGER=DEBUG,DRFA
 
-### Batch(批次处理)
+## s3 支持
 
-Map/Reduce
+### core-site.xml
 
-### Interactive(互动处理)
+``` xml
+<!--
+<property>
+  <name>central.endpoint</name>
+  <value>internal.s3-cn-bj.ufileos.com</value>
+</property>
+-->
+<property>
+  <name>fs.s3a.endpoint</name>
+  <value>internal.s3-cn-bj.ufileos.com</value>
+</property>
+<property>
+  <name>fs.s3a.access.key</name>
+  <value>TOKEN_d601b138-69b7-426c-8555-35181f1981d2</value>
+</property>
+<property>
+  <name>fs.s3a.secret.key</name>
+  <value>30bff6ed-5567-4dff-bdd7-c9d9687ef290</value>
+</property>
+<property>
+  <name>fs.s3a.connection.ssl.enabled</name>
+  <value>false</value>
+</property>
+<property>
+  <name>fs.s3a.path.style.access</name>
+  <value>true</value>
+</property>
+```
 
-Tez(ASF Incubator) ，可整合 Pig 互 Hive 应用
+``` xml
+<!--
+  // https://github.com/apache/hadoop/blob/release-2.8.4-RC0/hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/Constants.java
+  // src/main/java/org/apache/hadoop/fs/s3a/Constants.java
+  // number of records to get while paging through a directory listing
+  public static final String MAX_PAGING_KEYS = "fs.s3a.paging.maximum";
+  public static final int DEFAULT_MAX_PAGING_KEYS = 5000;
+-->
+<property>
+  <name>fs.s3a.paging.maximum</name>
+  <value>900</value>
+</property>
+```
 
-### Online(线上查询)
+### op
 
-HBase
+    hadoop fs -ls s3a://kafka/plugin-example-0.1.0.jar
 
-### Streaming（文字串流）
-
-Storm
-
-## 家族
-
-### Flume
-
-日志收集
-
-Web Server --> [  Source  --> Channel --> Sink ] --> HDFS
-
-### HBase
-
-HBase 是一个高可靠性、高性能、面向列、可伸缩的分布式存储系统，它支持通过 key/value 存储来支持实时分析，也支持通过 map-reduce 支持批处理分析。
-
-NoSQL 数据库
-
-### Pig
-
-使 Map-Reduce 简单
-
-- Pig Shell (Grunt)
-- Pig Language (Latin)
-- Libraries (Piggy Bank)
-- User Defined Functions (UDF)
-
-### Hive
-
-Hive 是 Hadoop 生态系统中的数据仓库产品。它可以简单方便的存储、查询和分析存储在 HDFS 或者 HBase 的数据，它将 sql 语句转换成 MapReduce 任务，进行复杂的海量数据分析。它也提供了一系列工具，可用来多数据进行提取、转化和加载。
-
-类似 SQL 操作语法
-
-### Spark
-
-Spark 是一个基于内存计算的开源的集群计算系统，相对于 MapReduce，Spark 使用了更为快速的计算引擎，可以更有效地支持多种类型的计算，如交互式查询和流处理。Spark 被设计的高度易访问，并提供了丰富的内建库，可以使用 Python、Java、Scala 或 SQL 设计 Spark 任务。

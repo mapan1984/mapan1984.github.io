@@ -2,7 +2,7 @@
 layout: null
 ---
 
-const staticCacheName = "mapan1984-github-io-v5";
+const staticCacheName = "mapan1984-github-io-v6";
 
 console.log("installing service worker");
 

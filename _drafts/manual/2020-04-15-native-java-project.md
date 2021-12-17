@@ -201,11 +201,11 @@ $ tree .
 ├── lib
 ├── resources
 ├── src
-│   └── io
-│       └── github
-│           └── mapan1984
-│               ├── Greet.java
-│               └── Hello.java
+│   └── io
+│       └── github
+│           └── mapan1984
+│               ├── Greet.java
+│               └── Hello.java
 └── target
     └── io
         └── github

@@ -586,11 +586,14 @@ l3: List[Int] = List(-1, 1, 2, 3, 4, 5)
 @ l(0)
 res5: Int = 1
 
+@ List(1, 2) :: List(2, 3)
+res6: List[Any] = List(List(1, 2), 2, 3)
+
 @ List(1, 2) ::: List(2, 3)
-res6: List[Int] = List(1, 2, 2, 3)
+res7: List[Int] = List(1, 2, 2, 3)
 
 @ List(1, 2, 3) ++ Set(5, 6, 7)
-res7: List[Int] = List(1, 2, 3, 5, 6, 7)
+res8: List[Int] = List(1, 2, 3, 5, 6, 7)
 ```
 
 ### Mutable ArrayDeques
@@ -930,7 +933,7 @@ res86: Int = 4
 ### infix 写法
 
 ``` scala
-// infix 写法
+// infix 写法(用空格代替 `.` 调用函数)
 names foreach (n => println(n))
 mames mkString ","
 optStr getOrElse "<empth>"
@@ -945,12 +948,13 @@ class MyBool(x: Boolean) {
 }
 
 // 更多例子
-5.+(3); 5 + 3
-(1 to 5) map (_*2)
+5.+(3)
+5 + 3
 
-// 用空格代替 `.`
 1 + 2 + 3
 (1).+(2).+(3)
+
+(1 to 5) map (_*2)
 ```
 
 ### call-by-value, call-by-name
@@ -1076,7 +1080,7 @@ decrease(1)
 
 ``` scala
 @ def log(a: Int)(b: String) = {
-  println(a + b)
+    println(a + b)
   }
 defined function log
 
@@ -1253,7 +1257,7 @@ package pkg { ... }
 可以通过限定词强调：
 
 ``` scala
-// x 指某个所属的包、类或单例对象，表示这个成员处理对 x 中的类及它们的伴生对象可见外，对其他所有类都是 private
+// x 指某个所属的包、类或单例对象，表示这个成员除了对 x 中的类及它们的伴生对象可见外，对其他所有类都是 private
 private[x]
 
 //
@@ -1316,6 +1320,7 @@ new
 
 true, false, null
 ```
+
 ## apply, unapply
 
 将对象以函数的方式进行调用时，scala 会隐式地将调用改为在对象上调用 `apply` 方法
