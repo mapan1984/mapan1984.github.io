@@ -3,6 +3,14 @@ title: 数学基础
 tags: [math]
 ---
 
+### 自然常数 e
+
+$$
+\lim_{n\to\infty} (1 + 1/n)^n = e
+$$
+
+- https://zhuanlan.zhihu.com/p/48391055
+
 ### 傅里叶变换
 
 怎么将混合的波依频率分开，

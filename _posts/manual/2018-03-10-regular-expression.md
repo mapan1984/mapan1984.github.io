@@ -61,9 +61,36 @@ tags: [regex]
 ### 组
 
     (?:p) - 无法使用`\index`找到子模式
-    (?=p) - 要求字符串与p匹配，但结果集并不包含匹配p的字符
-    (?!p) - 要求字符串不与p匹配
 
-### 匹配url:
+#### lookahead and lookbehind
+
+正向先行断言(zero-width positive lookahead assertion)：
+
+    (?=p) - 要求字符串与 p 匹配，但结果集并不包含匹配 p 的字符
+
+负向先行断言(zero-width negative lookahead assertion)：
+
+    (?!p) - 要求字符串不与 p 匹配
+
+
+    bar(?=bar)     finds the 1st bar ("bar" which has "bar" after it)
+    bar(?!bar)     finds the 2nd bar ("bar" which does not have "bar" after it)
+    (?<=foo)bar    finds the 1st bar ("bar" which has "foo" before it)
+    (?<!foo)bar    finds the 2nd bar ("bar" which does not have "foo" before it)
+
+- https://stackoverflow.com/questions/2973436/regex-lookahead-lookbehind-and-atomic-groups
+- https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+
+### 示例
+
+匹配url
 
     ^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$
+
+8～32位字符，英文字母、数字和符号必须同时存在，符号仅限!@#$%^*()
+
+    ^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^*()])[A-Za-z\d!@#$%^*()]{8,32}$
+
+英文字母开头，4～16位字符，只能包含英文字母，数字，下划线(_)
+
+    ^[a-zA-Z][a-zA-Z0-9_]{3,15}$

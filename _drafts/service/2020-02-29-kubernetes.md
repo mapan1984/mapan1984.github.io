@@ -3,7 +3,7 @@ title: Kubernetes
 tags: [Kubernetes, k8s]
 ---
 
-# 是什么
+## 是什么
 
 自动化的容器编排平台：
 * 按规则部署容器
@@ -19,41 +19,63 @@ tags: [Kubernetes, k8s]
 > 换句话说，Kubernetes将使用您的基础设施像玩俄罗斯方块一样玩转容器。
 > Docker容器就是方块；服务器是板，Kubernetes就是玩家。
 
-# 架构
+## 架构
 
 * Master: decide where to run you application
     * 负责管理集群，集群的资源数据访问入口
     * 运行 API Server, Controller Manager 以及 Scheduler 服务
-    * Etcd 高可用键值存储服务
+        * API Server: 各组件通信的中枢，外部请求的入口
+        * Controller Manager: 执行集群级功能，例如复制组件，跟踪Node节点，处理节点故障等等
+        * Scheduler: 负责应用调度的组件，根据各种条件（如可用的资源、节点的亲和性等）将容器调度到Node上运
+        * Etcd 高可用键值存储服务，存储集群的配置信息
 * Node:
     * 集群操作的单元，是 Pod 运行的宿主机
     * kubelet：agent 进程，维护和管理该 Node 上所有容器的创建，启停等
     * kube-proxy：服务发现，反向代理和负载均衡
-    * docker engine
-* Pod...
-    * 运行于 Node 节点上，若干相关容器的组合
-    * 创建、调度和管理的最小单位
+    * Container Runtime: 容器运行时，如 docker engine
 
-# 核心概念
+## 核心概念
 
 * Replication Controller(RC)：管理 Pod 的副本，保证集群中存在指定数量的 Pod 副本
-    * Deployment：Kubernetes "deployments" are the high-level construct that define an application
-        * "deployments" are the central metaphor for what we'd consider "apps" or "services"
-        * "deployments" are descrived as a collection of resources and references
-        * "deployments" take many forms based on the type of services being deployed
+    * Deployment
+    * StatefulSet
     * Job
+    * CronJob
+    * DaemonSet
 * Service：提供一个统一的服务访问入口以及服务代理和发现机制
 * Persistent Volume(PV), Persistent Volume Claim(PVC)：数据卷
 
 * "Pods" are instances of a container in a deployment
 * "Services" are endpoints that export port to the outside world
 
-# kubectl
+* Pod...
+    * 运行于 Node 节点上，若干相关容器的组合
+    * 创建、调度和管理的最小单位
+    * 可以包含一个或多个容器，但是存储资源，网络IP 只有一个
+
+## kubectl
 
 You can create, delete, modify, and retrieve information about any of these using the `kubectl` command
 
 * kubectl provides access to nearly every Kubernetes
 * Primary command line access tool
+
+### 配置
+
+默认配置文件为 `$HOME/.kube/config`，还可以指定配置文件：
+
+1. 环境变量 `KUBECONFIG`
+2. 命令行参数 `--kubeconfig`，例如：`kubectl --kubeconfig kubectl.conf get pods`
+
+### 命令
+
+列出所有 node
+
+    $ kubectl get node
+
+列出所有 service
+
+    $ kubectl get services
 
 列出所有 pods
 
@@ -91,11 +113,11 @@ Run a particular image on the cluster
 
     $ kubectl run <name> --image=image
 
-## practical: a tomcat deployment
+### practical: a tomcat deployment
 
 we'll deploy the Tomcat App Server using the official docker image
 
-### Define the deployment
+#### Define the deployment
 
 最简单的deployment 是一个 single pod，一个 pod 是一个 instance of a container，Deployment 可以有任意数量的pod。
 
@@ -124,7 +146,7 @@ spec:
 
     $ kubectl apply -f ./deployment.yaml
 
-### Expose its services
+#### Expose its services
 
     $ kubectl expose deployment tomcat-deployment --type=NodePort
 
@@ -132,7 +154,7 @@ spec:
 
     $ minikube service tomcat-deployment --url
 
-# API
+## API
 
 > Kubernetes作为数据中心的API层
 > 你在Kubernetes所做的一切都是你的一个API调用。

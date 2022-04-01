@@ -84,7 +84,17 @@ Follower收到通知之后，进行新一轮选举，选举过程与之前相同
 
 ## 运维
 
-### 配置
+### 配置参数
+
+- clientPort: 对外服务的端口
+- dataDir: snapshots 和 transaction log 文件存储路径
+- dataLogDir: transaction log 文件存储路径，优先级高于 dataDir
+- tickTime: zookeeper 的时间单位，毫秒，其他时间设置基于此单位
+- maxClientCnxns: 最多客户端连接数，默认 60，设置为 0 表示无限制
+- autopurge.snapRetainCount: 保留的 snapshot 以及对应的 transaction log 文件数量
+- autopurge.purgeInterval: 清理时间间隔，单位小时，默认为 0 表示不清理
+- minSessionTimeout: 默认 2 * tickTime
+- maxSessionTimeout: 默认 20 * tickTime
 
 ### JVM
 
@@ -158,3 +168,17 @@ $JAVA -cp "$CLASSPATH" org.apache.zookeeper.server.LogFormatter "$@"
 事务日志的文件名规则为 `snapshot.<transaction_id>`，`transaction_id` 表示触发快照的瞬间，提交的最后一个事务的ID。
 
 生成 snapshot 之前，会判断 `logCount > (snapCount / 2 + randRoll)` 来决定是否启动 snapshot 线程。
+
+## 会话
+
+zookeeper 客户端与服务端建立连接之后，服务端会生成一个会话（session），客户端与服务端维持一个长连接，在 session.timeout 时间之内，客户端需要向服务端发送心跳。
+
+当客户端与服务端的连接因为网络故障断开之后，客户端会主动在 zookeeper 地址列表（即配置的连接地址）中选择新的地址进行连接。
+
+1. 如果在 session.timeout 时间内重新连接成功，则没有任何影响。
+2. 如果没有及时在 session.timeout 时间内重新连接成功，那么服务端会认为这个 session 已经结束，session 失效后 zookeeper 会将这个 session 创建的临时节点与注册的 Watcher 清理掉。 在 session 超时之后，如果客户端重新连接上了服务端，服务端会向客户端返回 session expired 错误，客户端需要断开此次连接，重新连接建立新的 session。
+
+### 会话超时
+
+客户端在建立连接时，可以指定参数 `zookeeper.session.timeout.ms` 作为会话超时时间，但是这个值不能超过 zookeeper 服务端配置的 `minSessionTimeout` 和 `maxSessionTimeout` 指定的范围，默认时间范围是 `2 * tickTime ~ 20 * tickTime`
+
