@@ -1,9 +1,13 @@
 ---
-title: HTTP Basic authentication
-tags: [http, authentication]
+title: HTTP Basic 身份验证
+tags: [http]
 ---
 
-## nginx 配置
+# HTTP Basic 身份验证
+
+![HTTP Basic Auth]({{site.url}}/resources/images/manual/HTTPAuth.png)
+
+## Nginx Basic Auth 配置
 
 ```
 location / {
@@ -15,9 +19,11 @@ location / {
 
 `/etc/nginx/conf.d/htpasswd` 文件中包含用户信息，生成方法为：
 
-    printf "pan.ma:$(openssl passwd -crypt pan.ma.password)\n" >> /etc/nginx/conf.d/htpasswd
+    printf "username:$(openssl passwd -crypt password)\n" >> /etc/nginx/conf.d/htpasswd
 
-## koa 中获取用户信息
+## Koa 获取 Basic Auth 用户信息
+
+Koa 读取 HTTP Authorization 请求头，并获取用户信息
 
 ``` javascript
 const Koa = require("koa");
@@ -62,7 +68,7 @@ app.listen(5000, () => {
 });
 ```
 
-## python flask
+## Flask Basic Auth 实现
 
 ``` python
 from flask import Flask, request, jsonify
@@ -83,12 +89,15 @@ def unauthorized(message):
 
 @app.before_request
 def authorization():
+    # 验证用户信息
     if request.authorization:
         username = request.authorization.username
         password = request.authorization.password
         if password is not None and users.get(username) == password:
             print(f'{username} authorization')
             return None
+
+    # 没有携带用户信息，获取用户信息不匹配，返回 401
     return (
         unauthorized('Invalid credentials'),
         401,
@@ -107,5 +116,5 @@ if __name__ == '__main__':
 
 ## 参考
 
-[HTTP 身份验证 - HTTP | MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication)
+- HTTP 身份验证: https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication
 

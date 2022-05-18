@@ -12,18 +12,19 @@ tags: [JavaScript]
 let s = 'hello'
 
 function greet(name) {
-    console.log(s + ',' + name + '!')
+    console.log(`${s}, ${name}!`)
 }
 
-// exports对象用于导出当前模块的方法或变量
-// module对象代表模块本身，exports是module的属性
+// exports 对象用于导出当前模块的方法或变量
+// module 对象代表模块本身，exports 是 module 的属性
 module.exports = greet
 ```
 
 ``` javascript
 // app.js
-// 导入的greet的值相当于exports的值
+// 导入的 greet 的值相当于 exports 的值
 let greet = require('./hello')
+
 let name = 'mapan'
 greet(name)
 ```
@@ -37,11 +38,12 @@ let module = {
 }
 
 let load = function(module) {
+
     // 读取的hello.js代码
     let s = 'hello'
 
     function greet(name) {
-        console.log(s + ',' + name + '!')
+        console.log(`${s}, ${name}!`)
     }
 
     module.exports = greet
@@ -81,9 +83,9 @@ let {bar, foo} = module.exports
 
 ### AMD
 
-CommonJs的模块机制几乎全都是同步的，它适用于Nodejs，但不适用于前端模块的引入()。
+CommonJs 的模块机制几乎全都是同步的，它适用于 NodeJs，但不适用于前端模块的引入。
 
-AMD(Asynchronous Module Definition)避免了同步带来的阻塞，在前端场场景中适用。
+AMD(Asynchronous Module Definition) 避免了同步带来的阻塞，在前端场场景中适用。
 
 ``` javascript
 // define(id?, dependencies?, factory)
@@ -107,13 +109,28 @@ define(function(require, exports, module) {
 ### 兼容
 
 ``` javascript
-;(function (name, definition) { // 检测上文环境是否为AMDCMD var hasDefine = typeof define === 'function', // 检查上文环境是否为Node hasExports = typeof module !== 'undefined' && module.exports;
-if (hasDefine) { // AMD环境CMD环境 define(definition);
-} else if (hasExports) { // 定义为通Node模块 module.exports = definition();
-} else { // 将模块的执行结在window量中在器中thiswindow对象 this[name] = definition();
-}
-})('hello', function () { var hello = function () {}; return hello;
-});
+;(function (name, definition) {
+    // 检测上下文环境是否为 AMD/CMD
+    var hasDefine = typeof define === 'function';
+    // 检查上下文环境是否为 Node
+    var hasExports = typeof module !== 'undefined' && module.exports;
+    if (hasDefine) {
+        // AMD/CMD 环境
+        define(definition);
+    } else if (hasExports) {
+        // 定义为 Node 模块
+        module.exports = definition();
+    } else {
+        // 将模块的执行结果绑定在 window 变量中，在浏览器中 this 指向 window 对象
+        this[name] = definition();
+    }
+})(
+    'hello',
+    function () {
+        var hello = function () {};
+        return hello;
+    }
+);
 ```
 
 ### ES6
@@ -150,4 +167,3 @@ export {sayHello}
 // app.js
 import {sayHello} from './hello'
 ```
-

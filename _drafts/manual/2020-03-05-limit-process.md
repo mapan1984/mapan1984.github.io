@@ -32,7 +32,6 @@ OPTION:
 
     node --max-new-space-size=1024 test.js  # 单位为 KB
 
-[参考](https://medium.com/@ashleydavis75/node-js-memory-limitations-30d3fe2664c0)
 
 ``` javascript
 //
@@ -96,3 +95,8 @@ allocToMax();
 
 // Infinite loop, never get here.
 ```
+
+
+### 参考
+
+- Node.js memory limitations: https://medium.com/@ashleydavis75/node-js-memory-limitations-30d3fe2664c0
