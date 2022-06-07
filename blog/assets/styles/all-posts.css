@@ -7,12 +7,13 @@
     position: absolute;
     top: 60px;
     right: 20px;
-
-    a {
-        margin: 3px;
-    }
 }
+
+#all-posts-tip a {
+    margin: 3px;
+}
+
 div.all-posts {
-    width: 50%;
+    width: 55%;
     float: left;
 }

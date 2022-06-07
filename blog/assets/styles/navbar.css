@@ -1,0 +1,84 @@
+/* Navbar */
+.navbar {
+    height: 70px;
+
+    background-color: var(--blue);
+}
+
+.navbar ul {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+}
+
+.navbar li a {
+    margin: 0 5px;
+    padding: 10px;
+
+    color: var(--gray-300);
+    text-decoration: none;
+}
+
+.navbar li.active a {
+    color: var(--white);
+    border-bottom: 2px var(--white) solid;
+}
+
+.navbar li a:hover {
+    border-bottom: 2px var(--white) solid;
+}
+
+/* The dropdown container */
+.dropdown {
+    overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+    padding: 10px;
+
+    color: var(--gray-300);
+    background-color: inherit;
+    border: none;
+    outline: none;
+}
+.dropdown:hover .dropbtn {
+    color: var(--white);
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown .dropdown-menu {
+    display: none;
+
+    position: absolute;
+    background-color: var(--gray-200);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Links inside the dropdown */
+.dropdown .dropdown-menu a {
+    float: none;
+    display: block;
+
+    padding: 8px 10px;
+
+    line-height: 1;
+    color: var(--gray-700);
+    border-bottom: var(--base-boder);
+
+    text-align: left;
+    text-decoration: none;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown .dropdown-menu a:hover {
+    color: var(--white);
+    background-color: var(--light-blue);
+}

@@ -1,0 +1,18 @@
+/*
+ * footer
+ */
+footer {
+    height: 70px;
+
+    padding: 20px 0;
+    margin-top: 10px;
+
+    text-align: center;
+
+    color: var(--white);
+    background-color: var(--blue);
+}
+
+footer a {
+    color: var(--white);
+}

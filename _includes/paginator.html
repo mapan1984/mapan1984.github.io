@@ -1,49 +1,31 @@
-<nav>
-  <ul class="pagination">
-    {% if paginator.previous_page %}
-      {% if paginator.previous_page == 1 %}
-        <li><a href="{{ site.url }}">&laquo;</a></li>
-      {% else %}
-        <li>
-          <a href="{{ site.url }}{{ paginator.previous_page_path }}">&laquo;</a>
-        </li>
-      {% endif %}
-    {% else %}
-      <li class="disabled">
-        <a href="#">&laquo;</a>
-      </li>
-    {% endif %}
+<div class="pagination">
+  <!-- 上一页按钮 -->
+  {% if paginator.previous_page %}
+    <a href="{{ site.url }}{{ paginator.previous_page_path }}">&laquo;</a>
+  {% else %}
+    <a class="disabled" href="#">&laquo;</a>
+  {% endif %}
 
-    {% for count in (1..paginator.total_pages) %}
-      {% if count == 1 %}
-        {% if paginator.page ==1 %}
-          <li class="active">
-            <a href="#">1</a>
-          </li>
-        {% else %}
-          <li>
-            <a href="{{ site.url }}">1</a>
-          </li>
-        {% endif %}
-      {% else %}
-        {% if count == paginator.page %}
-          <li class="active">
-            <a href="#">{{ count }}<span class="sr-only">(current)</span></a>
-          </li>
-        {% else %}
-          <li>
-            <a href="{{ site.url }}/page{{ count }}/">{{ count }}</a>
-          </li>
-        {% endif %}
-      {% endif %}
-    {% endfor %}
+  <!-- 第一页就是首页，路径不是 /page:num/，需要特殊处理 -->
+  {% if paginator.page == 1 %}
+    <a class="active" href="#">1</a>
+  {% else %}
+    <a href="{{ site.url }}">1</a>
+  {% endif %}
 
-    {% if paginator.next_page %}
-      <li>
-        <a href="{{ site.url }}{{ paginator.next_page_path }}">&raquo;</a>
-      </li>
+  <!-- 其余页路径为 /page:num/，num 从 2 开始 -->
+  {% for index in (2..paginator.total_pages) %}
+    {% if index == paginator.page %}
+      <a class="active" href="#">{{ index }}</a>
     {% else %}
-      <li class="disabled"><a href="#">&raquo;</a></li>
+      <a href="{{ site.url }}/page{{ index }}/">{{ index }}</a>
     {% endif %}
-  </ul>
-</nav>
+  {% endfor %}
+
+  <!-- 下一页按钮 -->
+  {% if paginator.next_page %}
+    <a href="{{ site.url }}{{ paginator.next_page_path }}">&raquo;</a>
+  {% else %}
+    <a class="disabled" href="#">&raquo;</a>
+  {% endif %}
+</div>

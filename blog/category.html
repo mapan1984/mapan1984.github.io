@@ -1,0 +1,39 @@
+---
+layout: index
+title: category
+---
+
+<div class="container">
+  <div class="tabs">
+    {% assign isfirst = 1 %}
+  
+    {% for category in site.categories %}
+  
+      {% if isfirst == 1 %}
+        <input type="radio" class="tabs__radio" name="tabs" id="{{ category[0] }}" checked>
+        {% assign isfirst = 0 %}
+      {% else %}
+        <input type="radio" class="tabs__radio" name="tabs" id="{{ category[0] }}">
+      {% endif %}
+  
+        <label for="{{ category[0] }}" class="tabs__label">
+          {{ category[0] }} <span class="badge">{{ category[1].size }}</span>
+        </label>
+
+        <div class="tabs__content">
+          <ul class="posts">
+            {% for post in category[1] %}
+              <li class="post">
+                <div class="post-title">
+                  <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                </div>
+                <div class="post-date">
+                  {{ post.date | date_to_string }}
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endfor %}
+  </div>
+</div>

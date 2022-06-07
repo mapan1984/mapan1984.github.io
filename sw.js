@@ -1,8 +1,7 @@
 ---
-layout: null
 ---
 
-const staticCacheName = "mapan1984-github-io-v9";
+const staticCacheName = "mapan1984-github-io-v10";
 
 console.log("installing service worker");
 
@@ -15,28 +14,29 @@ const filesToCache = [
   {% endfor %}
 
   // css
-  "/assets/styles/bootstrap.min.css",
-  "/assets/styles/bootstrap.min.css.map",
-  "/assets/styles/main.css",
+  "/blog/assets/styles/utils.css",
+  "/blog/assets/styles/navbar.css",
+  "/blog/assets/styles/footer.css",
+  "/blog/assets/styles/index.css",
+  "/blog/assets/styles/tabs.css",
+  "/blog/assets/styles/all-posts.css",
+  "/blog/assets/styles/post.css",
+  "/blog/assets/styles/syntax-highlight.css",
+
   // js
-  "/assets/scripts/jquery-1.12.4.min.js",
-  "/assets/scripts/bootstrap.min.js",
-  "/assets/scripts/blog.js",
-  "/assets/scripts/post.js",
+  "/blog/assets/scripts/index.js",
+  "/blog/assets/scripts/utils/toc.js",
+  "/blog/assets/scripts/post.js",
+
   // img
-  "/assets/images/favicon.ico",
-  "/assets/images/72.png",
-  "/assets/images/144.png",
-  "/assets/images/192.png",
-  "/assets/images/512.png",
+  "/blog/assets/images/favicon.ico",
+  "/blog/assets/images/72.png",
+  "/blog/assets/images/144.png",
+  "/blog/assets/images/192.png",
+  "/blog/assets/images/512.png",
+
   // manifest
-  "/assets/manifest.json",
-  // fonts
-  "/assets/fonts/glyphicons-halflings-regular.eot",
-  "/assets/fonts/glyphicons-halflings-regular.svg",
-  "/assets/fonts/glyphicons-halflings-regular.ttf",
-  "/assets/fonts/glyphicons-halflings-regular.woff",
-  "/assets/fonts/glyphicons-halflings-regular.woff2",
+  "/blog/assets/manifest.json",
 ]
 
 self.addEventListener("install", function(e){

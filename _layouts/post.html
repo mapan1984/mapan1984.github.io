@@ -6,66 +6,50 @@ title: {{ page.title }}
 <html lang="zh-CN">
 <head>
   {% include head.html %}
+  <link rel="stylesheet" href={{ "/blog/assets/styles/post.css" | relative_url }}>
+  <link rel="stylesheet" href={{ "/blog/assets/styles/syntax-highlight.css" | relative_url }}>
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML">
   </script>
 </head>
-<body style="position: relative; padding-top: 45px;">
+<body>
   {% include nav.html %}
-  <p class="pull-right visible-xs">
-    <button class="btn-xs btn btn-primary">Toggle</button>
-  </p>
-  <div class="container">
+
+  <div class="container content">
     <div class="post-header">
       <h1 class="post-title">{{ page.title }}</h1>
       <div class="post-tags">
         {% for tag in page.tags %}
-        <a href="{{ site.baseurl }}/allposts/#{{ tag }}">
-          <span class="label label-primary">Tag: {{ tag }}</span>
+        <a href="{{ site.baseurl }}/blog/allposts/#{{ tag }}">
+          <span class="label sm green">Tag: {{ tag }}</span>
         </a>
         {% endfor %}
       </div>
       <div class="post-date">
-        <span class="label label-default">Date: {{ page.date | date_to_string }}</span>
+        <span class="label sm orange">Date: {{ page.date | date_to_string }}</span>
       </div>
     </div><!-- post-header -->
+
     <div class="post-body">
       <div class="post-content">
         {{ content }}
       </div>
       {% include post-turn.html %}
+
       {% if page.comments %}
-      <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-      </div>
-      <script>
-        /**
-        *  recommended configuration variables: edit and uncomment the section below to insert dynamic values from your platform or cms.
-        *  learn why defining these variables is important: https://disqus.com/admin/universalcode/#configuration-variables
-        */
-        var disqus_config = function () {
-          this.page.url = '{{ page.url | absolute_url }}';  // Replace PAGE_URL with your page's canonical URL variable
-          this.page.identifier = '{{ page.id }}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        };
-        (function() { // DON'T EDIT BELOW THIS LINE
-          var d = document, s = d.createElement('script');
-          s.src = 'https://mapan1984.disqus.com/embed.js';
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
+      {% include disqus_comment.html %}
       {% endif %}
-    </div><!-- post -->
+    </div><!-- post-body -->
+
     <div class="post-tip">
       <div id="toc">
       </div>
-      <button type="button" class="btn btn-info btn-sm" id="back-to-top">
-        <span clas="glyphicon glyphicon-hand-up" aria-hidden="true"></span> 回到顶部
+      <button type="button" class="sm" id="back-to-top">
+        回到顶部
       </button>
     </div>
   </div><!-- container -->
-  <script src="/assets/scripts/jquery-1.12.4.min.js" type="text/javascript"></script>
-  <script src="/assets/scripts/bootstrap.min.js" type="text/javascript"></script>
-  <script src={{ "/assets/scripts/post.js" | relative_url }} type="text/javascript"></script>
+
+  <script type="module" src={{ "/blog/assets/scripts/post.js" | relative_url }} type="text/javascript"></script>
 </body>
 </html>

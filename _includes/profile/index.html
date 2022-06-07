@@ -1,0 +1,20 @@
+{% if site.github_username %}
+<p>
+  <span>{% include profile/github.svg %}</span>
+  <a href="https://github.com/{{ site.github_username }}">
+    {{ site.github_username }}
+  </a>
+</p>
+{% endif %}
+<p>
+  <span>{% include profile/rss.svg %}</span>
+  <a href="{{ "/blog/feed.xml" | relative_url | prepend: site.baseurl }}">
+    subscribe via rss
+  </a>
+</p>
+<p>
+  <span>{% include profile/mail.svg %}</span>
+  <a href="mailto:mapan1984@outlook.com">
+    mapan1984@outlook.com
+  </a>
+</p>

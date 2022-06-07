@@ -7,25 +7,17 @@ title: MaPan - Blog
 <head>
   {% include head.html %}
 </head>
-<body style="position: relative; padding-top: 45px;">
+<body>
   {% include nav.html %}
-  <div class="jumbotron">
-    <div class="container">
-      <h1>Share and Record</h1>
-      <p>The best time to plant a tree was 10 years ago, The second best time is now.</p>
-      <p><a class="btn btn-primary btn-lg" 
-            href="https://github.com/mapan1984/mapan1984.github.io" 
-            role="button">Learn more</a></p>
-    </div>
-  </div>
-  <div class="container content">
+
+  <div class="content">
     {{ content }}
   </div>
+
   <footer>
     <p> <a href="#">Back to top</a> </p>
   </footer>
-  <script src="/assets/scripts/jquery-1.12.4.min.js" type="text/javascript"></script>
-  <script src="/assets/scripts/bootstrap.min.js" type="text/javascript"></script>
-  <script src={{ "/assets/scripts/blog.js" | relative_url }} type="text/javascript"></script>
+
+  <script src={{ "/blog/assets/scripts/index.js" | relative_url }} type="text/javascript"></script>
 </body>
 </html>
