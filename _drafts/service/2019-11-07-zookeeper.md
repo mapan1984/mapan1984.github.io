@@ -41,7 +41,7 @@ Zookeeper提供了一个类似于Linux文件系统的树形结构（可认为是
 
 所有对Zookeeper的读操作，都可附带一个Watch，一旦相应的数据有变化，该Watch即被触发。
 
-* Watch被触发时由服务器主动将更新推送给客户端，而不需要客户端轮询
+* Watch被触发时由服务器主动将更新推送给客户端，不需要客户端轮询
 * 数据变化时，Watch只会被触发一次，如果客户端想要得到后续更新的通知，必须要在Watch被触发后重新注册
 
 ## 分布式锁与选举原理
@@ -86,15 +86,20 @@ Follower收到通知之后，进行新一轮选举，选举过程与之前相同
 
 ### 配置参数
 
-- clientPort: 对外服务的端口
-- dataDir: snapshots 和 transaction log 文件存储路径
-- dataLogDir: transaction log 文件存储路径，优先级高于 dataDir
-- tickTime: zookeeper 的时间单位，毫秒，其他时间设置基于此单位
-- maxClientCnxns: 最多客户端连接数，默认 60，设置为 0 表示无限制
-- autopurge.snapRetainCount: 保留的 snapshot 以及对应的 transaction log 文件数量
-- autopurge.purgeInterval: 清理时间间隔，单位小时，默认为 0 表示不清理
-- minSessionTimeout: 默认 2 * tickTime
-- maxSessionTimeout: 默认 20 * tickTime
+- `clientPort`: 对外服务的端口
+- `dataDir`: snapshots 和 transaction log 文件存储路径
+- `dataLogDir`: transaction log 文件存储路径，优先级高于 dataDir
+- `tickTime`: zookeeper 的时间单位，毫秒，其他时间设置基于此单位
+- `maxClientCnxns`: 最多客户端连接数，默认 60，设置为 0 表示无限制
+- `autopurge.snapRetainCount`: 保留的 snapshot 以及对应的 transaction log 文件数量
+- `autopurge.purgeInterval`: 清理时间间隔，单位小时，默认为 0 表示不清理
+- `minSessionTimeout`: 默认 2 * tickTime
+- `maxSessionTimeout`: 默认 20 * tickTime
+- `server`：集群模式时配置，格式为 `server.<myid>=<ip>:2888:3888`，2888 表示集群内通讯端口，3888 表示 leader 选举端口
+
+        server.1=node1:2888:3888
+        server.2=node2:2888:3888
+        server.3=node3:2888:3888
 
 ### JVM
 
@@ -129,6 +134,32 @@ admin.commandURL
 
 The URL for listing and issuing commands relative to the root URL. Defaults to "/commands".
 ```
+
+### 命令操作
+
+启动：
+
+    ./bin/zkServer.sh start
+
+停止：
+
+    ./bin/zkServer.sh stop
+
+状态：
+
+    ./bin/zkServer.sh status
+
+服务信息（查看 leader/follower）
+
+    echo srvr | nc localhost 2181
+
+监控
+
+    echo mntr | nc 127.0.0.1 2181
+
+输出关于性能和连接的客户端的列表（查看leader/follower）
+
+    echo stat | nc localhost 2181
 
 ## 日志
 
@@ -181,4 +212,3 @@ zookeeper 客户端与服务端建立连接之后，服务端会生成一个会�
 ### 会话超时
 
 客户端在建立连接时，可以指定参数 `zookeeper.session.timeout.ms` 作为会话超时时间，但是这个值不能超过 zookeeper 服务端配置的 `minSessionTimeout` 和 `maxSessionTimeout` 指定的范围，默认时间范围是 `2 * tickTime ~ 20 * tickTime`
-

@@ -50,13 +50,11 @@ table 对应的数据文件在各节点的 `/data/[primary|mirror]/udwseg<id>/ba
 
 每个文件默认大小 1G，当 table 对应的内容超过 1G 时，对对文件进行切分，对应的文件列表为：
 
-`
-/data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>
-/data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>.1
-/data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>.2
-/data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>.3
-...
-`
+    /data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>
+    /data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>.1
+    /data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>.2
+    /data/[primary|mirror]/udwseg<id>/base/<db.oid>/<relfilenode>.3
+    ...
 
 不同 segment 上查询相同的表，relfilenode (可能)不一致，可以在对应的节点上指定 segment 端口登录：
 
@@ -69,11 +67,9 @@ table 对应的数据文件在各节点的 `/data/[primary|mirror]/udwseg<id>/ba
 select oid, relname, relfilenode from pg_class where relname='products';
 ```
 
-`
-  oid  | relname  | relfilenode
--------+----------+-------------
- 16387 | products |       16384
-`
+      oid  | relname  | relfilenode
+    -------+----------+-------------
+     16387 | products |       16384
 
 ## 查看数据占用（检查数据倾斜）
 

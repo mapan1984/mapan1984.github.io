@@ -67,11 +67,33 @@ let g:gutentags_debug = get(g:, 'gutentags_debug', 0)
 * `v:name` Vim 预定义的变量，注意预定义变量不同于 Vim 的选项(option)变量
 
 作用域本身可以被当作字典，比如删除 `s:` 作用域下的所有变量：
+
 ``` vim
 for k in keys(s:)
     unlet s:[k]
 endfor
 ```
+
+脚本作用域的函数，可以通过 `<SID>` 前缀调用
+
+``` viml
+" 定义函数
+function! s:HelloWorld()
+  echo "Hello World"
+endfunction
+
+" 调用函数
+call <SID>HelloWorld()
+
+" 映射到按键
+map s :call <SID>HelloWorld()<CR>
+
+" 映射到按键，其他脚本可以将按键映射到 <Plug>s 来调用脚本作用域的函数
+noremap <Plug>s :call <SID>HelloWorld()<CR>
+```
+
+https://www.reddit.com/r/vim/comments/78izt4/please_help_understand_how_to_use_plug_mapping/
+
 
 ### 其他
 
@@ -192,6 +214,16 @@ echo mydict.len()
 通过`<nop>`禁用映射：
 
     :noremap <left> <nop>
+
+插件定义的映射，按照惯例默认以 `<Plug>` 开头
+
+``` viml
+" 插件内定义映射按惯例以 <Plug> 开头
+nnoremap <Plug>(HelloWorld) :echo "hello world!"<CR>
+
+" 自定义脚本将按键映射到插件
+nmap s <Plug>(HelloWorld)
+```
 
 ### 局部化
 

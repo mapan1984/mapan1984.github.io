@@ -353,6 +353,32 @@ res7: Array[Int] = Array(2, 3, 4)
 res8: Array[Int] = Array(1, 2, 3, 4, 5)
 ```
 
+flatMap
+
+``` scala
+@ val names = Seq("Nidhi", "Singh")
+names: Seq[String] = List("Nidhi", "Singh")
+
+@ val res1 = names.map(_.toLowerCase)
+res1: Seq[String] = List("nidhi", "singh")
+
+@ val res2 = res1.flatten
+res2: Seq[Char] = List('n', 'i', 'd', 'h', 'i', 's', 'i', 'n', 'g', 'h')
+
+@ val res3 = names.flatMap(_.toLowerCase)
+res3: Seq[Char] = List('n', 'i', 'd', 'h', 'i', 's', 'i', 'n', 'g', 'h')
+```
+
+collect
+
+``` scala
+@ val bs = Seq(("A", 1), ("B", 2), ("A", 3), ("B", 4))
+bs: Seq[(String, Int)] = List(("A", 1), ("B", 2), ("A", 3), ("B", 4))
+
+@ bs.collect {case (a, n) => n -> a }
+res1: Seq[(Int, String)] = List((1, "A"), (2, "B"), (3, "A"), (4, "B"))
+```
+
 ### Queries
 
 ``` scala
@@ -417,6 +443,17 @@ res6: Array[Int] = Array(2, 4, 6)
 res7: Array[Int] = Array(1, 3, 5, 7)
 ```
 
+``` scala
+@ val ts = Map(("A",1) -> "A1", ("A",2) -> "A2", ("B", 1) -> "B1", ("B", 2) -> "B2", ("B", 3) -> "B3")
+ts: Map[(String, Int), String] = HashMap(("B", 3) -> "B3", ("A", 1) -> "A1", ("A", 2) -> "A2", ("B", 2) -> "B2", ("B", 1) -> "B1")
+
+@ ts.groupBy { case (tp, _) => tp._1 }
+res1: Map[String, Map[(String, Int), String]] = HashMap(
+  "A" -> HashMap(("A", 1) -> "A1", ("A", 2) -> "A2"),
+  "B" -> HashMap(("B", 3) -> "B3", ("B", 2) -> "B2", ("B", 1) -> "B1")
+)
+```
+
 ### Converters
 
 `Array` 使用 `to` 方法可以转化为其他集合类型比如 `Vector`, `Set`
@@ -449,7 +486,7 @@ res2: Array[Int] = Array(4, 6)
 
 ### Immutable Vectors
 
-`Vector` 是定长，不可变的序列，对更新，增加，减少元素都会生成一个新的 `Vector`。
+`Vector` 是定长，不可变的序列，对其进行更新，增加，减少元素等操作都会生成一个新的 `Vector`。
 
 `Vector` 数据结构的实现是通过树结构去做的，因此其操作的复杂度大多是 O(log n)，即树的高度。
 
@@ -559,6 +596,53 @@ res6: Map[String, Int] = Map("one" -> 1, "three" -> 3)
 one 1
 two 2
 three 3
+```
+
+遍历
+
+``` scala
+@ val asciiConversion = Map(
+  'a' -> 97,
+  'b' -> 98,
+  'c' -> 99,
+  'd' -> 100
+  )
+asciiConversion: Map[Char, Int] = Map('a' -> 97, 'b' -> 98, 'c' -> 99, 'd' -> 100)
+
+@ asciiConversion.foreach(pair => print(s"Key: ${pair._1}, Value: ${pair._2}\n"))
+Key: a, Value: 97
+Key: b, Value: 98
+Key: c, Value: 99
+Key: d, Value: 100
+
+
+@ asciiConversion.foreach { case (key, value) => print(s"Key: ${key}, Value: ${value}\n") }
+Key: a, Value: 97
+Key: b, Value: 98
+Key: c, Value: 99
+Key: d, Value: 100
+
+
+@ for (pair <- asciiConversion)
+  println(s"${pair._1} : ${pair._2}")
+a : 97
+b : 98
+c : 99
+d : 100
+
+
+@ for ((key, value) <- asciiConversion)
+  println(s"${key} : ${value}")
+a : 97
+b : 98
+c : 99
+d : 100
+
+@ asciiConversion.keys
+res7: Iterable[Char] = Set('a', 'b', 'c', 'd')
+
+@ asciiConversion.values
+res8: Iterable[Int] = Iterable(97, 98, 99, 100)
 ```
 
 ### Immutable Lists
@@ -679,9 +763,13 @@ res2: Range = Range(1, 3, 5, 7, 9)
 
 ### 与 Java 的集合互相转换
 
+在 scala 中，使用：
+
 ``` scala
-@ import scala.collection.JavaConverters._
-import scala.collection.JavaConverters._
+// import scala.collection.JavaConverters._
+// 
+@ import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters._
 
 @ val sl = List(1, 2, 3, 4)
 sl: List[Int] = List(1, 2, 3, 4)
@@ -689,11 +777,26 @@ sl: List[Int] = List(1, 2, 3, 4)
 @ val jl = sl.asJava
 jl: java.util.List[Int] = SeqWrapper(List(1, 2, 3, 4))
 
+@ val jjl = sl.map(Integer.valueOf).asJava
+jjl: java.util.List[Integer] = SeqWrapper(List(1, 2, 3, 4))
+
 @ val sll = jl.asScala
 sll: collection.mutable.Buffer[Int] = Buffer(1, 2, 3, 4)
 
 @ var slll = sll.toList
 slll: List[Int] = List(1, 2, 3, 4)
+```
+
+在 java 中，使用：
+
+``` java
+import scala.jdk.javaapi.CollectionConverters;
+
+public class A {
+  public void t(scala.collection.immutable.List<String> l) {
+    java.util.List<String> jl = CollectionConverters.asJava(l);
+  }
+}
 ```
 
 ## 流程控制
@@ -900,6 +1003,8 @@ res93: Int = 20
 res95: Int = 9
 ```
 
+使用类型推断 lambda 函数定义
+
 ``` scala
 @ var h = (x: Int, y: Int) => x * y
 h: (Int, Int) => Int = ammonite.$sess.cmd96$$$Lambda$2028/692250571@1e400e08
@@ -936,7 +1041,7 @@ res86: Int = 4
 // infix 写法(用空格代替 `.` 调用函数)
 names foreach (n => println(n))
 mames mkString ","
-optStr getOrElse "<empth>"
+optStr getOrElse "<empty>"
 
 class MyBool(x: Boolean) {
     def and(that: MyBool): MyBool = if (x) that else this
@@ -1235,6 +1340,8 @@ val frankenstein = Book("978-0486282114")
 
 `case class` 在比较时是按值进行比较，而非按引用进行比较。
 
+### case object
+
 ## package
 
 ``` scala
@@ -1323,6 +1430,8 @@ true, false, null
 
 ## apply, unapply
 
+### apply
+
 将对象以函数的方式进行调用时，scala 会隐式地将调用改为在对象上调用 `apply` 方法
 
 ``` scala
@@ -1370,5 +1479,77 @@ class IndexedString(val str: String) {
 val indexed = new IndexedString("Hello world")
 indexed(0) //结果为H, 等价于indexed.apply(0)
 ```
+
+### unapply
+
+`unapply` 一般用于模式匹配，定义一般为 `def unapply(in: X): Option[out: Y]`
+
+``` scala
+@ class User(val name: String, val age: Int)
+defined class User
+
+@ object User {
+    def apply(name: String, age: Int) = new User(name, age)
+
+    def unapply(u: User): Option[(String, Int)] = Some(u.name, u.age)
+  }
+defined object User
+
+@ val user = User("John", 25)
+user: User = ammonite.$sess.cmd0$User@389adf1d
+
+@ user match {
+    case User(_, age) if age < 18 =>
+      println("You are not allowed to get a driver license.")
+    case User(_, age) if age >= 18 =>
+      println("You are allowed to get a driver's license.")
+  }
+You are allowed to get a driver's license.
+```
+
+``` scala
+@ object Twice {
+    def apply(x: Int): Int = x * 2
+    def unapply(z: Int): Option[Int] = if (z % 2 == 0) Some(z / 2) else None
+  }
+defined object Twice
+
+@ val x = Twice(21)
+x: Int = 42
+
+@ x match { case Twice(n) => println(n) } // prints 21
+21
+
+@ 50 match { case Twice(n) => println(n) }
+25
+```
+
+``` scala
+@ object Foo {
+  def unapply(x: Int): Option[String] = if (x == 0) Some("Hello, World") else None
+  }
+defined object Foo
+
+@ val i = 0
+i: Int = 0
+
+@ val j = 1
+j: Int = 1
+
+@ i match {
+  case Foo(s) => println(s)
+  case _ => println("not match")
+  }
+Hello, World
+
+
+@ j match {
+  case Foo(s) => println(s)
+  case _ => println("not match")
+  }
+not match
+```
+
+## 参考
 
 - https://www.handsonscala.com/table-of-contents.html

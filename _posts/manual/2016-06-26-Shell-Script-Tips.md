@@ -322,6 +322,43 @@ tags: [Shell]
     $?  # 表示上一条命令的返回值(通常用0表示正常执行)
     ```
 
+4. 退出状态
+    ``` bash
+    function fname() {
+        statements;
+        return 1;  # 虽然定义了 return 关键字，但是这里表示退出状态
+    }
+
+    fname
+
+    echo $?  # 退出状态为 1
+    ```
+5. 作用域：bash 是动态作用域
+    ``` bash
+    i=1   # 全局变量
+    j=1   # 全局变量
+
+    function foo()
+    {
+        echo "foo i=${i}"
+        echo "foo j=${j}"
+    }
+
+    function bar()
+    {
+        i=2  # 会改变全局变量 i
+
+        local j=2   # 局部变量，不会改变全局的 j
+
+        foo   # 使用调用时的 i,j 值
+    }
+
+    bar
+
+    echo "global: i=${i}"
+    echo "global: j=${j}"
+    ```
+
 ### heredoc
 
 ``` sh
@@ -738,3 +775,17 @@ echo $LOG
 echo $DEFAULT
 ```
 
+### 获取随机字符
+
+``` bash
+random="$(dd if=/dev/urandom bs=3 count=1)"
+
+# 2 byte unsigned decimal integers
+od -vAn -N2 -tu2 < /dev/urandom
+
+# 1 byte signed decimal integer,
+od -vAn -N1 -td1 < /dev/urandom
+
+# 4 byte unsigned decimal integers,
+od -vAn -N4 -tu4 < /dev/urandom
+```

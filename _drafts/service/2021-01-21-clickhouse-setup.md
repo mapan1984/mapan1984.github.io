@@ -53,7 +53,7 @@ system.d 日志：`journalctl -u clickhouse-server`
 
 后台运行：`service clickhouse-server start`
 
-客户端：`clickhouse-client --password Ucld7.11 -m`
+客户端：`clickhouse-client --password ***** -m`
 
 ### 修改数据目录
 
@@ -163,7 +163,7 @@ system.d 日志：`journalctl -u clickhouse-server`
                  <host>10-9-77-91</host>
                  <port>9000</port>
                  <user>default</user>
-                 <password>Ucld7.11</password>
+                 <password>*****</password>
              </replica>
          </shard>
          <shard>
@@ -171,7 +171,7 @@ system.d 日志：`journalctl -u clickhouse-server`
                  <host>10-9-158-40</host>
                  <port>9000</port>
                  <user>default</user>
-                 <password>Ucld7.11</password>
+                 <password>*****</password>
              </replica>
          </shard>
     </default>
@@ -189,13 +189,13 @@ system.d 日志：`journalctl -u clickhouse-server`
                  <host>10-9-77-91</host>
                  <port>9000</port>
                  <user>default</user>
-                 <password>Ucld7.11</password>
+                 <password>*****</password>
              </replica>
              <replica>
                  <host>10-9-158-40</host>
                  <port>9000</port>
                  <user>default</user>
-                 <password>Ucld7.11</password>
+                 <password>*****</password>
              </replica>
          </shard>
     </default_rp>

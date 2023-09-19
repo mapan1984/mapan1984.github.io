@@ -34,6 +34,12 @@ tags: [Kubernetes, k8s]
     * kube-proxy：服务发现，反向代理和负载均衡
     * Container Runtime: 容器运行时，如 docker engine
 
+* kubectl: 客户端命令接口，通过命令行与 API Server 交互，实现在集群中进行各种资源的维护与管理
+
+### virtual-kubelet
+
+virtual-kubelet 可以模拟 kubelet 向上提供资源信息，从而在 k8s 集群中提供伪装的虚拟节点，这个节点对应的可能不是一台真实的主机，真实的资源的可能是一个共享的资源池，从而让 k8s 集群本身也变成按需创建的了。
+
 ## 核心概念
 
 * Replication Controller(RC)：管理 Pod 的副本，保证集群中存在指定数量的 Pod 副本
@@ -81,6 +87,10 @@ You can create, delete, modify, and retrieve information about any of these usin
 
     $ kubectl get pods [pod name]
 
+列出所有 deployments
+
+    $  kubectl get deployments
+
 展示 pod 的详细信息：
 
     $ kubectl describe pod [pod name]
@@ -113,11 +123,89 @@ Run a particular image on the cluster
 
     $ kubectl run <name> --image=image
 
-### practical: a tomcat deployment
+## namespace
+
+namespace 可以视为逻辑上的虚拟集群，在一个 k8s 集群中可以创建多个 namespace。
+
+k8s 集群创建后有 3 个默认的 namespace:
+
+* `default`：如果没有指定，新的资源会默认创建在这里
+* `kube-node-lease`：包含用于各个节点关联的 Lease 对象
+* `kube-system`：k8s 系统组件使用
+* `kube-public`：公共资源使用
+
+查看 namespace:
+
+    kubectl get namespaces
+
+查看 namespace 下的 pods
+
+    kubectl get pods --namespace=ns-test
+
+## 多集群访问
+
+`kubectl` 默认配置文件是 `~/.kube/config`，在文件中可以配置多个 `cluster`, `context`, `user`，通过 `kubectl config use-context` 切换访问集群。
+
+查看当前配置的 `contexts`
+
+    kubectl config get-contexts
+
+切换当前使用的 `context`
+
+    kubectl config use-context docker-desktop
+
+切换 `context` 后可以查看集群 `nodes` 验证一下
+
+    kubectl get nodes
+
+## 定义文件
+
+### Pod
+
+``` yaml
+apiVersion: v1                   # api版本
+kind: Pod                        # 组件类型
+metadata:
+  name: nginx-mysql-pod          # pod 名称
+  labels:                        # 自定义标签
+    app: nginx-mysql             # 自定义标签名字
+spec:
+  containers:
+    - name: nginx                # 容器1 名称
+      image: nginx               # 容器1 image 地址
+      ports:
+        - containerPort: 80      # 容器需要监听的端口号
+    - name: mysql                # 容器2 名称
+      image: mysql               # 容器2 image 地址
+```
+
+### Deployment
+
+``` yaml
+apiVersion: extensions/v1beta1   # K8S对应的API版本
+kind: Deployment                 # 对应的类型
+metadata:
+  name: nginx-deployment
+  labels:
+    name: nginx-deployment
+spec:
+  replicas: 1                    # pod 副本数量
+  template:
+    metadata:
+      labels:                    # 容器的标签 可和service关联
+        app: nginx
+    spec:
+      containers:
+        - name: nginx            # 容器名和镜像
+          image: nginx
+          imagePullPolicy: Always
+```
+
+## practical: a tomcat deployment
 
 we'll deploy the Tomcat App Server using the official docker image
 
-#### Define the deployment
+### Define the deployment
 
 最简单的deployment 是一个 single pod，一个 pod 是一个 instance of a container，Deployment 可以有任意数量的pod。
 
@@ -126,27 +214,27 @@ we'll deploy the Tomcat App Server using the official docker image
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-    name: tomcat-deployment
+  name: tomcat-deployment
 spec:
-    selector:
-        matchLabels:
-            app: tomcat
-    replicas: 1
-    template:
-        metadata:
-            labels:
-                app: tomcat
-        spec:
-            containers:
-            - name: tomcat
-              image: tomcat: 9.0
-              ports:
-              - containerPost: 8080
+  replicas: 1                        # 副本数量
+  selector:                          # 定义标签选择器
+    matchLabels:
+      app: tomcat
+  template:                          # pod 定义
+    metadata:
+      labels:
+        app: tomcat
+    spec:                            # pod 资源内容
+      containers:
+        - name: tomcat
+          image: tomcat: 9.0
+          ports:
+            - containerPost: 8080
 ```
 
     $ kubectl apply -f ./deployment.yaml
 
-#### Expose its services
+### Expose its services
 
     $ kubectl expose deployment tomcat-deployment --type=NodePort
 

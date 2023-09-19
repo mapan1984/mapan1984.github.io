@@ -17,21 +17,26 @@ JRE (Java Runtime Environment) 是运行 Java 字节码的虚拟机(JVM + Runtim
 
 ### classpath
 
-classpath 是 JVM 搜索 .class 文件或者其他资源的路径列表(目录、jar 包、zip 包)，默认为当前目录(`.`)，可以通过 `-cp` 参数进行设置：
+classpath 是 JVM 搜索 `.class` 文件或者其他资源的路径列表(目录、jar 包、zip 包)，默认为当前目录(`.`)，可以通过 `-cp` 参数进行设置：
 
     javac -cp .:xxx.jar Main.java
 
     java -cp .:xxx.jar Main
 
-### javac
+classpath 可以用星号 `*` 表示在路径下的所有 jar 文件中搜索资源：
+
+    java -cp .:xxx.jar:/path/to/lib/* Main
+
+### javac 编译
 
     javac <options> <source files>
 
 options:
+
 * `-d`：编译时根据 package 名生成目录结构，将编译好的 .class 文件放到匹配的目录下
 * `-cp`/`-classpath`: 指定 classpath
 
-### java
+### java 运行
 
 execute a class
 
@@ -42,6 +47,7 @@ execute a jar file
     java [-options] -jar jarfile [args...]
 
 options:
+
 * `-D`: 指定 property，例如：
 
         java -Dtest="true" -jar myApplication.jar
@@ -73,52 +79,15 @@ java \
     [args...]
 ```
 
-### jar
+运行 jar 文件时无法通过 `-cp` 额外设置 classpath，即使用 `-jar` 时会忽略 `-cp/-classpath` 参数。
+
+### jar 文件
 
 jar 文件(Java Archive)其实是一个 zip 格式的压缩文件，目的是将一个 package 各目录下的 .class 文件和资源文件打包为一个文件，方便分发和使用。
 
 把 jar 包添加到 classpath 中，JVM 可以在动在 jar 包中搜索使用到的类。
 
 jar 包中可以包含 `/META-INF/MANIFEST.MF` 文件，通过这个文件指定 `Main-Class` 后，JVM 会启动 `Main-Class` 指定的类。
-
-Usage:
-
-    jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
-
-Options:
-
-    -c  create new archive
-    -t  list table of contents for archive
-    -x  extract named (or all) files from archive
-    -u  update existing archive
-    -v  generate verbose output on standard output
-    -f  specify archive file name
-    -m  include manifest information from specified manifest file
-    -n  perform Pack200 normalization after creating a new archive
-    -e  specify application entry point for stand-alone application
-        bundled into an executable jar file
-    -0  store only; use no ZIP compression
-    -P  preserve leading '/' (absolute path) and ".." (parent directory) components from file names
-    -M  do not create a manifest file for the entries
-    -i  generate index information for the specified jar files
-    -C  change to the specified directory and include the following file
-
-
-示例：
-
-    If any file is a directory then it is processed recursively.
-    The manifest file name, the archive file name and the entry point name are
-    specified in the same order as the 'm', 'f' and 'e' flags.
-
-    Example 1: to archive two class files into an archive called classes.jar:
-           jar cvf classes.jar Foo.class Bar.class
-
-    Example 2: use an existing manifest file 'mymanifest' and archive all the
-               files in the foo/ directory into 'classes.jar':
-           jar cvfm classes.jar mymanifest -C foo/ .
-
-    解压：
-           jar -xf
 
 ## 示例
 
@@ -199,15 +168,15 @@ public class Hello {
 ``` bash
 $ tree .
 .
-├── lib
-├── resources
-├── src
+├── lib         # 依赖 jar 文件
+├── resources   # 资源文件
+├── src         # 源码
 │   └── io
 │       └── github
 │           └── mapan1984
 │               ├── Greet.java
 │               └── Hello.java
-└── target
+└── target     # 源码编译后的 .class 文件
     └── io
         └── github
             └── mapan1984

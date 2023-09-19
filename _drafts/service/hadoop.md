@@ -16,6 +16,44 @@
 
 - ZKFC(ZooKeeperFailoverController): 作为一个ZK集群的客户端，用来监控NN的状态信息。每个运行NN的节点必须要运行一个zkfc。
 
+### 启动顺序
+
+启动所有 journal node（在每个 journal node 上执行）
+
+    sbin/hadoop-daemon.sh --config etc/hadoop --script hdfs start journalnode
+
+执行完成后查看 `dfs.journalnode.edits.dir` 配置的目录
+
+在主 namenode 上格式化 namenode
+
+    bin/hdfs namenode -format <namenode-fs>
+
+格式化完成后查看 `dfs.namenode.name.dir` 配置的目录
+
+在主 namenode 上启动主 namenode
+
+    sbin/hadoop-daemon.sh --config etc/hadoop --script hdfs start namenode
+
+在从 namenode 上同步主 namenode 信息
+
+    bin/hdfs namenode -bootstrapStandby
+
+在主 namenode 上格式化 ZK node
+
+    bin/hdfs zkfc -formatZK
+
+在从 namenode 上启动从 namenode
+
+    sbin/hadoop-daemon.sh --config etc/hadoop --script hdfs start namenode
+
+在所有 namenode 上启动 zkfc
+
+    sbin/hadoop-daemon.sh --script hdfs start zkfc
+
+启动所有 datanode
+
+    sbin/hadoop-daemons.sh --config etc/hadoop --script hdfs start datanode
+
 ## Yarn
 
 - ResourceManager(RM)
@@ -35,6 +73,22 @@
 
 * YARNClient
 * ApplicationMaster
+
+### 启动顺序
+
+启动 resourcemanager
+
+    sbin/yarn-daemon.sh --config etc/hadoop start resourcemanager
+
+启动 nodemanager
+
+    sbin/yarn-daemon.sh --config etc/hadoop start nodemanager
+
+### 运维命令
+
+获取 `rm1` 的状态（active/standby）
+
+    yarn rmadmin -getServiceState rm1
 
 ## 配置文件
 
@@ -65,6 +119,53 @@
 
         # 日志
         HADOOP_ROOT_LOGGER=DEBUG,DRFA
+
+### core-site.xml
+
+* `fs.defaultFS`: `hdfs://`
+
+### hdfs-site.xml
+
+* `dfs.replication`
+
+### yarn-site.xml
+
+### SSL 加密
+
+* `core-site.xml`
+    * `hadoop.rpc.protection`
+        * `authentication`
+        * `privacy`：client 与 hadoop service RPC 加密，
+* `hdfs-site.xml`
+    * `dfs.encrypt.data.transfer`
+        * `true`：DataNode 之间的数据加密
+
+## 高可用
+
+### hdfs-site.xml
+
+* `dfs.nameservices`
+* `dfs.ha.namenodes.[nameservice id]`
+* `dfs.namenode.rpc-address.[nameservice id].[node node id]`
+* `dfs.namenode.http-address.[nameservice id].[node node id]`
+* `dfs.namenode.shared.edits.dir`
+* `dfs.client.failover.proxy.provider.[nameservice id]`
+
+### yarn-site.xml
+
+* `yarn.resourcemanager.ha.enabled`：是否开启高可用
+* `yarn.resourcemanager.zk-address`：zk 地址，用于 state-store 和 leader-election
+* `yarn.resourcemanager.ha.rm-ids`：resourcemanager 的逻辑名列表，例如：`rm1,rm2`
+* `yarn.resourcemanager.hostname.[rm id]`：指定 `rm id` 代表的 resourcemanager 的 hostname
+* `yarn.resourcemanager.address.[rm id]`：指定 `rm id` 代表的 resourcemanager 的地址 `host:port`，用于客户端提交 job
+* `yarn.resourcemanager.scheduler.address.[rm id]`：指定 scheduler 地址 `host:port` 用于 ApplicationMaster 连接获取资源
+* `yarn.resourcemanager.resource-tracker.address.[rm id]`：指定地址 `host:port` 用于 NodeManager 连接
+* `yarn.resourcemanager.admin.address.[rm id]`：指定地址 `host:port` 用于 admin 命令连接，当 `yarn.http.polic` 设置为 `HTTPS_ONLY` 时不需要设置
+* `yarn.resourcemanager.webapp.address.[rm id]`：指定地址 `host:port` 用于 resourcemanager web 界面，当 `yarn.http.polic` 设置为 `HTTP_ONLY` 时不需要设置
+* `yarn.resourcemanager.webapp.https.address.[rm id]`
+
+* `yarn.resourcemanager.cluster-id`：标识集群，用于 leader-election
+* `yarn.resourcemanager.ha.id`：标识单个 resourcemanager，可选的配置，如果配置一定要保证同一个集群的不同 resourcemanager 设置不同
 
 ## s3 支持
 
