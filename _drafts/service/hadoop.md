@@ -56,18 +56,21 @@
 
 ## Yarn
 
+从服务类型划分，服务有 2 中角色：
+
 - ResourceManager(RM)
   - Scheduler：本质上是一种策略，根据节点的容量、队列情况，为 Application 分配资源
   - Application Manager(ASM)：接受用户提交的请求，在节点中启动 Application Master，并监控 Application Master 的状态，进行必要的重启
 - NodeManager(NM)：每个节点上都有一个 NM 作为代理监控节点的资源使用情况，并向 RM 上报节点状态
 
+向 Yarn 提交 Application 后，Appication 也由 2 中角色组成：
 
 - Application Master(AM)
   1. 提交 Application 后，会新建一个 AM
   2. AM 向 RM 申请 Container 资源
   3. 将程序发到 Container 启动执行
   4. 与 NM 沟通，在分配的 Container 汇总执行任务，监控任务执行情况
-- Container：资源的抽象方式
+- Container：资源的抽象方式，本质上是一个运行的进程和进程相关的资源
 
 ### 基于 yarn 的程序
 
@@ -89,6 +92,14 @@
 获取 `rm1` 的状态（active/standby）
 
     yarn rmadmin -getServiceState rm1
+
+获取运行作业
+
+    yarn application -list
+
+杀死作业
+
+    yarn application -kill <app-id>
 
 ## 配置文件
 

@@ -17,15 +17,27 @@ JRE (Java Runtime Environment) 是运行 Java 字节码的虚拟机(JVM + Runtim
 
 ### classpath
 
-classpath 是 JVM 搜索 `.class` 文件或者其他资源的路径列表(目录、jar 包、zip 包)，默认为当前目录(`.`)，可以通过 `-cp` 参数进行设置：
+classpath 是 JVM 搜索 `.class` 文件或者其他资源的路径列表(目录、jar 包、zip 包)，默认为当前目录(`.`)
+
+可以通过系统环境变量 `CLASSPATH` 设置（不推荐）：
+
+``` sh
+export CLASSPATH=""
+```
+
+也可以通过 `-cp` 参数进行设置（推荐）：
 
     javac -cp .:xxx.jar Main.java
 
     java -cp .:xxx.jar Main
 
-classpath 可以用星号 `*` 表示在路径下的所有 jar 文件中搜索资源：
+classpath 可以用星号 `*` 表示在路径下的所有 jar 文件中搜索资源（`*` 只能匹配 jar 文件）：
 
     java -cp .:xxx.jar:/path/to/lib/* Main
+
+资源文件，用目录指定：
+
+    java -cp .:xxx.jar:/path/to/lib/*:/path/to/resources Main
 
 ### javac 编译
 

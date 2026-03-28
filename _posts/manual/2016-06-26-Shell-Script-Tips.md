@@ -31,10 +31,14 @@ tags: [Shell]
 2. 数组：
     ``` bash
     # 声明与赋值
+    declare -A array
     array[0]=val
     array[1]=val
 
-    array=([1]=val [0]=val)
+    array=(
+        [0]=val
+        [1]=val
+    )
 
     array=(val val)
 
@@ -57,6 +61,11 @@ tags: [Shell]
     # 随机选择数据元素
     declare -a server_ips=('10.66.170.71' '10.66.170.72')
     server_ip=${server_ips[$RANDOM % ${#server_ips[@]}]}
+
+    declare -A SERVICE_IPS
+    SERVICE_IPS[broker-0]="172.16.161.63"
+    SERVICE_IPS[broker-1]="172.16.161.32"
+    SERVICE_IPS[broker-2]="172.16.215.138"
     ```
 
 3. map:
@@ -487,7 +496,7 @@ export PATH=$PATH:$HOME/bin
 
 ### 执行方式
 
-1.  `sh script.sh` / `./script.sh`: 父进程会 fork 一个子进程，shell script 在子进程中执行，非交互模式。
+1. `sh script.sh` / `./script.sh`: 父进程会 fork 一个子进程，shell script 在子进程中执行，非交互模式。
     * 子进程的虚拟地址空间是父进程的一份拷贝，意味着子进程的环境变量继承自父进程，但是子进程自身对环境的修改(如设置环境变量、跳转到其他目录)只在子进程中生效
     * 子进程文件描述符表是父进程的一份拷贝，意味着子进程与父进程共享文件，子进程的输出会在当前 shell 打印。
     * `sh` 有以下参数：
@@ -498,18 +507,18 @@ export PATH=$PATH:$HOME/bin
 
 ### 交互模式/非交互模式
 
-交互模式(interactive mode)是指用户输入`bash`或`ssh`登录到主机后的那种模式，出现`$ `的Prompt,等待用户的输入指令。
+* 交互模式 (interactive mode) 是指用户输入 `bash` 或 `ssh` 登录到主机后的那种模式，出现 `$ ` 的 Prompt，等待用户的输入指令。
+* 非交互模式 (non-interactive mode) 是指使用 `bash` 运行一个命令或脚本，运行完成 `bash` 就退出。
 
-非交互模式(non-interactive mode)是指使用`bash`运行一个命令或脚本，运行完成`bash`就退出。
-
-可以通过环境变量`$-`中是否有字符`i`来测试是否为交互模式
+可以通过环境变量 `$-` 中是否有字符 `i` 来测试是否为交互模式
 
     $ [[ $- == *i* ]] && echo "Interactive" || echo "Not Interactive"
     Interactive
+
     $ bash -c '[[ $- == *i* ]] && echo "Interactive" || echo "Not Interactive"'
     Not Interactive
 
-写一个脚本`check_interactive.sh`：
+写一个脚本 `check_interactive.sh`：
 
 ``` sh
 [[ $- == *i* ]] && echo "Interactive" || echo "Not Interactive"
@@ -517,12 +526,14 @@ export PATH=$PATH:$HOME/bin
 
     $ source check_interactive.sh
     Interactive
+
     $ bash check_interactive.sh
     Not Interactive
+
     $ bash -c "source check_interactive.sh"
     Not Interactive
 
-bash 配置是针对交互模式的，所以在`.bashrc`开头就有判断代码：
+bash 配置是针对交互模式的，所以在 `.bashrc` 开头就有判断代码：
 
 ``` sh
 [[ $- != *i* ]] && return
@@ -530,20 +541,22 @@ bash 配置是针对交互模式的，所以在`.bashrc`开头就有判断代码
 
 ### Login/Non-Login
 
-1. Login：终端登录、ssh 连接、 `su --login <username>`
-2. Non-Login：直接运行bash、`su <username>`
+1. Login：终端登录、ssh 连接、`su --login <username>`
+2. Non-Login：直接运行 bash、`su <username>`
 
 判断是否为Login：
 
     $ shopt -q login_shell && echo "Login shell" || echo "Not login shell"
     Not login shell
+
     $ bash -c 'shopt -q login_shell && echo "Login shell" || echo "Not login shell"'
     Not login shell
+
     $ bash --login -c 'shopt -q login_shell && echo "Login shell" || echo "Not login shell"'
     Login shell
 
-登录模式：只加载`~/.bash_profile`，如果`~/.bash_profile`不存在，尝试加载`~/.bashrc`
-非登录模式：只加载`~/.bashrc`
+登录模式：只加载 `~/.bash_profile`，如果 `~/.bash_profile` 不存在，尝试加载 `~/.bashrc`
+非登录模式：只加载 `~/.bashrc`
 
 [启动类型](https://cjting.me/2020/08/16/shell-init-type/)
 

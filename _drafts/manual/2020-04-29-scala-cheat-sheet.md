@@ -268,6 +268,23 @@ res42: Int = 5
 res43: Int = -1
 ```
 
+### Either/Left/Right
+
+``` scala
+def divide(a: Int, b: Int): Either[String, Int] = {
+  if (b == 0) Left("Division by zero!")
+  else Right(a / b)
+}
+
+divide(10, 2)   // Right(5)
+divide(10, 0)   // Left("Division by zero!")
+
+divide(10, 0) match {
+  case Right(result) => println(s"Result is $result")
+  case Left(error)   => println(s"Error: $error")
+}
+```
+
 ## 集合
 
 * Iterable

@@ -159,6 +159,13 @@ func.apply(context, [argsArray])
 func.bind(context)
 ```
 
+箭头函数没有自己的`this`，它的函数体中出现的`this`是外部的变量，这也导致箭头函数不能作为构造函数:
+
+``` javascript
+let Person = (name) => {this.name = name} 
+let p = new Person('hell') // ❌：不能作为构造函数
+```
+
 ### class关键字
 
 ``` javascript
