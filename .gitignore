@@ -1,10 +1,10 @@
+# bundle
+Gemfile.lock
+
 # jekyll
 _site
-.sass-cache
 .jekyll-metadata
-
-# sass
-*.map
+.jekyll-cache
 
 # vim
 *.un~

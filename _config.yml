@@ -1,99 +1,57 @@
-# Site settings
+# Site
 title: MaPan - Blog
 url: https://mapan1984.github.io
-enforce_ssl: mapan1984.github.io
 email: mapan1984@outlook.com
 github_username: mapan1984
-description: > # this means to ignore newlines until "baseurl:"
-  MaPan's personal blog.
+description: MaPan's personal blog.
 
-# Build settings
-#
-## markdown
+# Build
 markdown: kramdown
 kramdown:
   input: GFM
-  extensions:
-    - autolink
-    - footnotes
-    - smart
-  enable_coderay: true
-  syntax_highlighter: rouge
-  syntax_highlighter_opts:
-    coderay_line_numbers: ''
-#markdown: redcarpet
-#redcarpet:
-#    extensions: ["fenced_code_blocks", "hard_wrap","autolink", "tables",
-#        "strikethrough", "superscript", "with_toc_data", "highlight",
-#        "prettify","no_intra_emphasis", "smart"]
-#
-## sass
-sass:
-  sass_dir: blog/assets/styles/_sass
-  style: compressed
-#
-## paginator
+permalink: pretty
+
+# Pagination
 plugins: [jekyll-paginate]
 paginate: 15
 paginate_path: "/page:num/"
-#
-## permalink
-permalink: pretty
-#
-## 只重建修改过的posts和pages
-# incremental: true
-#
-## serving
-baseurl: "" # the subpath of your site, e.g. /blog
-host: 127.0.0.1
-port: 5000
 
-
-# defaults
+# Defaults
 defaults:
-  -
-    scope:
+  - scope:
       path: "_posts"
     values:
       layout: "post"
       comments: true
-  -
-    scope:
+  - scope:
       path: "_posts/algorithm"
     values:
       categories: ["Algorithm"]
-  -
-    scope:
+  - scope:
       path: "_posts/manual"
     values:
       categories: ["Manual"]
-  -
-    scope:
+  - scope:
       path: "_posts/network"
     values:
       categories: ["Network"]
-  -
-    scope:
+  - scope:
       path: "_posts/note"
     values:
       categories: ["Note"]
-  -
-    scope:
+  - scope:
       path: "_posts/program"
     values:
       categories: ["Program"]
-  -
-    scope:
+  - scope:
       path: "_posts/system"
     values:
       categories: ["System"]
-  -
-    scope:
+  - scope:
       path: "_posts/service"
     values:
       categories: ["Service"]
-  -
-    scope:
+  - scope:
       path: "_posts/tool"
     values:
       categories: ["Tool"]
