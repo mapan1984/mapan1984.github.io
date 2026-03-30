@@ -44,7 +44,7 @@ import render from './utils/toc.js'
 
     if (toc) {
         render({
-            title: '<span class="label sm">文章目录</span>',
+            title: '<span>文章目录</span>',
             container: '#toc',
         })
 

@@ -4,23 +4,45 @@
 div.post-header {
     padding-top: 20px;
     padding-bottom: 20px;
-    border-bottom: var(--base-boder);
+    border-bottom: var(--base-border);
 }
-div.post-header div.post-title {
-    margin-top: 30px;
-    margin-bottom: 0;
-    font-size: 60px;
-    font-weight: normal;
+div.post-header .post-title {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
 }
 
-div.post-header div.post-tags {
-    float: right;
-    margin-top: -45px;
+div.post-header div.post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
 }
 
 div.post-header div.post-date {
-    float: right;
-    margin-top: -18px;
+    color: var(--color-secondary);
+    font-size: 0.85rem;
+}
+
+div.post-header div.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+div.post-header div.post-tags a {
+    display: inline-block;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    color: var(--color-secondary);
+    background-color: var(--color-hover-bg);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+div.post-header div.post-tags a:hover {
+    color: var(--color-accent);
+    background-color: var(--color-accent-subtle);
 }
 
 /*
@@ -29,13 +51,14 @@ div.post-header div.post-date {
 div.post-body {
     margin: 5px;
     padding: 5px;
-
-    border-top: var(--base-boder);
-    border-bottom: var(--base-boder);
 }
 
-div.post-content h1, h2, h3, h4, h5, h6 {
-    margin-top: 1em;
+div.post-content h2,
+div.post-content h3,
+div.post-content h4,
+div.post-content h5,
+div.post-content h6 {
+    margin-top: 1.5em;
     margin-bottom: .6em;
 }
 
@@ -64,16 +87,44 @@ div.post-content img {
     max-height: 100%;
 }
 
-div.post-turn {
-    margin: 0 auto;
+div.post-content a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent-underline);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+div.post-content a:hover {
+    color: var(--color-accent-hover);
+    text-decoration-color: var(--color-accent-hover);
+}
 
-    border-top: var(--base-boder);
-    border-bottom: var(--base-boder);
+div.post-turn {
+    margin: 32px auto;
+    padding: 16px 0;
+    border-top: 1px solid var(--color-separator);
 }
 div.post-turn ul {
     display: flex;
     justify-content: space-between;
     list-style-type: none;
+}
+div.post-turn ul li a {
+    color: var(--color-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+div.post-turn ul li a:hover {
+    color: var(--color-accent);
+    background-color: var(--color-hover-bg);
+}
+div.post-turn ul li.disabled a {
+    color: var(--color-tertiary);
+    cursor: default;
 }
 
 /*
@@ -81,22 +132,71 @@ div.post-turn ul {
  */
 div.post-tip #toc {
     position: fixed;
-    padding: 2px;
+    padding: 12px 0;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
     /*
      * top: 300px;  // toc 需要随着页面滚动调整位置，由 post.js 实现
      */
 }
-div.post-tip #toc span {
-    position: relative;
-    bottom: 10px;
+div.post-tip #toc > span {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+    padding-left: 12px;
 }
-div.post-tip #toc ul, ol {
-    padding-left: .1em;
+div.post-tip #toc > ul {
+    padding-left: 0;
+    border-left: 1px solid var(--color-separator);
+}
+div.post-tip #toc ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+div.post-tip #toc ul ul {
+    padding-left: 10px;
+}
+div.post-tip #toc li {
+    margin: 0;
+    line-height: 1.4;
+}
+div.post-tip #toc a {
+    display: block;
+    padding: 3px 12px;
+    color: var(--color-secondary);
+    text-decoration: none;
+    font-size: 0.78rem;
+    border-left: 2px solid transparent;
+    margin-left: -1px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+div.post-tip #toc a:hover {
+    color: var(--color-accent);
+    border-left-color: var(--color-accent);
 }
 
 div.post-tip #back-to-top {
     position: fixed;
     bottom: 30px;
+    padding: 6px 12px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-separator);
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--color-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+div.post-tip #back-to-top:hover {
+    color: var(--color-accent);
 }
 
 /* 控制 post-body 和 post-tip 的显示 */

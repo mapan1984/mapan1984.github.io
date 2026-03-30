@@ -6,6 +6,12 @@
 .tabs__label {
     padding: 10px 16px;
     cursor: pointer;
+    color: var(--color-secondary);
+    transition: color 0.15s ease;
+}
+
+.tabs__label:hover {
+    color: var(--body-color);
 }
 
 .tabs__radio {
@@ -20,8 +26,8 @@
 
 .tabs__radio:checked + .tabs__label {
     font-weight: bold;
-    color: var(--green);
-    border-bottom: 2px solid var(--light-green);
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
 }
 
 .tabs__radio:checked + .tabs__label + .tabs__content {

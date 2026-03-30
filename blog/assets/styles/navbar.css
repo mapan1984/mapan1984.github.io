@@ -1,8 +1,9 @@
 /* Navbar */
 .navbar {
-    height: 70px;
+    height: 56px;
 
-    background-color: var(--blue);
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-separator);
 }
 
 .navbar ul {
@@ -15,17 +16,18 @@
     margin: 0 5px;
     padding: 10px;
 
-    color: var(--gray-300);
+    color: var(--color-secondary);
     text-decoration: none;
 }
 
 .navbar li.active a {
-    color: var(--white);
-    border-bottom: 2px var(--white) solid;
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
 }
 
 .navbar li a:hover {
-    border-bottom: 2px var(--white) solid;
+    color: var(--color-accent-hover);
+    border-bottom: 2px solid var(--color-accent-hover);
 }
 
 /* The dropdown container */
@@ -37,13 +39,13 @@
 .dropdown .dropbtn {
     padding: 10px;
 
-    color: var(--gray-300);
+    color: var(--color-secondary);
     background-color: inherit;
     border: none;
     outline: none;
 }
 .dropdown:hover .dropbtn {
-    color: var(--white);
+    color: var(--color-accent);
 }
 
 /* Dropdown content (hidden by default) */
@@ -51,9 +53,10 @@
     display: none;
 
     position: absolute;
-    background-color: var(--gray-200);
+    background-color: var(--color-surface);
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 8px;
     z-index: 1;
 }
 
@@ -70,15 +73,15 @@
     padding: 8px 10px;
 
     line-height: 1;
-    color: var(--gray-700);
-    border-bottom: var(--base-boder);
+    color: var(--color-secondary);
+    border-bottom: 1px solid var(--color-separator);
 
     text-align: left;
     text-decoration: none;
 }
 
-/* Add a grey background color to dropdown links on hover */
+/* Add a hover background to dropdown links */
 .dropdown .dropdown-menu a:hover {
-    color: var(--white);
-    background-color: var(--light-blue);
+    color: var(--color-accent);
+    background-color: var(--color-hover-bg);
 }

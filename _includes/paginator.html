@@ -1,9 +1,9 @@
 <div class="pagination">
   <!-- 上一页按钮 -->
   {% if paginator.previous_page %}
-    <a href="{{ site.url }}{{ paginator.previous_page_path }}">&laquo;</a>
+    <a href="{{ site.url }}{{ paginator.previous_page_path }}">&larr;</a>
   {% else %}
-    <a class="disabled" href="#">&laquo;</a>
+    <a class="disabled" href="#">&larr;</a>
   {% endif %}
 
   <!-- 第一页就是首页，路径不是 /page:num/，需要特殊处理 -->
@@ -24,8 +24,8 @@
 
   <!-- 下一页按钮 -->
   {% if paginator.next_page %}
-    <a href="{{ site.url }}{{ paginator.next_page_path }}">&raquo;</a>
+    <a href="{{ site.url }}{{ paginator.next_page_path }}">&rarr;</a>
   {% else %}
-    <a class="disabled" href="#">&raquo;</a>
+    <a class="disabled" href="#">&rarr;</a>
   {% endif %}
 </div>

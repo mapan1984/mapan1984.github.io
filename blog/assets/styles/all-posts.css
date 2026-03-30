@@ -11,9 +11,20 @@
 
 #all-posts-tip a {
     margin: 3px;
+    text-decoration: none;
 }
 
 div.all-posts {
     width: 55%;
     float: left;
+}
+
+.all-posts-tag {
+    display: inline-block;
+    padding: 2px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    background-color: var(--color-accent-subtle);
+    border-radius: 12px;
 }

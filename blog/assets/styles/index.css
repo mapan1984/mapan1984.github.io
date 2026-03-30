@@ -1,8 +1,8 @@
 .content {
     margin-top: 30px;
 
-    /* navbar height + footer height + content margin top = 170px */
-    min-height: calc(100vh - 170px);
+    /* navbar height (56px) + footer (~60px) + content margin top (30px) + footer margin-top (40px) ≈ 186px */
+    min-height: calc(100vh - 186px);
 }
 .content .grid {
     grid-template-columns: 75% auto;
@@ -16,24 +16,28 @@ ul.posts {
     padding: 1px;
 
     list-style-type: none;
-
-    border-top: var(--base-boder);
 }
 ul.posts li.post {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 
-    padding: 8px;
+    padding: 10px 12px;
     min-height: 24px;
 
-    border-bottom: var(--base-boder);
+    border-radius: 8px;
+    transition: background-color 0.15s ease, transform 0.15s ease;
 }
 ul.posts li.post a {
     text-decoration: none;
+    color: var(--body-color);
+}
+ul.posts li.post a:hover {
+    color: var(--color-accent);
 }
 ul.posts li.post:hover {
-    background-color: var(--gray-300);
+    background-color: var(--color-hover-bg);
+    transform: translateX(4px);
 }
 
 /*
@@ -51,14 +55,21 @@ div.profile svg {
     vertical-align: middle;
 }
 div.profile svg  path {
-    fill: var(--black);
+    fill: var(--color-secondary);
+}
+div.profile a {
+    color: var(--color-secondary);
+    text-decoration: none;
+}
+div.profile a:hover {
+    color: var(--color-accent);
 }
 
 /*
  * tags-buttons
  */
 div.tags-buttons {
-    margin-top: 70px;
+    margin-top: 40px;
 
 }
 div.tags-buttons a {
@@ -70,31 +81,32 @@ div.tags-buttons a {
  */
 .pagination {
     margin-top: 20px;
-
     display: flex;
-    justify-content: start;
+    justify-content: flex-end;
     align-items: center;
-
-    list-style-type: none;
+    gap: 2px;
 }
 .pagination a {
-    padding: 8px 16px;
-    border: var(--base-boder);
+    padding: 6px 12px;
+    min-width: 36px;
+    text-align: center;
+    border-radius: 8px;
     text-decoration: none;
+    color: var(--color-secondary);
+    font-size: 0.9rem;
+    transition: color 0.15s ease, background-color 0.15s ease;
 }
 .pagination a.active {
-    color: var(--white);
-    background-color: var(--green);
-    border: 1px solid var(--dark-green);
+    color: var(--color-accent);
+    background-color: var(--color-accent-subtle);
+    font-weight: 600;
 }
-.pagination a:hover:not(.active) {
-    background-color: var(--light-green);
+.pagination a:hover:not(.active):not(.disabled) {
+    color: var(--body-color);
+    background-color: var(--color-hover-bg);
 }
-.pagination a:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-.pagination a:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+.pagination a.disabled {
+    color: var(--color-tertiary);
+    cursor: default;
+    opacity: 0.4;
 }
